@@ -34,7 +34,10 @@ def to_ascii(cmd):
     lines = output.split("\n")
     
     for line in lines:
-        data = line.split("|")
-        print(data[5] + " - " + data[6])
+        try:
+            data = line.split("|")
+            print(data[5] + " - " + data[6])
+        except:
+            print("Unable to get line")
 
 to_ascii("bgpdump -m " + get_all_folders())
