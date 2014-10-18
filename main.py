@@ -31,6 +31,10 @@ def to_ascii(cmd):
     except Exception, e:
         output = str(e.output)
     
-    print(output)
+    lines = output.split("\n")
     
+    for line in lines:
+        data = line.split("|")
+        print(data[5] + " - " + data[6])
+
 to_ascii("bgpdump -m " + get_all_folders())
