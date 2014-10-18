@@ -4,7 +4,11 @@
 # Map of the Internet
 # Donald Martin (1101795)
 
+from os import listdir
 from subprocess import check_output, STDOUT
+
+PATH = "/nas05/users/csp/routing-data/archive.routeviews.org/bgpdata/"
+CMD  = "bgpdump -m <filename>"
 
 def is_bgpdump_installed():
     try:
@@ -13,14 +17,20 @@ def is_bgpdump_installed():
         output = str(e.output)
     
     return "bgpdump version" in output
+    
+def get_all_folders():
+    available_months = listdir(PATH)
+    dump_path = PATH + available_months[0] + "/RIBS/"
+    available_dumps  = listdir(dump_path)
+    output = dump_path + available_dumps[0]
+    return output
 
-def convert_bgp_data_to_ascii():
-    pass
+def to_ascii(cmd):
+    try:
+        output = check_output(cmd, shell=True, stderr=STDOUT)
+    except Exception, e:
+        output = str(e.output)
     
-def read_ascii_into_python():
-    pass
+    print(output)
     
-if is_bgpdump_installed():
-    print("BGPDump is installed")
-else:
-    print("BGPDump is not installed")
+to_ascii("bgpdump -m " + get_all_folders())
