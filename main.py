@@ -10,6 +10,8 @@ from subprocess import check_output, STDOUT
 PATH = "/nas05/users/csp/routing-data/archive.routeviews.org/bgpdata/"
 CMD  = "bgpdump -m <filename>"
 
+as_paths = {}
+
 def is_bgpdump_installed():
     try:
         output = check_output("bgpdump", shell=True, stderr=STDOUT)
@@ -35,9 +37,18 @@ def to_ascii(cmd):
     
     for line in lines:
         try:
-            data = line.split("|")
-            print(data[5] + " - " + data[6])
+            path = line.split("|")[6]
+            hops = path.split(" ")
+            
+            if hops[-1] in as_paths:
+                as_paths[hops[-1]].append(hops)
+            else:
+                as_paths[hops[-1]] = [hops]
         except:
             print("Unable to get line")
 
 to_ascii("bgpdump -m " + get_all_folders())
+
+while True:
+    k = input()
+    print(as_paths(k))
