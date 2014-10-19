@@ -48,12 +48,7 @@ print(str(len(paths)) + " paths found")
 
 nodes = {}
 
-global_counter = 0
-global_total = str(len(paths))
-
 for path in paths:
-    print("Global counter " + str(global_counter) + " of " + str(global_total))
-    print(path)
     hops = path.split(" ")
     
     counter = 0
@@ -63,12 +58,12 @@ for path in paths:
         if hop not in nodes:
             nodes[hop] = []
             
-        if counter + 1 < len(nodes):
+        if counter + 1 < len(hops):
             nodes[hop].append(int(hops[counter + 1]))
             
         if counter - 1 > 0:
             nodes[hop].append(int(hops[counter - 1]))
     
-    counter += 1
+        counter += 1
             
 print("Data sorted")
