@@ -63,10 +63,16 @@ for path in paths:
                 nodes[hop] = []
                 
             if counter + 1 < len(hops):
-                nodes[hop].append(int(hops[counter + 1]))
+                cxn = int(hops[counter + 1])
+                
+                if cxn not in nodes[hop]:
+                    nodes[hop].append(cxn)
                 
             if counter - 1 > 0:
-                nodes[hop].append(int(hops[counter - 1]))
+                cxn = int(hops[counter - 1])
+                
+                if cxn not in nodes[hop]:
+                    nodes[hop].append(cxn)
         
             counter += 1
     except:
