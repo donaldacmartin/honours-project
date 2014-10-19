@@ -4,12 +4,10 @@
 # Map of the Internet
 # Donald Martin (1101795)
 
-from os import listdir
-from subprocess import check_output, STDOUT
-from models import AutonomousSystem
-
 """
 Will be useful later
+from os import listdir
+from subprocess import check_output, STDOUT
 
 PATH = "/nas05/users/csp/routing-data/archive.routeviews.org/bgpdata/"
 CMD  = "bgpdump -m <filename>"
