@@ -73,3 +73,13 @@ for path in paths:
         print("Encountered a problem with " + path)
             
 print("Data sorted")
+
+while True:
+    index = input("Please enter a number: ")
+    
+    indice = int(index)
+    
+    if indice in nodes:
+        print(str(indice) + " is in the list and is connected to " + nodes[indice])
+    else:
+        print(str(indice) + " is not in the list")
