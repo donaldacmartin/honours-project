@@ -48,7 +48,12 @@ print(str(len(paths)) + " paths found")
 
 nodes = {}
 
+global_counter = 0
+global_total = str(len(paths))
+
 for path in paths:
+    print("Global counter " + str(global_counter) + " of " + str(global_total))
+    print(path)
     hops = path.split(" ")
     
     counter = 0
