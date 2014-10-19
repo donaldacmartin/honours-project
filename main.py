@@ -45,3 +45,23 @@ for line in data:
     
 print("Paths extracted successfully")
 print(str(len(paths)) + " paths found")
+
+nodes = {}
+
+for path in paths:
+    hops = path.split(" ")
+    
+    counter = 0
+    while counter < len(hops):
+        hop = int(hops[counter])
+        
+        if hop not in nodes:
+            nodes[hop] = []
+            
+        if counter + 1 < len(nodes):
+            nodes[hop].append(int(hops[counter + 1]))
+            
+        if counter - 1 > 0:
+            nodes[hop].append(int(hops[counter - 1]))
+            
+print("Data sorted")
