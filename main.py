@@ -52,6 +52,9 @@ for path in paths:
     try:
         hops = path.split(" ")
         
+        if "{" in hops[-1]:
+            del hops[-1]
+        
         counter = 0
         while counter < len(hops):
             hop = int(hops[counter])
