@@ -80,6 +80,12 @@ while True:
     indice = int(index)
     
     if indice in nodes:
-        print(str(indice) + " is in the list and is connected to " + nodes[indice])
+        data = nodes[indice]
+        output = ""
+        
+        for item in data:
+            output += " " + str(item)
+            
+        print(str(indice) + " is in the list and is connected to" + output)
     else:
         print(str(indice) + " is not in the list")
