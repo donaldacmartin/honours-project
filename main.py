@@ -49,21 +49,24 @@ print(str(len(paths)) + " paths found")
 nodes = {}
 
 for path in paths:
-    hops = path.split(" ")
-    
-    counter = 0
-    while counter < len(hops):
-        hop = int(hops[counter])
+    try:
+        hops = path.split(" ")
         
-        if hop not in nodes:
-            nodes[hop] = []
+        counter = 0
+        while counter < len(hops):
+            hop = int(hops[counter])
             
-        if counter + 1 < len(hops):
-            nodes[hop].append(int(hops[counter + 1]))
-            
-        if counter - 1 > 0:
-            nodes[hop].append(int(hops[counter - 1]))
-    
-        counter += 1
+            if hop not in nodes:
+                nodes[hop] = []
+                
+            if counter + 1 < len(hops):
+                nodes[hop].append(int(hops[counter + 1]))
+                
+            if counter - 1 > 0:
+                nodes[hop].append(int(hops[counter - 1]))
+        
+            counter += 1
+    except:
+        print("Encountered a problem with " + path)
             
 print("Data sorted")
