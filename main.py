@@ -63,5 +63,7 @@ for path in paths:
             
         if counter - 1 > 0:
             nodes[hop].append(int(hops[counter - 1]))
+    
+    counter += 1
             
 print("Data sorted")
