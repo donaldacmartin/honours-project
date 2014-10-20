@@ -25,7 +25,7 @@ class FileReader():
             p.communicate()
             self.split_into_paths()
             
-    def strip_invalid_entries(hops):
+    def strip_invalid_entries(self, hops):
         if "{" in hops[-1]:
             del hops[-1]
         
