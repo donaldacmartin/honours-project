@@ -8,7 +8,7 @@ from subprocess import check_call, STDOUT
 from tempfile import NamedTemporaryFile
 
 PATH = "/nas05/users/csp/routing-data/archive.routeviews.org/bgpdata/"
-CMD  = "bgpdump -m <filename>"
+CMD  = "bgpdump -m "
 file_path = "2001.10/RIBS/rib.20011026.1648.bz2"
 
 output = NamedTemporaryFile()
