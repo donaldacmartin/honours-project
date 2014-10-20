@@ -16,8 +16,8 @@ class FileReader():
         self.temp_file = NamedTemporaryFile()
         self.args = split(COMMAND + PATH + filename)
         self.lock = Lock()
-        self.read_binary_into_ascii()
         self.nodes = {}
+        self.read_binary_into_ascii()
         
     def read_binary_into_ascii(self):
         with self.lock:
