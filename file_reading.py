@@ -21,3 +21,7 @@ def read_binary_into_ascii(filename):
     return temp_file
     
 t = read_binary_into_ascii("2001.10/RIBS/rib.20011026.1648.bz2")
+
+t.readline()
+t.readline()
+t.readline()
