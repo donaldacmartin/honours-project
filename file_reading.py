@@ -4,6 +4,7 @@
 # Map of the Internet
 # Donald Martin (1101795)
 
+import os
 from subprocess import check_call, STDOUT
 from tempfile import NamedTemporaryFile
 
