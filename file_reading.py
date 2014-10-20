@@ -21,10 +21,12 @@ print(output.read())
 """
 
 import shlex, subprocess
+from tempfile import NamedTemporaryFile
+l = NamedTemporaryFile()
 
 commands = "bgpdump -m /nas05/users/csp/routing-data/archive.routeviews.org/bgpdata/2001.10/RIBS/rib.20011026.1648.bz2"
 args = shlex.split(commands)
-p = subprocess.Popen(args, stdout=subprocess.PIPE)
+p = subprocess.Popen(args, stdout=l)
 out, err = p.communicate()
-
-print(out)
+l.seek(0)
+print(l.read())
