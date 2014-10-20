@@ -26,8 +26,10 @@ class FileReader():
             self.split_into_paths()
             
     def strip_invalid_entries(self, hops):
-        if "{" in hops[-1]:
-            del hops[-1]
+        for hop in hops:
+            if "{" in hop:
+                hop.replace("{", "")
+                hop.replace("}", "")
         
         return hops
     
