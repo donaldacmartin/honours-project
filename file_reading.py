@@ -20,7 +20,7 @@ class FileReader():
         
     def read_binary_into_ascii(self):
         with self.lock:
-            p = Popen(args, stdout=self.temp_file)
+            p = Popen(self.args, stdout=self.temp_file)
             self.temp_file.seek(0)
             
     def read_line(self):
