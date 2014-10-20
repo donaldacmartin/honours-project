@@ -4,29 +4,20 @@
 # Map of the Internet
 # Donald Martin (1101795)
 
-"""
-import os
-from subprocess import check_call, STDOUT
+from subprocess import Popen
+from shlex import split
 from tempfile import NamedTemporaryFile
 
+COMMAND = "bgpdump -m "
 PATH = "/nas05/users/csp/routing-data/archive.routeviews.org/bgpdata/"
-CMD  = "bgpdump -m " + PATH
-file_path = "2001.10/RIBS/rib.20011026.1648.bz2"
-
-print("File : " + PATH + file_path)
-output = NamedTemporaryFile()
-check_call([file_path], stdout=output, stderr=STDOUT)
-output.seek(0)
-print(output.read())
-"""
-
-import shlex, subprocess
-from tempfile import NamedTemporaryFile
-l = NamedTemporaryFile()
-
 commands = "bgpdump -m /nas05/users/csp/routing-data/archive.routeviews.org/bgpdata/2001.10/RIBS/rib.20011026.1648.bz2"
-args = shlex.split(commands)
-p = subprocess.Popen(args, stdout=l)
-out, err = p.communicate()
-l.seek(0)
-print(l.read())
+
+def read_binary_into_ascii(filename):
+    temp_file = NamedTemporaryFile()
+    cmd = COMMAND + PATH + filename
+    args = split(cmd)
+    p = subprocess.Popen(args, stdout=temp_file)
+    temp_file.seek(0)
+    return temp_file
+    
+t = read_binary_into_ascii("2001.10/RIBS/rib.20011026.1648.bz2")
