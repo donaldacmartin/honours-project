@@ -58,7 +58,7 @@ class FileReader():
         
         while data != "" and data is not None:
             path = data.split("|")[6]
-            hops = strip_invalid_entries(path.split(" "))
+            hops = self.strip_invalid_entries(path.split(" "))
             self.append_to_nodes(hops)
             
     def get_entry(self, num):
