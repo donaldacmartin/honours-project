@@ -22,6 +22,7 @@ def read_binary_into_ascii(filename):
     
 t = read_binary_into_ascii("2001.10/RIBS/rib.20011026.1648.bz2")
 
-print(t.readline())
-print(t.readline())
-print(t.readline())
+while True:
+    input()
+    t.seek(0)
+    print(t.readline())
