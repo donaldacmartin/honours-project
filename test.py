@@ -16,7 +16,7 @@ def run_speed_test(filename):
 
 def thread_test(filenames):
     for i in range(len(filenames)):
-        t = Thread(target=run_speed_test, args=(filenames[i]))
+        t = Thread(target=run_speed_test, args=(filenames[i],))
         t.start()
 
 start = "2001.10/RIBS/rib.20011026."
