@@ -26,11 +26,13 @@ class FileReader():
             self.split_into_paths()
             
     def strip_invalid_entries(self, hops):
-        for hop in hops:
-            if "{" in hop:
-                hop.replace("{", "")
-                hop.replace("}", "")
+        counter = 0
         
+        while counter < len(hops):
+            if "{" in hops[counter]:
+                del hops[counter]
+            counter += 1
+            
         return hops
     
     def add_connection(self, node1, node2):
