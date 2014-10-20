@@ -16,7 +16,7 @@ def read_binary_into_ascii(filename):
     temp_file = NamedTemporaryFile()
     cmd = COMMAND + PATH + filename
     args = split(cmd)
-    p = subprocess.Popen(args, stdout=temp_file)
+    p = Popen(args, stdout=temp_file)
     temp_file.seek(0)
     return temp_file
     
