@@ -52,7 +52,7 @@ class FileReader():
                 
             counter += 1
     
-    def split_into_paths(self, data):
+    def split_into_paths(self):
         self.temp_file.seek(0)
         data = self.temp_file.readline()
         
