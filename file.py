@@ -64,6 +64,3 @@ class FileReader():
             
     def get_entry(self, num):
         return self.nodes[num]
-            
-f = FileReader("2001.10/RIBS/rib.20011026.1648.bz2")
-print(f.get_entry(1))
