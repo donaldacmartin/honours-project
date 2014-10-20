@@ -60,6 +60,7 @@ class FileReader():
             path = data.split("|")[6]
             hops = self.strip_invalid_entries(path.split(" "))
             self.append_to_nodes(hops)
+            data = self.temp_file.readline()
             
     def get_entry(self, num):
         return self.nodes[num]
