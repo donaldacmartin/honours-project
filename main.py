@@ -4,6 +4,7 @@
 # Map of the Internet
 # Donald Martin (1101795)
 
-from file import FileReader
+from file import FileReader, FileReader2
 
 f = FileReader("2001.10/RIBS/rib.20011026.1648.bz2")
+f = FileReader2("2001.10/RIBS/rib.20011026.1648.bz2")
