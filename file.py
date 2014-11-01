@@ -41,8 +41,8 @@ class BGPDumpParser():
             
             while line != "" and line is not None:
                 hops = line.split("|")[6].split(" ")
-                print("Hops: " + hops)
-                print("List: " + [AS for AS in hops if not "{" in AS])
+                print("Hops: " + str(len(hops)))
+                print("List: " + str(len([AS for AS in hops if not "{" in AS])))
                 self.cxn_list.append([AS for AS in hops if not "{" in AS])
                 line = buffer.readline()
                 
