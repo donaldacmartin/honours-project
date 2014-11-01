@@ -74,13 +74,13 @@ class ASIndex():
                 
     def __add_connection(self, asys1, asys2):
         if asys1 not in self.index:
-            self.index[asys1] = []
+            self.index[asys1] = set()
         
         if asys2 not in self.index:
-            self.index[asys2] = []
+            self.index[asys2] = set()
             
-        self.index[asys1].append(asys2)
-        self.index[asys2].append(asys1)
+        self.index[asys1].add(asys2)
+        self.index[asys2].add(asys1)
     
     def get_index(self):
         with self.lock:
