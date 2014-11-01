@@ -67,7 +67,7 @@ class ASIndex():
             if counter > 0:
                 self.__add_connection(as_path[counter], as_path[counter - 1])
                 
-            if counter < len(as_path - 1):
+            if counter < len(as_path) - 1:
                 self.__add_connection(as_path[counter], as_path[counter + 1])
                 
             counter += 1
