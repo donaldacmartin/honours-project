@@ -20,7 +20,10 @@ gr.add_nodes(f.keys())
 
 for AS in f.keys():
     for link in f[AS]:
-        gr.add_edge((AS, link))
+        try:
+            gr.add_edge((AS, link))
+        except:
+            print("Tried to add an existing edge")
         
 dot = write(gr)
 gvv = gv.Graph(dot)
