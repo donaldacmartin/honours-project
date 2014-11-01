@@ -7,6 +7,7 @@
 from file import get_file_contents
 
 f = get_file_contents("bgpdata/2001.10/RIBS/rib.20011031.2234.bz2")
+print(f)
 
 while True:
     num = input("Please enter a number: ")
