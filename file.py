@@ -40,7 +40,7 @@ class BGPDumpParser():
             
             while line != "" and line is not None:
                 hops = line.split("|")[6].split(" ")
-                self.add_to_dictionary([AS for AS in hops if not "{" in AS])
+                self.__add_to_dictionary([AS for AS in hops if not "{" in AS])
                 line = buffer.readline()
                 
     def __add_to_dictionary(self, as_path):
@@ -65,11 +65,10 @@ class BGPDumpParser():
         self.index[asys1].add(asys2)
         self.index[asys2].add(asys1)
         
-    def get_list_of_connections(self):
+    def get_connections(self):
         with self.lock:
-            return self.cxn_list
+            return self.index
             
 def get_file_contents(file_path):
     buffer = BGPDumpExecuter(file_path).get_output()
-    connection_list = BGPDumpParser(buffer).get_list_of_connections()
-    return ASIndex(connection_list).get_index()
+    return BGPDumpParser(buffer).get_connections()
