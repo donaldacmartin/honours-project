@@ -16,32 +16,27 @@ class BGPDumpExecuter():
          
         self.args = split(command + root_path + file_path)
         self.lock = Lock()
-        self.buffer = None
+        self.parser = BGPDumpParser()
         self.__run_executer()
         
     def __run_executer(self):
         with self.lock:
-            std_out = Popen(self.args, stdout=PIPE).communicate()[0]
-            self.buffer = StringIO(std_out)
+            proc = Popen(self.args, stdout=PIPE).communicate()[0]
+            
+            for line in iter(proc.stdout.readline, ""):
+                self.parser.parse_line(line)
     
     def get_output(self):
         with self.lock:
-            return self.buffer
+            return self.parser.get_connections()
             
 class BGPDumpParser():
-    def __init__(self, buffer):
-        self.lock = Lock()
+    def __init__(self):
         self.index = {}
-        self.__parse_lines(buffer)
         
-    def __parse_lines(self, buffer):
-        with self.lock:
-            line = buffer.readline()
-            
-            while line != "" and line is not None:
-                hops = line.split("|")[6].split(" ")
-                self.__add_to_dictionary([AS for AS in hops if not "{" in AS])
-                line = buffer.readline()
+    def parse_line(self, line):
+        hops = line.split("|")[6].split(" ")
+        self.__add_to_dictionary([AS for AS in hops if not "{" in AS])
                 
     def __add_to_dictionary(self, as_path):
         counter = 0
@@ -70,5 +65,4 @@ class BGPDumpParser():
             return self.index
             
 def get_file_contents(file_path):
-    buffer = BGPDumpExecuter(file_path).get_output()
-    return BGPDumpParser(buffer).get_connections()
+    return BGPDumpExecuter(file_path).get_output()
