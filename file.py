@@ -37,7 +37,6 @@ class BGPDumpParser():
     def __parse_lines(self, buffer):
         with self.lock:
             line = buffer.readline()
-            print(line)
             
             while line != "" and line is not None:
                 hops = line.split("|")[6].split(" ")
@@ -58,9 +57,12 @@ class ASIndex():
     def __convert_list_to_dictionary(self, connection_list):
         with self.lock:
             for as_path in connection_list:
+                print("AS Path: " + str(len(as_path)))
                 self.__add_as_path_to_dictionary(as_path)
     
     def __add_as_path_to_dictionary(self, as_path):
+        counter = 0
+        
         while counter < len(as_path):
             if counter > 0:
                 self.__add_connection(as_path[counter], as_path[counter - 1])
@@ -87,5 +89,4 @@ class ASIndex():
 def get_file_contents(file_path):
     buffer = BGPDumpExecuter(file_path).get_output()
     connection_list = BGPDumpParser(buffer).get_list_of_connections()
-    print("CXN List: " + str(len(connection_list)))
     return ASIndex(connection_list).get_index()
