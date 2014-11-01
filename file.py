@@ -61,8 +61,7 @@ class BGPDumpParser():
         self.index[asys2].add(asys1)
         
     def get_connections(self):
-        with self.lock:
-            return self.index
+        return self.index
             
 def get_file_contents(file_path):
     return BGPDumpExecuter(file_path).get_output()
