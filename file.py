@@ -6,124 +6,82 @@
 
 from subprocess import Popen
 from shlex import split
-from tempfile import NamedTemporaryFile
 from threading import Lock
 from StringIO import StringIO # from io import StringIO (Python 3)
 
-class FileReader():
-    def __init__(self, filename):
-        COMMAND = "bgpdump -m "
-        PATH = "/nas05/users/csp/routing-data/archive.routeviews.org/bgpdata/"
-        self.temp_file = NamedTemporaryFile()
-        self.args = split(COMMAND + PATH + filename)
+class BGPDumpExecuter():
+    def __init__(self, file_path):
+        command = "bgpdump -m "
+        root_path = "/nas05/users/csp/routing-data/archive.routeviews.org/"
+        
+        self.args = split(command + root_path + file_path)
         self.lock = Lock()
-        self.nodes = {}
-        self.read_binary_into_ascii()
+        self.buffer = None
         
-    def read_binary_into_ascii(self):
+    def __run_executer(self):
         with self.lock:
-            p = Popen(self.args, stdout=self.temp_file)
-            p.communicate()
-            self.split_into_paths()
-            
-    def strip_invalid_entries(self, hops):
-        counter = 0
-        
-        while counter < len(hops):
-            if "{" in hops[counter]:
-                del hops[counter]
-            counter += 1
-            
-        return hops
+            std_out = Popen(self.args, stdout=PIPE).communicate()[0]
+            self.buffer = StringIO(std_out)
     
-    def add_connection(self, node1, node2):
-        if node1 not in self.nodes:
-            self.nodes[node1] = []
-        
-        if node2 not in self.nodes[node1]:
-            self.nodes[node1].append(node2)
-    
-    def append_to_nodes(self, hops):
-        counter = 0
-        
-        while counter < len(hops):
-            this_node = int(hops[counter])
+    def get_output(self):
+        with self.lock:
+            return self.buffer
             
-            if counter + 1 < len(hops):
-                self.add_connection(this_node, int(hops[counter + 1]))
-                
-            if counter - 1 > 0:
-                self.add_connection(this_node, int(hops[counter - 1]))
-                
-            counter += 1
-    
-    def split_into_paths(self):
-        self.temp_file.seek(0)
-        data = self.temp_file.readline()
-        
-        while data != "" and data is not None:
-            path = data.split("|")[6]
-            hops = self.strip_invalid_entries(path.split(" "))
-            self.append_to_nodes(hops)
-            data = self.temp_file.readline()
-            
-    def get_entry(self, num):
-        return self.nodes[num]
-        
-class FileReader2():
-    def __init__(self, filename):
-        COMMAND = "bgpdump -m "
-        PATH = "/nas05/users/csp/routing-data/archive.routeviews.org/bgpdata/"
-        self.args = split(COMMAND + PATH + filename)
+class BGPDumpParser():
+    def __init__(self, buffer):
+        self.buffer = buffer
         self.lock = Lock()
-        self.nodes = {}
-        self.read_binary_into_ascii()
+        self.cxn_list = []
+        self.__parse_lines()
         
-    def read_binary_into_ascii(self):
+    def __parse_lines(self):
         with self.lock:
-            p = Popen(self.args, stdout=PIPE).communicate()[0]
-            self.buffer = StringIO(p)
-            self.split_into_paths()
+            line = self.buffer.readline()
             
-    def strip_invalid_entries(self, hops):
-        counter = 0
-        
-        while counter < len(hops):
-            if "{" in hops[counter]:
-                del hops[counter]
-            counter += 1
-            
-        return hops
-    
-    def add_connection(self, node1, node2):
-        if node1 not in self.nodes:
-            self.nodes[node1] = []
-        
-        if node2 not in self.nodes[node1]:
-            self.nodes[node1].append(node2)
-    
-    def append_to_nodes(self, hops):
-        counter = 0
-        
-        while counter < len(hops):
-            this_node = int(hops[counter])
-            
-            if counter + 1 < len(hops):
-                self.add_connection(this_node, int(hops[counter + 1]))
+            while line != "" and line is not None:
+                hops = line.split("|")[6].split(" ")
+                self.cxn_list.append([AS for AS in hops if not "{" in AS])
+                line = self.buffer.readline()
                 
-            if counter - 1 > 0:
-                self.add_connection(this_node, int(hops[counter - 1]))
+    def get_list_of_connections(self):
+        with self.lock:
+            return self.cxn_list
+            
+class ASIndex():
+    def __init__(self, connection_list):
+        self.lock = Lock()
+        self.index = {}
+        
+    def __convert_list_to_dictionary(self, connection_list):
+        with self.lock:
+            for as_path in connection_list:
+                self.__add_as_path_to_dictionary(as_path)
+    
+    def __add_as_path_to_dictionary(self, as_path):
+        while counter < len(as_path):
+            if counter > 0:
+                self.__add_connection(as_path[counter], as_path[counter - 1])
+                
+            if counter < len(as_path - 1):
+                self.__add_connection(as_path[counter], as_path[counter + 1])
                 
             counter += 1
-    
-    def split_into_paths(self):
-        data = self.buffer.readline()
+                
+    def __add_connection(self, asys1, asys2):
+        if asys1 not in self.index:
+            self.index[asys1] = []
         
-        while data != "" and data is not None:
-            path = data.split("|")[6]
-            hops = self.strip_invalid_entries(path.split(" "))
-            self.append_to_nodes(hops)
-            data = self.temp_file.readline()
+        if asys2 not in self.index:
+            self.index[asys2] = []
             
-    def get_entry(self, num):
-        return self.nodes[num]
+        self.index[asys1].append(asys2)
+        self.index[asys2].append(asys1)
+    
+    def get_index(self):
+        with self.lock:
+            return self.index
+            
+def get_file_contents(file_path):
+    buffer = BGPDumpExecuter(file_path).get_output()
+    connection_list = BGPDumpParser(buffer).get_list_of_connections()
+    return ASIndex(connection_list).get_index()
