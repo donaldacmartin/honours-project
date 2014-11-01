@@ -4,7 +4,7 @@
 # Map of the Internet
 # Donald Martin (1101795)
 
-from subprocess import Popen
+from subprocess import Popen, PIPE
 from shlex import split
 from threading import Lock
 from StringIO import StringIO # from io import StringIO (Python 3)
