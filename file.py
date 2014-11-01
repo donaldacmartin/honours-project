@@ -31,8 +31,8 @@ class BGPDumpExecuter():
 class BGPDumpParser():
     def __init__(self, buffer):
         self.lock = Lock()
-        self.cxn_list = []
         self.__parse_lines(buffer)
+        self.index = {}
         
     def __parse_lines(self, buffer):
         with self.lock:
@@ -40,27 +40,10 @@ class BGPDumpParser():
             
             while line != "" and line is not None:
                 hops = line.split("|")[6].split(" ")
-                # print("Hops: " + str(len(hops)))
-                # print("List: " + str(len([AS for AS in hops if not "{" in AS])))
-                self.cxn_list.append([AS for AS in hops if not "{" in AS])
+                self.add_to_dictionary([AS for AS in hops if not "{" in AS])
                 line = buffer.readline()
                 
-    def get_list_of_connections(self):
-        with self.lock:
-            return self.cxn_list
-            
-class ASIndex():
-    def __init__(self, connection_list):
-        self.lock = Lock()
-        self.index = {}
-        self.__convert_list_to_dictionary(connection_list)
-        
-    def __convert_list_to_dictionary(self, connection_list):
-        with self.lock:
-            for as_path in connection_list:
-                self.__add_as_path_to_dictionary(as_path)
-    
-    def __add_as_path_to_dictionary(self, as_path):
+    def __add_to_dictionary(self, as_path):
         counter = 0
         
         while counter < len(as_path):
@@ -71,7 +54,7 @@ class ASIndex():
                 self.__add_connection(as_path[counter], as_path[counter + 1])
                 
             counter += 1
-                
+    
     def __add_connection(self, asys1, asys2):
         if asys1 not in self.index:
             self.index[asys1] = set()
@@ -81,10 +64,10 @@ class ASIndex():
             
         self.index[asys1].add(asys2)
         self.index[asys2].add(asys1)
-    
-    def get_index(self):
+        
+    def get_list_of_connections(self):
         with self.lock:
-            return self.index
+            return self.cxn_list
             
 def get_file_contents(file_path):
     buffer = BGPDumpExecuter(file_path).get_output()
