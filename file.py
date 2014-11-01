@@ -17,6 +17,7 @@ class BGPDumpExecuter():
         self.args = split(command + root_path + file_path)
         self.lock = Lock()
         self.buffer = None
+        self.__run_executer()
         
     def __run_executer(self):
         with self.lock:
