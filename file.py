@@ -32,7 +32,7 @@ class BGPDumpParser():
     def __init__(self, buffer):
         self.lock = Lock()
         self.cxn_list = []
-        self.__parse_lines()
+        self.__parse_lines(buffer)
         
     def __parse_lines(self, buffer):
         with self.lock:
