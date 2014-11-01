@@ -13,7 +13,7 @@ class BGPDumpExecuter():
     def __init__(self, file_path):
         command = "bgpdump -m "
         root_path = "/nas05/users/csp/routing-data/archive.routeviews.org/"
-        
+         
         self.args = split(command + root_path + file_path)
         self.lock = Lock()
         self.buffer = None
@@ -30,19 +30,21 @@ class BGPDumpExecuter():
             
 class BGPDumpParser():
     def __init__(self, buffer):
-        self.buffer = buffer
         self.lock = Lock()
         self.cxn_list = []
         self.__parse_lines()
         
-    def __parse_lines(self):
+    def __parse_lines(self, buffer):
         with self.lock:
-            line = self.buffer.readline()
+            line = buffer.readline()
+            print(line)
             
             while line != "" and line is not None:
                 hops = line.split("|")[6].split(" ")
+                print("Hops: " + hops)
+                print("List: " + [AS for AS in hops if not "{" in AS])
                 self.cxn_list.append([AS for AS in hops if not "{" in AS])
-                line = self.buffer.readline()
+                line = buffer.readline()
                 
     def get_list_of_connections(self):
         with self.lock:
