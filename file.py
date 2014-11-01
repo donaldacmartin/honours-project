@@ -31,8 +31,8 @@ class BGPDumpExecuter():
 class BGPDumpParser():
     def __init__(self, buffer):
         self.lock = Lock()
-        self.__parse_lines(buffer)
         self.index = {}
+        self.__parse_lines(buffer)
         
     def __parse_lines(self, buffer):
         with self.lock:
