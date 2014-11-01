@@ -41,8 +41,8 @@ class BGPDumpParser():
             
             while line != "" and line is not None:
                 hops = line.split("|")[6].split(" ")
-                print("Hops: " + str(len(hops)))
-                print("List: " + str(len([AS for AS in hops if not "{" in AS])))
+                # print("Hops: " + str(len(hops)))
+                # print("List: " + str(len([AS for AS in hops if not "{" in AS])))
                 self.cxn_list.append([AS for AS in hops if not "{" in AS])
                 line = buffer.readline()
                 
@@ -87,4 +87,5 @@ class ASIndex():
 def get_file_contents(file_path):
     buffer = BGPDumpExecuter(file_path).get_output()
     connection_list = BGPDumpParser(buffer).get_list_of_connections()
+    print("CXN List: " + str(len(connection_list)))
     return ASIndex(connection_list).get_index()
