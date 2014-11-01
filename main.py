@@ -6,7 +6,10 @@
 
 from file import BGPDumpExecutor
 
-f = BGPDumpExecutor("bgpdata/2001.10/RIBS/rib.20011031.2234.bz2").get_connections()
+filenames = ["bgpdata/2001.10/RIBS/rib.20011031.2234.bz2"]
 
-print("Completed Anaylsis")
-print("Number of connections: " + str(len(f)))
+for file in filenames:
+    f = BGPDumpExecutor(file).get_connections()
+
+    print("Completed Anaylsis of " + file)
+    print("Number of connections: " + str(len(f)))
