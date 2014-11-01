@@ -4,14 +4,9 @@
 # Map of the Internet
 # Donald Martin (1101795)
 
-from file import get_file_contents
+from file import BGPDumpExecutor
 
-f = get_file_contents("bgpdata/2001.10/RIBS/rib.20011031.2234.bz2")
+f = BGPDumpExecutor("bgpdata/2001.10/RIBS/rib.20011031.2234.bz2").get_connections()
 
-while True:
-    num = input("Please enter a number: ")
-    
-    if num in f:
-        print(f[num])
-    else:
-        print(str(num) + " is not in index")
+print("Completed Anaylsis")
+print("Number of connections: " + str(len(f)))
