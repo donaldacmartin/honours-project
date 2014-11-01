@@ -53,11 +53,11 @@ class ASIndex():
     def __init__(self, connection_list):
         self.lock = Lock()
         self.index = {}
+        self.__convert_list_to_dictionary(connection_list)
         
     def __convert_list_to_dictionary(self, connection_list):
         with self.lock:
             for as_path in connection_list:
-                print("AS Path: " + str(len(as_path)))
                 self.__add_as_path_to_dictionary(as_path)
     
     def __add_as_path_to_dictionary(self, as_path):
