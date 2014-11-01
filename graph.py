@@ -27,5 +27,5 @@ for AS in f.keys():
         
 dot = write(gr)
 gvv = gv.Graph(dot)
-gv.layout(prog="dot")
-gv.draw("file.png")
+gvv.layout(prog="dot")
+gvv.draw("file.png")
