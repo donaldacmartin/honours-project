@@ -20,8 +20,14 @@ class NetworkGraph():
         self.__draw()
     
     def __add_edges(self, as_links):
+        counter = 200
+        
         for link in as_links:
             self.graph.add_edge(link[0], link[1])
+            counter -= 1
+            
+            if counter < 0:
+                break
             
     def __draw(self):
         draw(self.graph)
