@@ -4,12 +4,11 @@
 # Map of the Internet
 # Donald Martin (1101795)
 
+sys.path.append("/home/1101795m/local/lib/python/")
+
 from file import BGPDumpExecutor
+from graph import NetworkGraph
 
-filenames = ["bgpdata/2001.10/RIBS/rib.20011031.2234.bz2"]
-
-for file in filenames:
-    f = BGPDumpExecutor(file).get_connections()
-
-    print("Completed Anaylsis of " + file)
-    print("Number of connections: " + str(len(f)))
+file     = "bgpdata/2001.10/RIBS/rib.20011031.2234.bz2"
+as_links = BGPDumpExecutor(file).get_connections()
+NetworkGraph(as_links)
