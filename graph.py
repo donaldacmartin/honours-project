@@ -4,6 +4,7 @@
 # Map of the Internet
 # Donald Martin (1101795)
 
+import sys
 sys.path.append("/home/1101795m/local/lib/python/")
 
 import matplotlib as mpl
