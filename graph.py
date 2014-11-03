@@ -27,5 +27,5 @@ class NetworkGraph():
         hub_ego = ego_graph(self.graph, "1")
         pos = spring_layout(hub_ego)
         draw(hub_ego,pos,node_color='b',node_size=50,with_labels=False)
-        draw_networkx_nodes(hub_ego,pos,nodelist=[centre],node_size=300,node_color='r')
+        draw_networkx_nodes(hub_ego,pos,nodelist=["1"],node_size=300,node_color='r')
         plt.savefig('ego_graph.png')
