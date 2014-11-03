@@ -30,5 +30,5 @@ class NetworkGraph():
                 break
             
     def __draw(self):
-        draw(self.graph)
+        draw(self.graph, node_size=30)
         plt.savefig('graph_viz_graph.png')
