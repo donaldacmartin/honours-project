@@ -24,9 +24,7 @@ class NetworkGraph():
             self.graph.add_edge(link[0], link[1])
             
     def __draw(self):
-        nodes = self.graph.Degree()
-        (centre, degree) = sorted(nodes.items(), key=itemgetter(1))[-1]
-        hub_ego = ego_graph(self.graph, centre)
+        hub_ego = ego_graph(self.graph, "1")
         pos = spring_layout(hub_ego)
         draw(hub_ego,pos,node_color='b',node_size=50,with_labels=False)
         draw_networkx_nodes(hub_ego,pos,nodelist=[centre],node_size=300,node_color='r')
