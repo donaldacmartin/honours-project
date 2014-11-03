@@ -4,8 +4,6 @@
 # Map of the Internet
 # Donald Martin (1101795)
 
-sys.path.append("/home/1101795m/local/lib/python/")
-
 from file import BGPDumpExecutor
 from graph import NetworkGraph
 
