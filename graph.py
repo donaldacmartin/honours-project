@@ -24,11 +24,5 @@ class NetworkGraph():
             self.graph.add_edge(link[0], link[1])
             
     def __draw(self):
-        pos = graphviz_layout(self.graph, prog="twopi", root=0)
-        draw(self.graph,
-            pos,
-            node_color=[self.graph.rtt[v] for v in self.graph],
-            with_labels=False,
-            alpha=0.5,
-            node_size=5)
+        draw(self.graph)
         plt.savefig('graph_viz_graph.png')
