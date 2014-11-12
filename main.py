@@ -9,6 +9,7 @@ from file import BGPDumpExecutor
 from graph import NetworkGraph
 
 start = time.time()
+file = "bgpdata/2014.06/RIBS/rib.20140630.2200.bz2"
 
 def write_output(text):
 	with open("test.out", "a") as file:
@@ -16,10 +17,10 @@ def write_output(text):
 
 write_output("Starting")
 
-file = "bgpdata/2014.06/RIBS/rib.20140630.2200.bz2"
+executor = BGPDumpExecutor(file)
 write_output("BGP Dump Extraction")
 
-as_links = BGPDumpExecutor(file2).get_connections()
+as_links = executor.get_connections()
 write_output("Links Extracted")
 
 NetworkGraph(as_links, 3000000000, "3000000000.png")
