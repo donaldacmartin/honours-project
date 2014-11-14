@@ -24,7 +24,7 @@ class FileFinder():
     def __get_file_info(self):
         self.available_files = []
         
-        for file_data in self.walk:
+        for file_data in self.walker:
             directory = file_data[0]
             filenames = file_data[2]
             
