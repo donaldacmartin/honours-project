@@ -64,15 +64,15 @@ class BGPFile():
     def get_time(self):
         return self.time
         
+    def get_path(self):
+        return self.directory + "/" + self.name
+        
     def is_valid(self):
         return self.is_valid
         
 class BGPDumpExecutor():
     def __init__(self, file_path):
-        command = "bgpdump -m "
-        root_path = "/nas05/users/csp/routing-data/archive.routeviews.org/"
-         
-        self.args = split(command + root_path + file_path)
+        self.args = split("bgpdump -m " + file_path)
         self.lock = Lock()
         self.links = set()
         self.__run_executer()
