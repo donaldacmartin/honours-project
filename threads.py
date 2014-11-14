@@ -11,6 +11,7 @@ def master_method():
     files = FileFinder("/nas05/users/csp/routing-data/").get_files()
     
     for f in files:
-        print(f.get_name(), f.get_date())
+        if f.get_date() == "20101227":
+            print(f.get_name(), f.get_directory())
 
 thread_master = Thread(target=master_method)
