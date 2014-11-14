@@ -4,9 +4,6 @@
 # Map of the Internet
 # Donald Martin (1101795)
 
-import sys
-sys.path.append("/home/1101795m/local/lib/python/")
-
 import matplotlib as mpl
 mpl.use("Agg")
 import matplotlib.pyplot as plt
@@ -15,11 +12,11 @@ from networkx import Graph, ego_graph, graphviz_layout, draw
 
 class NetworkGraph():
     def __init__(self, as_links, size, file_name):
-        self.graph = Graph()
+    self.graph = Graph()
 	self.size = size
 	self.file = file_name
-        self.__add_edges(as_links)
-        self.__draw()
+    self.__add_edges(as_links)
+    self.__draw()
     
     def __add_edges(self, as_links):        
         for link in as_links:
@@ -31,5 +28,5 @@ class NetworkGraph():
             
     def __draw(self):
 	plt.figure(figsize=(8,8))
-        draw(self.graph, node_size=10)
-        plt.savefig(self.file)
+    draw(self.graph, node_size=10)
+    plt.savefig(self.file)
