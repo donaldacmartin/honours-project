@@ -29,7 +29,10 @@ class FileFinder():
             filenames = file_data[2]
             
             for name in filenames:
-                self.available_files.append(BGPFile(name, directory))
+                bgp_file = BGPFile(name, directory)
+                
+                if bgp_file.is_valid:
+                    self.available_files.append(bgp_file)
                 
     def get_files(self):
         return self.available_files
@@ -38,6 +41,7 @@ class BGPFile():
     def __init__(self, name, dir):
         self.name = name
         self.directory = dir
+        self.is_valid = False
         self.__parse_name()
         
     def __parse_name(self):
@@ -46,6 +50,7 @@ class BGPFile():
         if matcher.match(self.name) is not None:
             self.date = self.name.split(".")[1]
             self.time = self.name.split(".")[2]
+            self.is_valid = True
             
     def get_name(self):
         return self.name
@@ -58,6 +63,9 @@ class BGPFile():
         
     def get_time(self):
         return self.time
+        
+    def is_valid(self):
+        return self.is_valid
         
 class BGPDumpExecutor():
     def __init__(self, file_path):
