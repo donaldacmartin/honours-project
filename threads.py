@@ -13,4 +13,4 @@ def master_method():
     for f in files:
         print(f.get_name(), f.get_date())
 
-thread_master = threading.Thread(target=master_method)
+thread_master = Thread(target=master_method)
