@@ -7,8 +7,7 @@
 import matplotlib as mpl
 mpl.use("Agg")
 import matplotlib.pyplot as plt
-
-from networkx import Graph, ego_graph, graphviz_layout, draw
+from networkx import Graph, draw
 
 class NetworkGraph():
     def __init__(self, file_name):
@@ -18,10 +17,6 @@ class NetworkGraph():
     def add_edges(self, as_links):        
         for link in as_links:
             self.graph.add_edge(link[0], link[1])
-            self.size -= 1
-            
-            if self.size < 0:
-                break
             
     def draw(self):
         plt.figure(figsize=(50,50))
