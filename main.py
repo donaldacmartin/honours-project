@@ -4,6 +4,9 @@
 # Map of the Internet
 # Donald Martin (1101795)
 
-from threads import thread_master
+from EasyGraph import *
+from file import *
+import pickle
 
-thread_master.start()
+connections = BGPDumpExecutor("/nas05/users/csp/routing-data/archive.routeviews.org/bgpdata/2001.10/RIBS/rib.20011026.1648.bz2").get_connections()
+pickle.dump(connections, open( "sampleset", "wb" ) )

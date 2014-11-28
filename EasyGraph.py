@@ -23,8 +23,8 @@ class EasyGraph():
             self.nodes[int(id)].append(link)
         
     def draw_graph(width, height):
-        self.__draw_nodes
-        self.__draw_lines
+        self.__draw_nodes()
+        self.__draw_lines()
         
         draw = ImageDraw.Draw(im)
         
