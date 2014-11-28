@@ -7,12 +7,13 @@
 from file import *
 from threading import Thread
 from graph import NetworkGraph
+from EasyGraph import *
 
 def master_method():
     files = FileFinder("/nas05/users/csp/routing-data/").get_files()
     files_for_date = []
     
-    output = NetworkGraph("super-out.png")
+    output = EasyGraph()
     threads_list = []
     counter = 0
     
@@ -33,6 +34,10 @@ def master_method():
             
 def worker_method(filename, global_graph):
     connections = BGPDumpExecutor(filename).get_connections()
+    
+    for cxn in connections:
+        global_graph.add_link(cxn[0], cxn[1])
+        
     global_graph.add_edges(connections)
 
 thread_master = Thread(target=master_method)
