@@ -8,5 +8,12 @@ from EasyGraph import *
 from file import *
 import pickle
 
+"""
 connections = BGPDumpExecutor("/nas05/users/csp/routing-data/archive.routeviews.org/bgpdata/2001.10/RIBS/rib.20011026.1648.bz2").get_connections()
-pickle.dump(connections, open( "sampleset", "wb" ) )
+pickle.dump(connections, open("sampleset", "wb"))
+"""
+
+connections = pickle.load(open("sampleset", "rb"))
+
+for cxn in connections:
+    print(cxn)
