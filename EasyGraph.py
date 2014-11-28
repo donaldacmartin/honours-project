@@ -48,4 +48,4 @@ class RingGraph():
             for cxns in self.links[asys]:
                 start = self.plot_positions[asys]
                 end   = self.plot_positions[cxns]
-                draw.line(start, end, fill=128)
+                draw.line((start, end), fill=128)
