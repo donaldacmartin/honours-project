@@ -4,59 +4,46 @@ from math import sin, cos
 """
 http://www.effbot.org/imagingbook/imagedraw.htm
 """
-
-class EasyGraph():
-    def __init__(self):
-        self.nodes  = {}
-        self.plots  = {}
-        self.lines  = set()
+     
+class RingGraph():
+    def __init__(self, width, height):
+        self.links  = {}
+        self.plot_positions = {}
         
-        self.width  = 1024
-        self.height = 768
+        self.width  = width
+        self.height = height
+        self.image  = Image.new("RGB", (self.width, self.height), "white")
         
-        self.image = Image.new("RGB", (self.width, self.height), "white")
-        
-    def add_link(self, id, link):
-        if int(id) not in self.nodes:
-            self.nodes[int(id)] = []
-            self.nodes[int(id)].append(int(link))
-        else:
-            self.nodes[int(id)].append(int(link))
+    def add_link(self, start, end):
+        self.__add_cxn(start, end)
+        self.__add_cxn(end, start)
+    
+    def __add_cxn(self, node, link):
+        if node not in self.links:
+            self.links[node] = set()
             
-        if int(link) not in self.nodes:
-            self.nodes[int(link)] = []
-            self.nodes[int(link)].append(int(id))
-        else:
-            self.nodes[int(link)].append(int(id))
+        self.links[node].add(link)
         
     def draw_graph(self):
-        self.__draw_nodes()
-        self.__draw_lines()
-        
-        draw = ImageDraw.Draw(self.image)
-        
-        for line in self.lines:
-            draw.line((line[0][0], line[0][1], line[1][0], line[1][1]), fill=128)
-            
-        self.image.save("lol", "PNG")
-            
-    def __draw_nodes(self):
-        angle_delta = 360 / len(self.nodes)
-        
+        angle_delta = 360 / len(self.links)
         centre = (self.width / 2, self.height / 2)
         radius = self.width / 3
         
         angle = 0
         
-        for i in self.nodes:
+        for asys in self.links:
             x = centre[0] - (radius * sin(angle))
             y = centre[1] - (radius * cos(angle))
-            angle += angle_delta
-            self.plots[i] = (x,y)
+            
+            self.plot_positions[asys] = (x,y)
+            angle_counter += angle_delta
+            
+        self.__draw_lines()
+        self.image.save("output.png", "PNG")
             
     def __draw_lines(self):
-        for i in self.nodes:
-            for asys in self.nodes[i]:
-                start = self.plots[i]
-                end   = self.plots[asys]
-                self.lines.add((start, end))
+        for asys in self.links:
+            for cxns in self.links[asys]:
+                start = self.plot_positions[asys]
+                end   = self.plot_positions[cxns]
+                draw.line(start, end, fill=128)
