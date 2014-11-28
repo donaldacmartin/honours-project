@@ -15,14 +15,14 @@ class EasyGraph():
         
         self.image = Image.new("RGB", (self.width, self.height), "white")
         
-    def add_link(id, link):
+    def add_link(self, id, link):
         if int(id) in self.nodes:
             self.nodes[int(id)] = []
             self.nodes[int(id)].append(link)
         else:
             self.nodes[int(id)].append(link)
         
-    def draw_graph(width, height):
+    def draw_graph(self):
         self.__draw_nodes()
         self.__draw_lines()
         
@@ -33,7 +33,7 @@ class EasyGraph():
             
         self.image.save("lol", "PNG")
             
-    def __draw_nodes():
+    def __draw_nodes(self):
         angle_delta = 360 / len(self.nodes)
         
         centre = (self.width / 2, self.height / 2)
@@ -47,7 +47,7 @@ class EasyGraph():
             angle += angle_delta
             self.plots[i] = (x,y)
             
-    def __draw_lines():
+    def __draw_lines(self):
         for i in range(len(self.nodes)):
             for asys in self.nodes[i]:
                 start = self.plots[i]
