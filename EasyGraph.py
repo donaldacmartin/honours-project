@@ -48,7 +48,7 @@ class EasyGraph():
         
         angle = 0
         
-        for i in range(len(self.nodes)):
+        for i in self.nodes:
             x = centre[0] - (radius * sin(angle))
             y = centre[1] - (radius * cos(angle))
             angle += angle_delta
