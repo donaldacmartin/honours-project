@@ -26,7 +26,7 @@ class EasyGraph():
         self.__draw_nodes()
         self.__draw_lines()
         
-        draw = ImageDraw.Draw(im)
+        draw = ImageDraw.Draw(self.image)
         
         for line in self.lines:
             draw.line((line[0][0], line[0][1], line[1][0], line[1][1]), fill=128)
