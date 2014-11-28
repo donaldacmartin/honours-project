@@ -9,7 +9,7 @@ class EasyGraph():
     def __init__(self):
         self.nodes  = {}
         self.plots  = {}
-        self.lines  = []
+        self.lines  = set()
         
         self.width  = 1024
         self.height = 768
@@ -59,4 +59,4 @@ class EasyGraph():
             for asys in self.nodes[i]:
                 start = self.plots[i]
                 end   = self.plots[asys]
-                self.lines.add(start, end)
+                self.lines.add((start, end))
