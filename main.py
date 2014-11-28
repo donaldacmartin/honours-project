@@ -14,6 +14,9 @@ pickle.dump(connections, open("sampleset", "wb"))
 """
 
 connections = pickle.load(open("sampleset", "rb"))
+gp = EasyGraph()
 
 for cxn in connections:
-    print(cxn)
+    gp.add_link(cxn[0], cxn[1])
+    
+gp.draw()
