@@ -42,6 +42,8 @@ class RingGraph():
         self.image.save("output.png", "PNG")
             
     def __draw_lines(self):
+        draw = ImageDraw.Draw(self.image)
+        
         for asys in self.links:
             for cxns in self.links[asys]:
                 start = self.plot_positions[asys]
