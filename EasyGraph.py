@@ -12,7 +12,7 @@ class RingGraph():
         
         self.width  = width
         self.height = height
-        self.image  = Image.new("RGB", (self.width, self.height), "white")
+        self.image  = Image.new("RGB", (width, height), "white")
         
     def add_link(self, start, end):
         self.__add_cxn(start, end)
@@ -48,4 +48,4 @@ class RingGraph():
             for cxns in self.links[asys]:
                 start = self.plot_positions[asys]
                 end   = self.plot_positions[cxns]
-                draw.line((start, end), fill=128)
+                draw.line((start, end), fill=128, width=3)
