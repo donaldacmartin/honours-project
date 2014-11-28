@@ -16,7 +16,7 @@ class EasyGraph():
         self.image = Image.new("RGB", (self.width, self.height), "white")
         
     def add_link(self, id, link):
-        if int(id) in self.nodes:
+        if int(id) not in self.nodes:
             self.nodes[int(id)] = []
             self.nodes[int(id)].append(link)
         else:
