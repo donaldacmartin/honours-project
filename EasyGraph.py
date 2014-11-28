@@ -1,4 +1,5 @@
 import Image, ImageDraw
+from math import sin, cos
 
 """
 http://www.effbot.org/imagingbook/imagedraw.htm
