@@ -22,6 +22,12 @@ class EasyGraph():
             self.nodes[int(id)].append(int(link))
         else:
             self.nodes[int(id)].append(int(link))
+            
+        if int(link) not in self.nodes:
+            self.nodes[int(link)] = []
+            self.nodes[int(link)].append(int(id))
+        else:
+            self.nodes[int(link)].append(int(id))
         
     def draw_graph(self):
         self.__draw_nodes()
