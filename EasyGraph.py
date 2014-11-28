@@ -36,7 +36,7 @@ class RingGraph():
             y = centre[1] - (radius * cos(angle))
             
             self.plot_positions[asys] = (x,y)
-            angle_counter += angle_delta
+            angle += angle_delta
             
         self.__draw_lines()
         self.image.save("output.png", "PNG")
