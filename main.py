@@ -19,4 +19,4 @@ gp = EasyGraph()
 for cxn in connections:
     gp.add_link(cxn[0], cxn[1])
     
-gp.draw()
+gp.draw_graph()
