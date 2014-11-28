@@ -19,9 +19,9 @@ class EasyGraph():
     def add_link(self, id, link):
         if int(id) not in self.nodes:
             self.nodes[int(id)] = []
-            self.nodes[int(id)].append(link)
+            self.nodes[int(id)].append(int(link))
         else:
-            self.nodes[int(id)].append(link)
+            self.nodes[int(id)].append(int(link))
         
     def draw_graph(self):
         self.__draw_nodes()
@@ -49,7 +49,7 @@ class EasyGraph():
             self.plots[i] = (x,y)
             
     def __draw_lines(self):
-        for i in range(len(self.nodes)):
+        for i in self.nodes:
             for asys in self.nodes[i]:
                 start = self.plots[i]
                 end   = self.plots[asys]
