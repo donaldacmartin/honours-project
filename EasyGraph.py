@@ -56,7 +56,10 @@ class StaggeredRingGraph(RingGraph):
         buckets  = {}
 
         for asys in self.links:
-            buckets[len(self.links[asys]) - 1].append(asys)
+            if len(self.links[asys]) not in buckets:
+                buckets[len(self.links[asys])] = []
+                
+            buckets[len(self.links[asys])].append(asys)
         
         centre       = (self.width / 2, self.height / 2)        
         max_radius   = self.width / 3
@@ -64,6 +67,9 @@ class StaggeredRingGraph(RingGraph):
         radius       = 10
             
         for i in range(1, max_cxns):
+            if i not in buckets:
+                continue
+                
             bucket = buckets[i]
             angle  = float(0)
             delta  = float(360) / len(bucket)
