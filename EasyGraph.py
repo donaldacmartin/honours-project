@@ -52,7 +52,7 @@ class RingGraph():
                 
 class StaggeredRingGraph(RingGraph):
     def draw_graph(self):       
-        max_cxns = self.find_max() + 1
+        max_cxns = self.find_max()
         
         angle_delta = float(360) / float(len(self.links))
         centre = (self.width / 2, self.height / 2)
@@ -62,6 +62,7 @@ class StaggeredRingGraph(RingGraph):
         
         for asys in self.links:
             radius = max_radius * (len(self.links[asys]) / max_radius)
+            print(radius)
             
             x = centre[0] - (radius * sin(angle))
             y = centre[1] - (radius * cos(angle))
