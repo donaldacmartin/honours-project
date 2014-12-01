@@ -14,7 +14,7 @@ pickle.dump(connections, open("sampleset", "wb"))
 """
 
 connections = pickle.load(open("sampleset", "rb"))
-gp = RingGraph(20240, 146800)
+gp = RingGraph(20000, 20000)
 
 for cxn in connections:
     gp.add_link(cxn[0], cxn[1])
