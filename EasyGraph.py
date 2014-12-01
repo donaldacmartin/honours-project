@@ -53,10 +53,9 @@ class RingGraph():
 class StaggeredRingGraph(RingGraph):
     def draw_graph(self):       
         max_cxns = self.__find_max()
-        buckets  = [] * max_cxns
+        buckets  = [None] * max_cxns
 
         for asys in self.links:
-            print(max_cxns)
             print(len(self.links[asys]) - 1)
             print(len(buckets))
             buckets[len(self.links[asys]) - 1].append(asys)
