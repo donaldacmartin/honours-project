@@ -59,7 +59,7 @@ class StaggeredRingGraph(RingGraph):
             if len(self.links[asys]) not in buckets:
                 buckets[len(self.links[asys])] = []
             
-            print(str("asys") + " put into " + str(len(self.links[asys])))
+            print(str(asys) + " put into " + str(len(self.links[asys])))
             buckets[len(self.links[asys])].append(asys)
         
         centre       = (self.width / 2, self.height / 2)        
