@@ -21,5 +21,5 @@ for cxn in connections:
     #ring.add_link(cxn[0], cxn[1])
     staggered.add_link(cxn[0], cxn[1])
     
-ring.draw_graph()
+#ring.draw_graph()
 staggered.draw_graph()
