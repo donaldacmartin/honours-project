@@ -78,4 +78,5 @@ class StaggeredRingGraph(RingGraph):
         for asys in self.links:
             if len(self.links[asys]) > current_max:
                 current_max = len(self.links[asys])
-                
+        
+        return current_max
