@@ -46,7 +46,6 @@ class RingGraph():
         
         for asys in self.links:
             for cxns in self.links[asys]:
-                print("Iterated through a link")
                 start = self.plot_positions[asys]
                 end   = self.plot_positions[cxns]
                 draw.line((start[0], start[1], end[0], end[1]), fill=128, width=1)
