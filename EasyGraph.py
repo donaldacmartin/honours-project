@@ -25,11 +25,11 @@ class RingGraph():
         self.links[node].add(link)
         
     def draw_graph(self):
-        angle_delta = 360 / len(self.links)
+        angle_delta = float(360) / float(len(self.links))
         centre = (self.width / 2, self.height / 2)
         radius = self.width / 3
         
-        angle = 0
+        angle = float(0)
         
         for asys in self.links:
             x = centre[0] - (radius * sin(angle))
@@ -50,5 +50,3 @@ class RingGraph():
                 start = self.plot_positions[asys]
                 end   = self.plot_positions[cxns]
                 draw.line((start[0], start[1], end[0], end[1]), fill=128, width=1)
-        
-        self.image.save("hmm.png", "PNG")
