@@ -51,16 +51,13 @@ class RingGraph():
                 draw.line((start[0], start[1], end[0], end[1]), fill=128, width=1)
                 
 class StaggeredRingGraph(RingGraph):
-    def draw_graph(self):       
-        max_cxns = self.__find_max()
+    def draw_graph(self):
         buckets  = {}
 
         for asys in self.links:
             if len(self.links[asys]) not in buckets:
                 buckets[len(self.links[asys])] = []
-            
-            if asys == 701:
-                print(str(asys) + " put into " + str(len(self.links[asys])))
+
             buckets[len(self.links[asys])].append(asys)
         
         centre       = (self.width / 2, self.height / 2)        
@@ -68,7 +65,7 @@ class StaggeredRingGraph(RingGraph):
         radius_delta = max_radius / len(buckets)
         radius       = 10
             
-        for i in range(max_cxns):
+        for i in range(max(buckets.keys())):
             if i not in buckets:
                 continue
                 
