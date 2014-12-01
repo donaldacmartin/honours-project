@@ -53,11 +53,9 @@ class RingGraph():
 class StaggeredRingGraph(RingGraph):
     def draw_graph(self):       
         max_cxns = self.__find_max()
-        buckets  = [None] * max_cxns
+        buckets  = {}
 
         for asys in self.links:
-            print(len(self.links[asys]) - 1)
-            print(len(buckets))
             buckets[len(self.links[asys]) - 1].append(asys)
         
         centre       = (self.width / 2, self.height / 2)        
@@ -65,9 +63,10 @@ class StaggeredRingGraph(RingGraph):
         radius_delta = max_radius / len(buckets)
         radius       = 10
             
-        for bucket in buckets:
-            angle = float(0)
-            delta = float(360) / len(bucket)
+        for i in range(1, max_cxns):
+            bucket = buckets[i]
+            angle  = float(0)
+            delta  = float(360) / len(bucket)
             
             for asys in bucket:
                 x = centre[0] - (radius * sin(angle))
