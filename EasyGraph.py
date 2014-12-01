@@ -80,3 +80,12 @@ class StaggeredRingGraph(RingGraph):
                 current_max = len(self.links[asys])
         
         return current_max
+        
+    def __draw_lines(self):
+        draw = ImageDraw.Draw(self.image)
+        
+        for asys in self.links:
+            for cxns in self.links[asys]:
+                start = self.plot_positions[asys]
+                end   = self.plot_positions[cxns]
+                draw.line((start[0], start[1], end[0], end[1]), fill=128, width=1)
