@@ -66,7 +66,7 @@ class StaggeredRingGraph(RingGraph):
         radius_delta = max_radius / len(buckets)
         radius       = 10
             
-        for i in range(1, max_cxns):
+        for i in range(max_cxns):
             if i not in buckets:
                 continue
                 
