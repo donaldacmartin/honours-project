@@ -56,6 +56,7 @@ class StaggeredRingGraph(RingGraph):
         buckets  = [] * max_cxns
 
         for asys in self.links:
+            print(max_cxns)
             print(len(self.links[asys]) - 1)
             print(len(buckets))
             buckets[len(self.links[asys]) - 1].append(asys)
