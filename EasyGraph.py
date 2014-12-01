@@ -61,7 +61,7 @@ class StaggeredRingGraph(RingGraph):
         angle = float(0)
         
         for asys in self.links:
-            radius = max_radius * (len(self.links[asys]) / max_cxns)
+            radius = max_radius * (float(len(self.links[asys])) / max_cxns)
             print(radius)
             
             x = centre[0] - (radius * sin(angle))
