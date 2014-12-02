@@ -55,7 +55,7 @@ class StaggeredRingGraph(RingGraph):
         buckets = {}
         largest_bucket = self.__find_max()
         centre = (self.width / 2, self.height / 2)
-        radius = 10
+        radius = 0
         radius_delta = self.width / largest_bucket
 
         for i in range(largest_bucket + 1):
@@ -66,6 +66,7 @@ class StaggeredRingGraph(RingGraph):
                 
         for i in range(largest_bucket, 0, -1):
             bucket = buckets[i]
+            radius += radius_delta
             
             if len(bucket) == 0:
                 continue
@@ -79,8 +80,6 @@ class StaggeredRingGraph(RingGraph):
             
                 self.plot_positions[asys] = (x,y)
                 angle += delta
-                
-            radius += radius_delta
             
         self.__draw_lines()
         self.image.save("staggered.png", "PNG")
