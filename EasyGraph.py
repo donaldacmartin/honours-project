@@ -54,9 +54,8 @@ class StaggeredRingGraph(RingGraph):
     def draw_graph(self):
         buckets = {}
         largest_bucket = self.__find_max()
-        
-        print(largest_bucket)
-        for i in range(largest_bucket):
+
+        for i in range(largest_bucket + 1):
             buckets[i] = []
             
         for asys in self.links:
