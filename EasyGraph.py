@@ -52,23 +52,16 @@ class RingGraph():
                 
 class StaggeredRingGraph(RingGraph):
     def draw_graph(self):
-        buckets  = {}
-
-        for asys in self.links:
-            if len(self.links[asys]) not in buckets:
-                buckets[len(self.links[asys])] = []
-
-            buckets[len(self.links[asys])].append(asys)
+        buckets = {}
+        largest_bucket = self.__find_max()
         
-        centre       = (self.width / 2, self.height / 2)        
-        max_radius   = self.width / 3
-        radius_delta = max_radius / len(buckets)
-        radius       = 10
+        for i in range(largest_bucket):
+            buckets[i] = []
             
-        for i in range(max(buckets.keys())):
-            if i not in buckets:
-                continue
+        for asys in self.links:
+            buckets[len(self.links[asys])].append(asys)
                 
+        for i in range(largest_bucket, 1, -1):
             bucket = buckets[i]
             angle  = float(0)
             delta  = float(360) / len(bucket)
