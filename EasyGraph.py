@@ -64,7 +64,7 @@ class StaggeredRingGraph(RingGraph):
         for asys in self.links:
             buckets[len(self.links[asys])].append(asys)
                 
-        for i in range(largest_bucket+1, 0, -1):
+        for i in range(largest_bucket, 0, -1):
             bucket = buckets[i]
             
             if len(bucket) == 0:
