@@ -66,6 +66,10 @@ class StaggeredRingGraph(RingGraph):
                 
         for i in range(largest_bucket, 1, -1):
             bucket = buckets[i]
+            
+            if len(bucket) == 0:
+                continue
+                
             angle  = float(0)
             delta  = float(360) / len(bucket)
             
