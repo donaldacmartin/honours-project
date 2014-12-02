@@ -56,7 +56,7 @@ class StaggeredRingGraph(RingGraph):
         centre = (self.width / 2, self.height / 2)
         
         standard_radius = self.width / 3
-        radius_step     = radius / self.__find_max()
+        radius_step     = standard_radius / self.__find_max()
         
         angle = float(0)
         
