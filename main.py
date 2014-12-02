@@ -15,7 +15,7 @@ pickle.dump(connections, open("sampleset", "wb"))
 
 connections = pickle.load(open("sampleset", "rb"))
 #ring        = RingGraph(20000, 20000)
-staggered   = StaggeredRingGraph(20000, 20000)
+staggered   = StaggeredRingGraph(40000, 40000)
 
 for cxn in connections:
     #ring.add_link(cxn[0], cxn[1])
