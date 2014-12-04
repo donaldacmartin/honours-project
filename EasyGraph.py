@@ -5,7 +5,7 @@ from math import sin, cos
 http://www.effbot.org/imagingbook/imagedraw.htm
 """
      
-class RingGraph():
+class RingGraph(object):
     def __init__(self, width, height):
         self.links  = {}
         self.plot_positions = {}
