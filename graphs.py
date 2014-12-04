@@ -6,7 +6,7 @@ http://www.effbot.org/imagingbook/imagedraw.htm
 """
 
 class RingGraph(object):
-    def __init__(self, filename width, height):
+    def __init__(self, filename, width, height):
         self.links  = {}
         self.plot_positions = {}
         self.filename = filename
