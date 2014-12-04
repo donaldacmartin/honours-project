@@ -4,7 +4,7 @@
 # Map of the Internet
 # Donald Martin (1101795)
 
-from EasyGraph import *
+from graphs import RingGraph, StaggeredRingGraph
 from file import *
 import pickle
 
@@ -14,12 +14,12 @@ pickle.dump(connections, open("sampleset", "wb"))
 """
 
 connections = pickle.load(open("sampleset", "rb"))
-#ring        = RingGraph(20000, 20000)
-staggered   = StaggeredRingGraph(40000, 40000)
+ring        = RingGraph("ring-graph.png", 20000, 20000)
+staggered   = StaggeredRingGraph("staggered-graph.png", 20000, 20000)
 
 for cxn in connections:
-    #ring.add_link(cxn[0], cxn[1])
+    ring.add_link(cxn[0], cxn[1])
     staggered.add_link(cxn[0], cxn[1])
     
-#ring.draw_graph()
+ring.draw_graph()
 staggered.draw_graph()

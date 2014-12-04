@@ -6,9 +6,10 @@ http://www.effbot.org/imagingbook/imagedraw.htm
 """
 
 class RingGraph(object):
-    def __init__(self, width, height):
+    def __init__(self, filename width, height):
         self.links  = {}
         self.plot_positions = {}
+        self.filename = filename
         
         self.width  = width
         self.height = height
@@ -39,7 +40,7 @@ class RingGraph(object):
             angle += angle_delta
             
         self.__draw_lines()
-        self.image.save("ring.png", "PNG")
+        self.image.save(self.filename, "PNG")
             
     def __draw_lines(self):
         draw = ImageDraw.Draw(self.image)
@@ -70,7 +71,7 @@ class StaggeredRingGraph(RingGraph):
             angle += angle_delta
         
         self.__draw_lines()
-        self.image.save("staggered-ring.png", "PNG")
+        self.image.save(self.filename, "PNG")
         
     def __draw_lines(self):
         draw = ImageDraw.Draw(self.image)
