@@ -5,7 +5,7 @@ from math import sin, cos
 http://www.effbot.org/imagingbook/imagedraw.htm
 """
      
-class RingGraph(object):
+class RingGraph():
     def __init__(self, width, height):
         self.links  = {}
         self.plot_positions = {}
@@ -25,7 +25,7 @@ class RingGraph(object):
         self.links[node].add(link)
         
     def draw_graph(self):
-        angle_delta = float(360) / len(self.links)
+        angle_delta = 360.0 / len(self.links)
         centre = (self.width / 2, self.height / 2)
         radius = (self.width - 10) / 2
         
@@ -52,7 +52,7 @@ class RingGraph(object):
                 
 class StaggeredRingGraph(RingGraph):
     def draw_graph(self):
-        angle_delta = float(360) / len(self.links)
+        angle_delta = 360.0 / len(self.links)
         centre = (self.width / 2, self.height / 2)
         
         largest_no_cxns = max([len(self.links[asys]) for asys in self.links])
@@ -69,5 +69,5 @@ class StaggeredRingGraph(RingGraph):
             self.plot_positions[asys] = (x,y)
             angle += angle_delta
             
-        RingGraph.__draw_lines(self)
+        super(StaggeredRingGraph, self).__draw_lines()
         self.image.save("staggered-ring.png", "PNG")
