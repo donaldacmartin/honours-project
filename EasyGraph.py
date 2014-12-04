@@ -55,8 +55,9 @@ class StaggeredRingGraph(RingGraph):
         angle_delta = float(360) / float(len(self.links))
         centre = (self.width / 2, self.height / 2)
         
+        largest_no_cxns = max([len(self.links[asys]) for asys in self.links])
         standard_radius = (self.width - 10) / 2
-        radius_step     = standard_radius / self.__find_max()
+        radius_step     = standard_radius / largest_no_cxns
         
         angle = float(0)
         
@@ -68,23 +69,5 @@ class StaggeredRingGraph(RingGraph):
             self.plot_positions[asys] = (x,y)
             angle += angle_delta
             
-        self.__draw_lines()
+        super(StaggeredRingGraph, self).__draw_lines()
         self.image.save("staggered-ring.png", "PNG")
-        
-    def __find_max(self):
-        current_max = 0
-        
-        for asys in self.links:
-            if len(self.links[asys]) > current_max:
-                current_max = len(self.links[asys])
-        
-        return current_max
-        
-    def __draw_lines(self):
-        draw = ImageDraw.Draw(self.image)
-        
-        for asys in self.links:
-            for cxns in self.links[asys]:
-                start = self.plot_positions[asys]
-                end   = self.plot_positions[cxns]
-                draw.line((start[0], start[1], end[0], end[1]), fill=128, width=1)
