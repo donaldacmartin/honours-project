@@ -69,5 +69,5 @@ class StaggeredRingGraph(RingGraph):
             self.plot_positions[asys] = (x,y)
             angle += angle_delta
             
-        super(StaggeredRingGraph, self).__draw_lines()
+        RingGraph.__draw_lines(self)
         self.image.save("staggered-ring.png", "PNG")
