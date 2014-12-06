@@ -72,9 +72,11 @@ class BGPFile():
         
 class BGPDumpExecutor():
     def __init__(self, file_path):
-        self.args = split("bgpdump -m " + file_path)
-        self.lock = Lock()
-        self.links = set()
+        self.args     = split("bgpdump -m " + file_path)
+        self.lock     = Lock()
+        self.links    = set()
+        self.ip_addrs = {}
+        
         self.__run_executer()
         
     def __run_executer(self):
@@ -85,6 +87,12 @@ class BGPDumpExecutor():
                 self.__parse_line(line)
     
     def __parse_line(self, line):
+        try:
+            ip = line.split("|")[5].split("/")[0]
+        except:
+            ip = line.split("|")[5]
+
+        self.ip_addrs[int(hops[-1])] = ip
         hops = line.split("|")[6].split(" ")
         self.__add_to_links([AS for AS in hops if not "{" in AS])
         
@@ -98,7 +106,11 @@ class BGPDumpExecutor():
                 self.links.add((as_path[counter-1], as_path[counter]))
                 
             counter += 1
-        
+    
+    def get_ip_addresses(self):
+        with self.lock:
+            return self.ip_addrs
+            
     def get_connections(self):
         with self.lock:
             return self.links
