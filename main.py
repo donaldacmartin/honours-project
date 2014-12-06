@@ -22,7 +22,7 @@ connections  = bgp_dump.get_connections()
 
 ring        = RingGraph("ring-graph.png", 20000, 20000)
 staggered   = StaggeredRingGraph("staggered-graph.png", 20000, 20000)
-atlas       = AtlasMap("atlas-map.png", 20000, 10000
+atlas       = AtlasMap("atlas-map.png", 20000, 10000)
 
 for auto_sys in ip_addresses:
     atlas.add_auto_sys_ip(auto_sys, ip_addresses[auto_sys])
