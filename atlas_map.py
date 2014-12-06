@@ -23,8 +23,8 @@ class AtlasMap(object):
         lat,lon = self.geoip.get_latlon_for_ip(ip_addr)
         as_num  = int(as_num)
         
-        x = __map_lon_to_x_coord(lon)
-        y = __map_lat_to_y_coord(lat)
+        x = self.__map_lon_to_x_coord(lon)
+        y = self.__map_lat_to_y_coord(lat)
         
         self.plot_positions[as_num] = (x,y)
         
