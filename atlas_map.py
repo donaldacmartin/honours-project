@@ -8,7 +8,7 @@ from geoip import GeoIPLookup
 import Image, ImageDraw
 
 class AtlasMap(object):
-    def __init__(self):
+    def __init__(self, filename, width, height):
         self.links = []
         self.plot_positions = {}
         self.filename = filename
