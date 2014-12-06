@@ -16,7 +16,7 @@ connections = pickle.load(open("sampleset", "rb"))
 
 dir = "/nas05/users/csp/routing-data/archive.routeviews.org/bgpdata/2001.10/RIBS/rib.20011026.1648.bz2"
 
-bgp_dump     = BGPDumpExecutor(dir).get_connections()
+bgp_dump     = BGPDumpExecutor(dir)
 ip_addresses = bgp_dump.get_ip_addresses()
 connections  = bgp_dump.get_connections()
 
