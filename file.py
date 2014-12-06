@@ -93,8 +93,8 @@ class BGPDumpExecutor():
             ip = line.split("|")[5]
             
         hops = line.split("|")[6].split(" ")
-        self.ip_addrs[int(hops[-1])] = ip
-        self.__add_to_links([AS for AS in hops if not "{" in AS])
+        last_asys = self.__add_to_links([AS for AS in hops if not "{" in AS])
+        self.ip_addrs[last_asys] = ip
         
     def __add_to_links(self, as_path):
         counter = 1
@@ -106,6 +106,8 @@ class BGPDumpExecutor():
                 self.links.add((as_path[counter-1], as_path[counter]))
                 
             counter += 1
+            
+        return int(as_path[-1])
     
     def get_ip_addresses(self):
         with self.lock:
