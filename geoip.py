@@ -27,8 +27,6 @@ class GeoIPLookup(object):
         lon = self.locations[location]["longitude"]
         
         return lat,lon
-        
-    
 
 # ------------------------------------------------------------------------------
 # File Handling

@@ -21,6 +21,7 @@ class AtlasMap(object):
         
     def add_auto_sys_ip(self, as_num, ip_addr):
         lat,lon = self.geoip.get_latlon_for_ip(ip_addr)
+        print("lat: " + str(lat))
         as_num  = int(as_num)
         
         x = self.__map_lon_to_x_coord(lon)
