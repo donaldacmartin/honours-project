@@ -91,9 +91,9 @@ class BGPDumpExecutor():
             ip = line.split("|")[5].split("/")[0]
         except:
             ip = line.split("|")[5]
-
-        self.ip_addrs[int(hops[-1])] = ip
+            
         hops = line.split("|")[6].split(" ")
+        self.ip_addrs[int(hops[-1])] = ip
         self.__add_to_links([AS for AS in hops if not "{" in AS])
         
     def __add_to_links(self, as_path):
