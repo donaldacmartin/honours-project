@@ -21,8 +21,6 @@ class AtlasMap(object):
         
     def add_auto_sys_ip(self, as_num, ip_addr):
         lat,lon = self.geoip.get_latlon_for_ip(ip_addr)
-        print("lat: " + str(lat))
-        print("lon: " + str(lon))
         as_num  = int(as_num)
         
         x = self.__map_lon_to_x_coord(lon)
@@ -48,13 +46,13 @@ class AtlasMap(object):
             
         self.image.save(self.filename, "PNG")
             
-    def __map_lat_to_y_coord(lat):
+    def __map_lat_to_y_coord(self, lat):
         centre = (self.height - 10) / 2
         delta  = (self.height - 10) / 180.0
         
         return centre - (lat * delta)
         
-    def __map_lon_to_x_coord(lon):
+    def __map_lon_to_x_coord(self, lon):
         centre = (self.width - 10) / 2
         delta  = (self.width - 10) / 360.0
         
