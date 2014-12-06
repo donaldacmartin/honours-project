@@ -13,7 +13,7 @@ class AtlasMap(object):
         self.plot_positions = {}
         self.filename = filename
         
-        self.geoip  = GeoIPLookup("data/locations.csv", "data/blocks.csv")
+        self.geoip  = GeoIPLookup("data/location.csv", "data/blocks.csv")
         
         self.width  = width
         self.height = height
