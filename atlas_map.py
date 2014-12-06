@@ -47,13 +47,13 @@ class AtlasMap(object):
         self.image.save(self.filename, "PNG")
             
     def __map_lat_to_y_coord(self, lat):
-        centre = (self.height - 10) / 2
+        centre = (self.height - 10) / 2.0
         delta  = (self.height - 10) / 180.0
         
         return centre - (lat * delta)
         
     def __map_lon_to_x_coord(self, lon):
-        centre = (self.width - 10) / 2
+        centre = (self.width - 10) / 2.0
         delta  = (self.width - 10) / 360.0
         
         return centre + (lon * delta)
