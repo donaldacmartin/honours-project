@@ -23,8 +23,13 @@ class GeoIPLookup(object):
         block_entry = self.start_ip[index]
         
         location = self.blocks[block_entry]["location"]
-        lat = self.locations[location]["latitude"]
-        lon = self.locations[location]["longitude"]
+        
+        try:
+            lat = self.locations[location]["latitude"]
+            lon = self.locations[location]["longitude"]
+        catch:
+            lat = 0
+            lon = 0
         
         return lat,lon
 
