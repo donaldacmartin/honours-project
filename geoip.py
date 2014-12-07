@@ -86,8 +86,8 @@ def location_parser(line):
     lookup_table["country"]   = values[1]
     lookup_table["region"]    = values[2]
     lookup_table["city"]      = values[3]
-    lookup_table["latitude"]  = int(values[5])
-    lookup_table["longitude"] = int(values[6])
+    lookup_table["latitude"]  = float(values[5])
+    lookup_table["longitude"] = float(values[6])
     
     return location_id, lookup_table
 
