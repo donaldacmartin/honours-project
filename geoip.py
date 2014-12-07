@@ -16,6 +16,7 @@ class GeoIPLookup(object):
         self.start_ip  = sorted(self.blocks.keys())
         
     def get_latlon_for_ip(self, ip_address):
+        print("Got IP Address: " + ip_address)
         ip_int = ip_to_int(ip_address)
         
         index = next(n[0] for n in enumerate(self.start_ip) if n[1] > ip_int) - 1
@@ -30,6 +31,7 @@ class GeoIPLookup(object):
             lat = 0
             lon = 0
         
+        print("Returning: " + str(lat) + " , " + str(lon))
         return lat,lon
 
 # ------------------------------------------------------------------------------
