@@ -38,9 +38,16 @@ class AtlasMap(object):
         draw   = ImageDraw.Draw(self.image)
         centre = ((self.width - 10) / 2, (self.height - 10) / 2)
         
+        counter = 0
+        limit   = str(len(self.links))
+        
         for (start, end) in self.links:
+            counter += 1
+            
             start_x, start_y = self.plot_positions[start]
             end_x, end_y     = self.plot_positions[end]
+            
+            print(str(counter) + " of " + limit)
             
             draw.line((start_x, start_y, end_x, end_y), fill=128, width=1)
             

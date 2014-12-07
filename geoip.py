@@ -10,11 +10,10 @@ Layer for GeoLite MaxMind files:
 http://dev.maxmind.com/geoip/legacy/geolite/
 """
 class GeoIPLookup(object):
-    def __init__(self, loc_filename, block_filename):
-        self.locations = read_file_into_database(loc_filename, location_parser)
-        self.blocks    = read_file_into_database(block_filename, block_parser)
-        
-        self.start_ip = sorted(self.blocks.keys())
+    def __init__(self, loc_file, block_file):
+        self.locations = read_file_into_database(loc_file, location_parser)
+        self.blocks    = read_file_into_database(block_file, block_parser)
+        self.start_ip  = sorted(self.blocks.keys())
         
     def get_latlon_for_ip(self, ip_address):
         ip_int = ip_to_int(ip_address)
