@@ -27,7 +27,7 @@ class GeoIPLookup(object):
         try:
             lat = self.locations[location]["latitude"]
             lon = self.locations[location]["longitude"]
-        catch:
+        except:
             lat = 0
             lon = 0
         
