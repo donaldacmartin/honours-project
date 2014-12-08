@@ -35,8 +35,8 @@ class AtlasMap(object):
         self.links.append((start,end))
         
     def draw_graph(self):
-        draw   = ImageDraw.Draw(self.image)
-        centre = ((self.width - 10) / 2, (self.height - 10) / 2)
+        draw    = ImageDraw.Draw(self.image)
+        centre  = ((self.width - 10) / 2, (self.height - 10) / 2)
         
         counter = 0
         limit   = str(len(self.links))
@@ -44,13 +44,13 @@ class AtlasMap(object):
         for (start, end) in self.links:
             counter += 1
             
-            start_x, start_y = self.plot_positions[start]
-            end_x, end_y     = self.plot_positions[end]
-            
-            print(str(counter) + " of " + limit)
-            
-            draw.line((start_x, start_y, end_x, end_y), fill=128, width=1)
-            
+            try:
+                start_x, start_y = self.plot_positions[start]
+                end_x, end_y     = self.plot_positions[end]
+                draw.line((start_x, start_y, end_x, end_y), fill=128, width=1)
+            except:
+                print("Problem getting " + str(start) + " or " + str(end))
+                
         self.image.save(self.filename, "PNG")
             
     def __map_lat_to_y_coord(self, lat):
