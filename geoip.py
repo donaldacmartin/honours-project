@@ -20,7 +20,7 @@ class GeoIPLookup(object):
         self.geo_data  = read_into_table("data/locations.csv", location_parser)
         self.ip_blocks = read_into_table("data/blocks.csv", block_parser)
         
-        self.block_start_ip = sorted(self.blocks.keys())
+        self.block_start_ip = sorted(self.ip_blocks.keys())
         
     def get_latlon_for_ip(self, ip):
         try:
