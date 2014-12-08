@@ -1,7 +1,8 @@
-#!/usr/bin/env python
-# Level 4 Project
-# Map of the Internet
-# Donald Martin (1101795)
+#!/usr/bin/python
+#
+# Donald Martin
+# Honours Project: Map of the Internet (2014/15)
+# University of Glasgow
 
 """
 Layer for GeoLite MaxMind files:
@@ -12,7 +13,7 @@ class GeoIPLookup(object):
         loc_file   = "data/locations.csv"
         block_file = "data/blocks.csv"
         
-        self.location_data  = read_into_table(loc_file, location_parser)
+        self.location_data  = read_into_table("data/locations.csv", location_parser)
         self.ip_blocks      = read_into_table(block_file, block_parser)
         self.block_start_ip = sorted(self.blocks.keys())
         
