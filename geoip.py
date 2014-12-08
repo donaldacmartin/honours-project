@@ -4,31 +4,38 @@
 # Honours Project: Map of the Internet (2014/15)
 # University of Glasgow
 
+import logging
+
 """
-Layer for GeoLite MaxMind files:
-http://dev.maxmind.com/geoip/legacy/geolite/
+GeoIPLookup
+
+Provides an interface to convert an IP address into geographical information,
+such as latlon coordinates or country & city information. Developed using CSV
+data from MaxMind @ dev.maxmind.com/geoip/legacy/. Recommend to only generate
+one of these instances for entires program, as setup is computationally intense.
 """
+
 class GeoIPLookup(object):
-    def __init__(self, loc_file, block_file):
-        loc_file   = "data/locations.csv"
-        block_file = "data/blocks.csv"
+    def __init__(self):
+        self.geo_data  = read_into_table("data/locations.csv", location_parser)
+        self.ip_blocks = read_into_table("data/blocks.csv", block_parser)
         
-        self.location_data  = read_into_table("data/locations.csv", location_parser)
-        self.ip_blocks      = read_into_table(block_file, block_parser)
         self.block_start_ip = sorted(self.blocks.keys())
         
-    def get_latlon_for_ip(self, ip_addr):
+    def get_latlon_for_ip(self, ip):
         try:
-            data = get_ip_data(ip_addr, self.block_start_ip, self.ip_blocks, self.location_data)
+            data = get_ip_data(ip, self.block_start_ip, self.ip_blocks, self.geo_data)
             return data["latitude"], data["longitude"]
         except NameError:
+            logging.error("GeoIP: no latlon coordinates for " + ip)
             raise
 
-    def get_country_for_ip(self, ip_addr):
+    def get_country_for_ip(self, ip):
         try:
-            data = get_ip_data(ip_addr, self.block_start_ip, self.ip_blocks, self.location_data) 
+            data = get_ip_data(ip, self.block_start_ip, self.ip_blocks, self.geo_data) 
             return data["country"]
         except NameError:
+            logging.error("GeoIP: no country for " + ip)
             raise
 
 # ------------------------------------------------------------------------------
@@ -38,9 +45,9 @@ def get_ip_data(ip_address, start_ips, blocks, locations):
     try:
         ip_int = ip_to_int(ip_address)
         index  = next(n[0] for n in enumerate(start_ips) if n[1] > ip_int) - 1
-        block  = starting_ips[index]
+        block  = start_ips[index]
         
-        location = blocks[block_entry]["location"]
+        location = blocks[block]["location"]
         return locations[location]
     except:
         raise NameError("Unable to locate " + ip_address + " in database")
