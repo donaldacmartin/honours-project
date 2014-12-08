@@ -18,14 +18,14 @@ class GeoIPLookup(object):
         
     def get_latlon_for_ip(self, ip_addr):
         try:
-            data = get_ip_data(ip_addr, self.block_start_ip self.ip_blocks, self.location_data)
+            data = get_ip_data(ip_addr, self.block_start_ip, self.ip_blocks, self.location_data)
             return data["latitude"], data["longitude"]
         except NameError:
             raise
 
     def get_country_for_ip(self, ip_addr):
         try:
-            data = get_ip_data(ip_addr, self.block_start_ip self.ip_blocks, self.location_data) 
+            data = get_ip_data(ip_addr, self.block_start_ip, self.ip_blocks, self.location_data) 
             return data["country"]
         except NameError:
             raise
