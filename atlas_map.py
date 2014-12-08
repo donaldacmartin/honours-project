@@ -5,7 +5,7 @@
 # University of Glasgow
 
 from geoip import GeoIPLookup
-from Image import new
+from Image import new, save
 from ImageDraw import Draw
 import logging
 
@@ -27,30 +27,30 @@ class AtlasMap(object):
         self.geoip    = GeoIPLookup()
         
         self.filename = filename
-        self.image    = Image.new("RGB", (width, height), "white")
+        self.image    = new("RGB", (width, height), "white")
         
-    def add_auto_sys_ip(self, as_num, ip_addr):
-        lat,lon = self.geoip.get_latlon_for_ip(ip_addr)
-        as_num  = int(as_num)
+    def add_auto_sys_ip(self, as_num, ip_address):
+        lat,lon       = self.geoip.get_latlon_for_ip(ip_address)
+        as_num        = int(as_num)
+        width, height = self.image.size
         
-        x = map_lon_to_x_coord(lon, self.image.size[0])
-        y = map_lat_to_y_coord(lat, self.image.size[1])
+        x = map_lon_to_x_coord(lon, width)
+        y = map_lat_to_y_coord(lat, height)
         
         self.coords_for_asys[as_num] = (x,y)
         
     def add_link(self, start, end):
         start = int(start)
         end   = int(end)
-        
-        connection = (min(start,end), max(start,end))
-        self.asys_connections.add(connection)
+        cxn   = (min(start,end), max(start,end))
+        self.asys_connections.add(cxn)
         
     def draw_graph(self):
-        draw = ImageDraw.Draw(self.image)
-
+        draw_cursor = Draw(self.image)
+        
         for (start, end) in self.links:
-            self.__draw_link(start, end, draw)
-            
+            self.__draw_link(start, end, draw_cursor)
+                
         self.image.save(self.filename, "PNG")
     
     def __draw_link(self, start, end, draw):
@@ -59,17 +59,14 @@ class AtlasMap(object):
             end_xy   = self.coords_for_asys[end]
             draw.line([start_xy, end_xy], fill=128, width=1)
         except KeyError as e:
-            logging.warning("Atlas Mapper encountered a non-fatal error")
-            logging.warning("AS" + str(e) + " not in list of coordinates")
+            logging.warning("AtlasMap: AS" + str(e) + " not in list of coords")
             
 def map_lat_to_y_coord(lat_coord, img_height):
     centre = (img_height - 10) / 2.0
     delta  = (img_height - 10) / 180.0
-    
-    return centre - (lat__cord * delta)
+    return centre - (lat_coord * delta)
     
 def map_lon_to_x_coord(lon_coord, img_width):
     centre = (img_width - 10) / 2.0
     delta  = (img_width - 10) / 360.0
-    
     return centre + (lon_coord * delta)

@@ -1,8 +1,24 @@
-import Image, ImageDraw
+#!/usr/bin/python
+#
+# Donald Martin
+# Honours Project: Map of the Internet (2014/15)
+# University of Glasgow
+
 from math import sin, cos
+from Image import new
+from ImageDraw import Draw
 
 """
-http://www.effbot.org/imagingbook/imagedraw.htm
+RingGraph
+
+Generates a connected graph of autonomous systems, stored in a ring. Each AS is
+stored at a set radius.
+
+StaggeredRingGraph
+
+A subclass of RingGraph that also generates a connected graph of autonomous
+systems in a series of rings, based on the number of connections that each AS
+has to other ASs.
 """
 
 class RingGraph(object):
@@ -11,9 +27,7 @@ class RingGraph(object):
         self.plot_positions = {}
         self.filename = filename
         
-        self.width  = width
-        self.height = height
-        self.image  = Image.new("RGB", (width, height), "white")
+        self.image  = new("RGB", (width, height), "white")
         
     def add_link(self, start, end):
         self.__add_cxn(start, end)
@@ -26,9 +40,11 @@ class RingGraph(object):
         self.links[node].add(link)
         
     def draw_graph(self):
-        angle_delta = 360.0 / len(self.links)
-        centre = (self.width / 2, self.height / 2)
-        radius = (self.width - 10) / 2
+        angle_delta   = 360.0 / len(self.links)
+        width, height = self.image.size
+        
+        centre = (width / 2, height / 2)
+        radius = (width - 10) / 2
         
         angle = 0
         
@@ -39,25 +55,18 @@ class RingGraph(object):
             self.plot_positions[asys] = (x,y)
             angle += angle_delta
             
-        self.__draw_lines()
+        draw_lines(self.image, self.links, self.plot_positions)
         self.image.save(self.filename, "PNG")
-            
-    def __draw_lines(self):
-        draw = ImageDraw.Draw(self.image)
-        
-        for asys in self.links:
-            for cxns in self.links[asys]:
-                start = self.plot_positions[asys]
-                end   = self.plot_positions[cxns]
-                draw.line((start[0], start[1], end[0], end[1]), fill=128, width=1)
-                
+
 class StaggeredRingGraph(RingGraph):
     def draw_graph(self):
-        angle_delta = 360.0 / len(self.links)
-        centre = (self.width / 2, self.height / 2)
+        angle_delta   = 360.0 / len(self.links)
+        width, height = self.image.size
+        
+        centre = (width / 2, height / 2)
         
         largest_no_cxns = max([len(self.links[asys]) for asys in self.links])
-        standard_radius = (self.width - 10) / 2
+        standard_radius = (width - 10) / 2
         radius_step     = standard_radius / largest_no_cxns
         
         angle = 0
@@ -70,14 +79,16 @@ class StaggeredRingGraph(RingGraph):
             self.plot_positions[asys] = (x,y)
             angle += angle_delta
         
-        self.__draw_lines()
+        draw_lines(self.image, self.links, self.plot_positions)
         self.image.save(self.filename, "PNG")
         
-    def __draw_lines(self):
-        draw = ImageDraw.Draw(self.image)
+def draw_lines(image, auto_systems, plot_positions):
+    draw = Draw(image)
+    
+    for auto_sys in auto_systems:
+        start_xy    = plot_positions[auto_sys]
+        connections = auto_systems[auto_sys]
         
-        for asys in self.links:
-            for cxns in self.links[asys]:
-                start = self.plot_positions[asys]
-                end   = self.plot_positions[cxns]
-                draw.line((start[0], start[1], end[0], end[1]), fill=128, width=1)
+        for connection in connections:
+            end_xy = self.plot_positions[connection]
+            draw.line([start_xy, end_xy], fill=128, width=1)
