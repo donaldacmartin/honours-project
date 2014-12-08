@@ -1,6 +1,4 @@
 #!/usr/bin/env python
-#C:\Python27\ArcGIS10.1\python.exe
-
 # Level 4 Project
 # Map of the Internet
 # Donald Martin (1101795)
@@ -11,31 +9,45 @@ http://dev.maxmind.com/geoip/legacy/geolite/
 """
 class GeoIPLookup(object):
     def __init__(self, loc_file, block_file):
-        self.locations = read_file_into_database(loc_file, location_parser)
-        self.blocks    = read_file_into_database(block_file, block_parser)
-        self.start_ip  = sorted(self.blocks.keys())
+        loc_file   = "data/locations.csv"
+        block_file = "data/blocks.csv"
         
-    def get_latlon_for_ip(self, ip_address):
-        ip_int = ip_to_int(ip_address)
+        self.location_data  = read_into_table(loc_file, location_parser)
+        self.ip_blocks      = read_into_table(block_file, block_parser)
+        self.block_start_ip = sorted(self.blocks.keys())
         
-        index = next(n[0] for n in enumerate(self.start_ip) if n[1] > ip_int) - 1
-        block_entry = self.start_ip[index]
-        
-        location = self.blocks[block_entry]["location"]
-        
+    def get_latlon_for_ip(self, ip_addr):
         try:
-            lat = self.locations[location]["latitude"]
-            lon = self.locations[location]["longitude"]
-        except:
-            lat = 0
-            lon = 0
-            
-        return lat,lon
+            data = get_ip_data(ip_addr, self.block_start_ip self.ip_blocks, self.location_data)
+            return data["latitude"], data["longitude"]
+        except NameError:
+            raise
+
+    def get_country_for_ip(self, ip_addr):
+        try:
+            data = get_ip_data(ip_addr, self.block_start_ip self.ip_blocks, self.location_data) 
+            return data["country"]
+        except NameError:
+            raise
+
+# ------------------------------------------------------------------------------
+# Getting IP address data from database
+# ------------------------------------------------------------------------------
+def get_ip_data(ip_address, start_ips, blocks, locations):
+    try:
+        ip_int = ip_to_int(ip_address)
+        index  = next(n[0] for n in enumerate(start_ips) if n[1] > ip_int) - 1
+        block  = starting_ips[index]
+        
+        location = blocks[block_entry]["location"]
+        return locations[location]
+    except:
+        raise NameError("Unable to locate " + ip_address + " in database")
 
 # ------------------------------------------------------------------------------
 # File Handling
 # ------------------------------------------------------------------------------
-def read_file_into_database(filename, line_parser):
+def read_into_table(filename, line_parser):
     f = open(filename, "r")
     database = {}
     line = f.readline()[:-1]
@@ -63,13 +75,6 @@ def ip_to_int(ip_address):
     o4 = int(o[3])
     
     return o1 + o2 + o3 + o4
-    
-def int_to_ip(number):
-    o1 = str(int(number / 16777216) % 256)
-    o2 = str(int(number / 65536) % 256)
-    o3 = str(int(number / 256) % 256)
-    o4 = str(int(number) % 256)
-    return ".".join([o1, o2, o3, o4])
 
 # ------------------------------------------------------------------------------
 # Parsing CSV data into dictionaries
