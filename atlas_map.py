@@ -5,7 +5,7 @@
 # University of Glasgow
 
 from geoip import GeoIPLookup
-from Image import new, save
+from Image import new
 from ImageDraw import Draw
 import logging
 
