@@ -16,7 +16,7 @@ if version_info >= (3,0):
 else:
     from StringIO import StringIO
 
-def get_BGP_files_in(dir):
+def get_bgp_files_in(dir):
     available_files = []
     walker = walk(dir)
     
