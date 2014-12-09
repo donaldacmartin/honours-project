@@ -16,7 +16,7 @@ bgp_dumps      = []
 
 for year in range(2001, 2015):
     for month in range(1, 12):
-        year_date = "rib."str(year) + str(month).zfill(2)
+        year_date = "rib." + str(year) + str(month).zfill(2)
         
         for bgp_file in bgp_files:
             if "year_date in bgp_file:
