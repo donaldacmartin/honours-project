@@ -27,6 +27,8 @@ def get_bgp_files_in(dir):
         for name in filenames:
             if is_valid_bgp_filename(name):
                 available_files.append(dir + "/" + name)
+                
+    return available_files
 
 def is_valid_bgp_filename(name):
     matcher = compile("rib.\d+.\d+.bz2")
