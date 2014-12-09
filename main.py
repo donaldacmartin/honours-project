@@ -9,14 +9,53 @@ from atlas_map import AtlasMap
 from file import *
 from chrono_atlas_map import ChronologicalAtlasMap
 
-"""
-import pickle
-pickle.dump(connections, open("sampleset", "wb"))
-connections = pickle.load(open("sampleset", "rb"))
-"""
+base_dir       = "/nas05/users/csp/routing-data/archive.routeviews.org/bgpdata/"
+bgp_files      = get_bgp_files_in(base_dir)
+files_to_parse = []
+bgp_dumps      = []
 
-dir = "/nas05/users/csp/routing-data/archive.routeviews.org/bgpdata/2001.10/RIBS/rib.20011026.1648.bz2"
+for year in range(2001, 2015):
+    for month in range(1, 12):
+        year_date = "rib."str(year) + str(month).zfill(2)
+        
+        for bgp_file in bgp_files:
+            if "year_date in bgp_file:
+                files_to_parse.append(bgp_file)
+                break
 
+for bgp_file in files_to_parse:
+    bgp_dumps.append(BGPDumpExecutor(bgp_file))
+    
+for i in range(1, len(bgp_dumps)):
+    prev_dump = bgp_dumps[i-1]
+    this_dump = bgp_dumps[i]
+    
+    ip_addresses = this_dump.get_ip_addresses()
+    
+    connections      = this_dump.get_connections()
+    prev_connections = prev_dump.get_connections()
+    
+    connections_new       = connections.difference(prev_connections)
+    connections_removed   = prev_connections.difference(connections)
+    connections_unchanged = connections.intersection(prev_connections)
+    
+    chrono_atlas = ChronologicalAtlasMap("map" + str(i) + ".png", 20000, 10000)
+    
+    for auto_sys in ip_addresses:
+        chrono_atlas.add_auto_sys_ip(auto_sys, ip_addresses[auto_sys])
+        
+    for cxn in connections_new:
+        chronoatlas.add_new_link(cxn[0], cxn[1])
+    
+    for cxn in connections_removed:
+        chronoatlas.add_removed_link(cxn[0], cxn[1])
+        
+    for cxn in connections_new:
+        chronoatlas.add_unchanged_link(cxn[0], cxn[1])
+        
+    chrono_atlas.draw_graph()
+    
+"""
 bgp_dump     = BGPDumpExecutor(dir)
 ip_addresses = bgp_dump.get_ip_addresses()
 connections  = bgp_dump.get_connections()
@@ -45,4 +84,4 @@ for cxn in connections:
 print("Drawing")
 #ring.draw_graph()
 #staggered.draw_graph()
-chronoatlas.draw_graph()
+chronoatlas.draw_graph()"""

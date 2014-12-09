@@ -16,59 +16,22 @@ if version_info >= (3,0):
 else:
     from StringIO import StringIO
 
-class FileFinder():
-    def __init__(self, root_directory):
-        self.walker = walk(root_directory)
-        self.__get_file_info()
-        
-    def __get_file_info(self):
-        self.available_files = []
-        
-        for file_data in self.walker:
-            directory = file_data[0]
-            filenames = file_data[2]
-            
-            for name in filenames:
-                bgp_file = BGPFile(name, directory)
-                
-                if bgp_file.is_valid:
-                    self.available_files.append(bgp_file)
-                
-    def get_files(self):
-        return self.available_files
-
-class BGPFile():
-    def __init__(self, name, dir):
-        self.name = name
-        self.directory = dir
-        self.is_valid = False
-        self.__parse_name()
-        
-    def __parse_name(self):
-        matcher = compile("rib.\d+.\d+.bz2")
-        
-        if matcher.match(self.name) is not None:
-            self.date = self.name.split(".")[1]
-            self.time = self.name.split(".")[2]
-            self.is_valid = True
-            
-    def get_name(self):
-        return self.name
-        
-    def get_directory(self):
-        return self.directory
+def get_BGP_files_in(dir):
+    available_files = []
+    walker = walk(dir)
     
-    def get_date(self):
-        return self.date
+    for file_data in walker:
+        directory = file_data[0]
+        filenames = file_data[2]
         
-    def get_time(self):
-        return self.time
-        
-    def get_path(self):
-        return self.directory + "/" + self.name
-        
-    def is_valid(self):
-        return self.is_valid
+        for name in filenames:
+            if is_valid_bgp_name(name):
+                available_files.append(dir + "/" + name)
+
+def is_valid_bgp_filename(name):
+    matcher = compile("rib.\d+.\d+.bz2")
+    return matcher.match(name) is not None
+
         
 class BGPDumpExecutor():
     def __init__(self, file_path):
