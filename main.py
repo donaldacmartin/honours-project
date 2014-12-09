@@ -19,7 +19,7 @@ for year in range(2001, 2015):
         year_date = "rib." + str(year) + str(month).zfill(2)
         
         for bgp_file in bgp_files:
-            if "year_date in bgp_file:
+            if year_date in bgp_file:
                 files_to_parse.append(bgp_file)
                 break
 
