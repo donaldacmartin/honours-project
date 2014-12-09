@@ -25,7 +25,7 @@ def get_bgp_files_in(dir):
         filenames = file_data[2]
         
         for name in filenames:
-            if is_valid_bgp_name(name):
+            if is_valid_bgp_filename(name):
                 available_files.append(dir + "/" + name)
 
 def is_valid_bgp_filename(name):
