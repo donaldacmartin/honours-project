@@ -7,6 +7,7 @@
 from graphs import RingGraph, StaggeredRingGraph
 from atlas_map import AtlasMap
 from file import *
+from chrono_atlas_map import ChronologicalAtlasMap
 
 """
 import pickle
@@ -22,19 +23,26 @@ connections  = bgp_dump.get_connections()
 
 #ring        = RingGraph("ring-graph.png", 20000, 20000)
 #staggered   = StaggeredRingGraph("staggered-graph.png", 20000, 20000)
-atlas       = AtlasMap("atlas-map.png", 20000, 10000)
+#atlas       = AtlasMap("atlas-map.png", 20000, 10000)
+chronoatlas = ChronologicalAtlasMap("chrono-atlas.png", 20000, 10000)
 
-print("Adding IPs to Atlas Map")
 for auto_sys in ip_addresses:
-    atlas.add_auto_sys_ip(auto_sys, ip_addresses[auto_sys])
+    chronoatlas.add_auto_sys_ip(auto_sys, ip_addresses[auto_sys])
 
-print("Adding Connections")
+switch = 0
+    
 for cxn in connections:
-    #ring.add_link(cxn[0], cxn[1])
-    #staggered.add_link(cxn[0], cxn[1])
-    atlas.add_link(cxn[0], cxn[1])
+    if switch == 0:
+        switch = 1
+        chronoatlas.add_new_link(cxn[0], cxn[1])
+    elif switch == 1:
+        switch = 2
+        chronoatlas.add_removed_link(cxn[0], cxn[1])
+    else:
+        switch = 0
+        chronoatlas.add_unchanged_link(cxn[0], cxn[1])
 
 print("Drawing")
 #ring.draw_graph()
 #staggered.draw_graph()
-atlas.draw_graph()
+chronoatlas.draw_graph()

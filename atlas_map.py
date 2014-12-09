@@ -51,7 +51,7 @@ class AtlasMap(object):
     def draw_graph(self):
         draw_cursor = Draw(self.image)
         
-        for (start, end) in self.links:
+        for (start, end) in self.asys_connections:
             self.__draw_link(start, end, draw_cursor)
                 
         self.image.save(self.filename, "PNG")
