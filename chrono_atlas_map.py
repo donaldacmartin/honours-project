@@ -31,7 +31,7 @@ class ChronologicalAtlasMap(object):
             x = map_lon_to_x_coord(lon, width)
             y = map_lat_to_y_coord(lat, height)
             
-            self.coords_for_asys[as_num] = (x,y)
+            self.asys_coordinates[as_num] = (x,y)
         except:
             logging.warning("AtlasMap: unable to add " + str(as_num))
             
@@ -65,8 +65,8 @@ class ChronologicalAtlasMap(object):
     
     def __draw_link(self, start, end, draw, colour_value):
         try:
-            start_xy = self.coords_for_asys[start]
-            end_xy   = self.coords_for_asys[end]
+            start_xy = self.asys_coordinates[start]
+            end_xy   = self.asys_coordinates[end]
             draw.line([start_xy, end_xy], fill=colour_value, width=1)
         except KeyError as e:
             logging.warning("AtlasMap: AS" + str(e) + " not in list of coords")
