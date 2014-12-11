@@ -64,7 +64,7 @@ class BGPDumpExecutor():
         as_path  = [int(AS) for AS in bgp_hops if not "{" in AS]
         
         self.__add_to_links(as_path)
-        self.ip_addrs[as_path[-1]] = ip
+        self.ip_addrs[as_path[-1]] = ip_address
         
     def __add_to_links(self, as_path):
         for i in range(1, len(as_path)):

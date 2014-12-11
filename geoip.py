@@ -23,12 +23,12 @@ class GeoIPLookup(object):
         self.block_start_ip = sorted(self.ip_blocks.keys())
         
     def get_latlon_for_ip(self, ip):
-        try:
+        #try:
             data = get_ip_data(ip, self.block_start_ip, self.ip_blocks, self.geo_data)
             return data["latitude"], data["longitude"]
-        except NameError:
-            logging.error("GeoIP: no latlon coordinates for " + ip)
-            raise
+        #except NameError:
+            #logging.error("GeoIP: no latlon coordinates for " + ip)
+            #raise
 
     def get_country_for_ip(self, ip):
         try:
