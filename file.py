@@ -49,7 +49,9 @@ class BGPDumpExecutor():
             proc = Popen(self.args, stdout=PIPE)
             stdout, stderr = proc.communicate()
             
-            for line in stdout:
+            lines = stdout.split("\n")
+            
+            for line in lines:
                 if line != "":
                     self.__parse_line(line)
     
