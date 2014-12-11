@@ -14,8 +14,8 @@ bgp_files      = get_bgp_files_in(base_dir)
 files_to_parse = []
 bgp_dumps      = []
 
-for year in range(2001, 2015):
-    for month in range(1, 12):
+for year in range(2001, 2002):
+    for month in range(10, 12):
         year_date = "rib." + str(year) + str(month).zfill(2)
         
         for bgp_file in bgp_files:
