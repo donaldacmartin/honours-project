@@ -71,6 +71,7 @@ total   = str(len(ip_addresses))
 counter = 0
 
 for auto_sys in ip_addresses:
+    counter += 1
     print("AS: " + str(counter) + " of " + total)
     atlas.add_auto_sys_ip(auto_sys, ip_addresses[auto_sys])
 
@@ -78,6 +79,7 @@ total   = str(len(connections))
 counter = 0
 
 for cxn in connections:
+    counter += 1
     print("CN: " + str(counter) + " of " + total)
     atlas.add_link(cxn[0], cxn[1])
 
