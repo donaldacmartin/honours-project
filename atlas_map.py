@@ -30,7 +30,7 @@ class AtlasMap(object):
         self.image    = new("RGB", (width, height), "white")
         
     def add_auto_sys_ip(self, as_num, ip_address):
-        try:
+        #try:
             lat,lon       = self.geoip.get_latlon_for_ip(ip_address)
             width, height = self.image.size
             
@@ -38,8 +38,8 @@ class AtlasMap(object):
             y = map_lat_to_y_coord(lat, height)
             
             self.coords_for_asys[as_num] = (x,y)
-        except:
-            logging.warning("AtlasMap: unable to add " + str(as_num))
+        #except:
+            #logging.warning("AtlasMap: unable to add " + str(as_num))
         
     def add_link(self, start, end):
         start = int(start)

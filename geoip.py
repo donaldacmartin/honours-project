@@ -42,15 +42,15 @@ class GeoIPLookup(object):
 # Getting IP address data from database
 # ------------------------------------------------------------------------------
 def get_ip_data(ip_address, start_ips, blocks, locations):
-    try:
+    #try:
         ip_int = ip_to_int(ip_address)
         index  = next(n[0] for n in enumerate(start_ips) if n[1] > ip_int) - 1
         block  = start_ips[index]
         
         location = blocks[block]["location"]
         return locations[location]
-    except:
-        raise NameError("Unable to locate " + ip_address + " in database")
+    #except:
+        #raise NameError("Unable to locate " + ip_address + " in database")
 
 # ------------------------------------------------------------------------------
 # File Handling
