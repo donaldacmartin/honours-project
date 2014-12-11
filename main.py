@@ -71,7 +71,7 @@ for auto_sys in ip_addresses:
     atlas.add_auto_sys_ip(auto_sys, ip_addresses[auto_sys])
 
 for cxn in connections:
-    chronoatlas.add_link(cxn[0], cxn[1])
+    atlas.add_link(cxn[0], cxn[1])
 
 print("Drawing")
 #ring.draw_graph()
