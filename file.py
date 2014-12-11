@@ -50,7 +50,8 @@ class BGPDumpExecutor():
             stdout, stderr = proc.communicate()
             
             for line in stdout:
-                self.__parse_line(line)
+                if line != "":
+                    self.__parse_line(line)
     
     def __parse_line(self, line):
         try:
