@@ -33,7 +33,6 @@ def get_bgp_files_in(dir):
 def is_valid_bgp_filename(name):
     matcher = compile("rib.\d+.\d+.bz2")
     return matcher.match(name) is not None
-
         
 class BGPDumpExecutor():
     def __init__(self, file_path):
@@ -56,27 +55,22 @@ class BGPDumpExecutor():
                     self.__parse_line(line)
     
     def __parse_line(self, line):
-        try:
-            ip = line.split("|")[5].split("/")[0]
-        except:
-            ip = line.split("|")[5]
+        ip_address = line.split("|")[5]
+        
+        if "/" in ip_address:
+            ip_address = ip_address.split("/")[0]
             
-        hops = line.split("|")[6].split(" ")
-        last_asys = self.__add_to_links([AS for AS in hops if not "{" in AS])
-        self.ip_addrs[last_asys] = ip
+        bgp_hops = line.split("|")[6].split(" ")
+        as_path  = [int(AS) for AS in bgp_hops if not "{" in AS]
+        
+        self.__add_to_links(as_path)
+        self.ip_addrs[as_path[-1]] = ip
         
     def __add_to_links(self, as_path):
-        counter = 1
-        
-        while counter < len(as_path):
-            if int(as_path[counter-1]) > int(as_path[counter]):
-                self.links.add((as_path[counter], as_path[counter-1]))
-            else:
-                self.links.add((as_path[counter-1], as_path[counter]))
-                
-            counter += 1
-            
-        return int(as_path[-1])
+        for i in range(1, len(as_path)):
+            prev_asys = as_path[i-1]
+            this_asys = as_path[i]
+            self.links.add(min(prev_asys, this_asys), max(prev_asys, this_asys))
     
     def get_ip_addresses(self):
         with self.lock:
