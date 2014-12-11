@@ -67,10 +67,18 @@ connections  = bgp_dump.get_connections()
 atlas       = AtlasMap("atlas-map.png", 20000, 10000)
 #chronoatlas = ChronologicalAtlasMap("chrono-atlas.png", 20000, 10000)
 
+total   = str(len(ip_addresses))
+counter = 0
+
 for auto_sys in ip_addresses:
+    print("AS: " + str(counter) + " of " + total)
     atlas.add_auto_sys_ip(auto_sys, ip_addresses[auto_sys])
 
+total   = str(len(connections))
+counter = 0
+
 for cxn in connections:
+    print("CN: " + str(counter) + " of " + total)
     atlas.add_link(cxn[0], cxn[1])
 
 print("Drawing")
