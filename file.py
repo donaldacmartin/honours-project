@@ -70,7 +70,9 @@ class BGPDumpExecutor():
         for i in range(1, len(as_path)):
             prev_asys = as_path[i-1]
             this_asys = as_path[i]
-            self.links.add(min(prev_asys, this_asys), max(prev_asys, this_asys))
+            
+            link = (min(prev_asys, this_asys), max(prev_asys, this_asys))
+            self.links.add(link)
     
     def get_ip_addresses(self):
         with self.lock:

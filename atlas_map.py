@@ -32,7 +32,6 @@ class AtlasMap(object):
     def add_auto_sys_ip(self, as_num, ip_address):
         try:
             lat,lon       = self.geoip.get_latlon_for_ip(ip_address)
-            as_num        = int(as_num)
             width, height = self.image.size
             
             x = map_lon_to_x_coord(lon, width)
