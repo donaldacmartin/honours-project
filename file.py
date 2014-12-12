@@ -40,9 +40,9 @@ class BGPDumpExecutor():
         self.__run_executer()
         
     def __run_executer(self):
-        proc           = Popen(self.args, stdout=PIPE)
-        stdout, stderr = proc.communicate()
-        lines          = [line for line in stdout.split("\n") if line != " "]
+        proc   = Popen(self.args, stdout=PIPE)
+        stdout = proc.communicate()[0]
+        lines  = [line for line in stdout.split("\n") if line != " "]
         
         for line in lines:
             self.__parse_line(line)
@@ -57,6 +57,7 @@ class BGPDumpExecutor():
         self.ip_addresses[as_path[-1]] = ip_address
         
     def __get_ip_address_from_line(self, line):
+        print(line)
         ip_address = line.split("|")[5]
         
         if "/" in ip_address:
