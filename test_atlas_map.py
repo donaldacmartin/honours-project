@@ -31,7 +31,7 @@ class AtlasMapTest(unittest.TestCase):
         try:
             remove(filename) if path.exists(filename) else None
             
-            if len(bgp_dump.ip_addresses) < 20:
+            if len(self.bgp_dump.ip_addresses) < 20:
                 self.fail("ju")
             
             atlas_map = setup_atlas_map(self.bgp_dump)
