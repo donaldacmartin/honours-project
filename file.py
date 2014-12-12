@@ -27,7 +27,7 @@ class BGPDumpExecutor():
     def __run_executer(self):
         proc   = Popen(self.args, stdout=PIPE)
         stdout = proc.communicate()[0]
-        lines  = [line for line in stdout.split("\n") if line != " "]
+        lines  = [line for line in stdout.split("\n") if line != " " and line != ""]
         
         for line in lines:
             self.__parse_line(line)
