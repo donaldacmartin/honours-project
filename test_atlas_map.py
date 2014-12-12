@@ -11,6 +11,8 @@ from file import BGPDumpExecutor
 from PIL import Image
 from os import remove, path
 
+import logging
+
 class AtlasMapTest(unittest.TestCase):
     def setUp(self):
         self.expected_image = Image.open("test_cases/simple_atlas_map.png")
@@ -61,4 +63,5 @@ def setup_atlas_map(atlas_map, bgp_dump):
     return atlas_map
   
 if __name__ == "__main__":
+    logging.basicConfig(format="%(asctime)s %(message)s", filename="log.out")
     unittest.main()
