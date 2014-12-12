@@ -16,25 +16,23 @@ import logging
 class AtlasMapTest(unittest.TestCase):
     def setUp(self):
         self.expected_image  = Image.open("test_cases/simple_atlas_map.png")
-        self.simple_bgp_file = """/nas05/users/csp/routing-data/
-                               archive.routeviews.org/bgpdata/2001.10/RIBS/
-                               rib.20011027.0849.bz2"""
-                               
-        self.bgp_dump = BGPDumpExecutor(self.simple_bgp_file)
     
     # --------------------------------------------------------------------------
     # Test that an actual image is generated. 
     # --------------------------------------------------------------------------
     def test_image_is_generated(self):
+        bgp_dump = BGPDumpExecutor("""/nas05/users/csp/routing-data/
+                                   archive.routeviews.org/bgpdata/2001.10/RIBS/
+                                   rib.20011027.0849.bz2""")
         filename = "test-atlas-map.png"
         
         try:
             remove(filename) if path.exists(filename) else None
             
-            if len(self.bgp_dump.ip_addresses) < 20:
+            if len(bgp_dump.ip_addresses) < 20:
                 self.fail("ju")
             
-            atlas_map = setup_atlas_map(self.bgp_dump)
+            atlas_map = setup_atlas_map(bgp_dump)
             atlas_map.draw_graph()
             atlas_map.save_graph(filename)
         except Exception as e:
