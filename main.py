@@ -62,7 +62,7 @@ bgp_dump = BGPDumpExecutor(dir)
 
 #ring        = RingGraph("ring-graph.png", 20000, 20000)
 #staggered   = StaggeredRingGraph("staggered-graph.png", 20000, 20000)
-atlas       = AtlasMap("atlas-map.png", 20000, 10000)
+atlas       = AtlasMap(20000, 10000)
 #chronoatlas = ChronologicalAtlasMap("chrono-atlas.png", 20000, 10000)
 
 total   = str(len(ip_addresses))
@@ -85,3 +85,4 @@ print("Drawing")
 #ring.draw_graph()
 #staggered.draw_graph()
 atlas.draw_graph()
+atlas.save_graph("new-atlas-map.png")

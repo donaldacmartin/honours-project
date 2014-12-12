@@ -6,7 +6,6 @@
 
 from subprocess import Popen, PIPE
 from shlex import split
-from threading import Lock
 from sys import version_info
 from os import walk
 from re import compile
@@ -17,7 +16,8 @@ else:
     from StringIO import StringIO
 
 def get_bgp_files_in(dir):
-    available_files = []
+    bgp_regex_matcher = compile("rib.\d+.\d+.bz2")
+    available_files   = []
     walker = walk(dir)
     
     for file_data in walker:
@@ -25,14 +25,10 @@ def get_bgp_files_in(dir):
         filenames = file_data[2]
         
         for name in filenames:
-            if is_valid_bgp_filename(name):
+            if bgp_regex_matcher.match(name) is not None:
                 available_files.append(dir + "/" + name)
                 
     return available_files
-
-def is_valid_bgp_filename(name):
-    matcher = compile("rib.\d+.\d+.bz2")
-    return matcher.match(name) is not None
         
 class BGPDumpExecutor():
     def __init__(self, file_path):
@@ -44,14 +40,12 @@ class BGPDumpExecutor():
         self.__run_executer()
         
     def __run_executer(self):
-        proc = Popen(self.args, stdout=PIPE)
+        proc           = Popen(self.args, stdout=PIPE)
         stdout, stderr = proc.communicate()
-        
-        lines = stdout.split("\n")
+        lines          = [line for line in stdout.split("\n") if line != ""]
         
         for line in lines:
-            if line != "":
-                self.__parse_line(line)
+            self.__parse_line(line)
     
     def __parse_line(self, line):
         ip_address = self.__get_ip_address_from_line(line)
