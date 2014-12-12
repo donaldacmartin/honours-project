@@ -20,17 +20,15 @@ map to valid coordinates, the link is discarded and a warning message logged.
 """
 
 class AtlasMap(object):
-    def __init__(self, filename, width, height):
+    def __init__(self, width, height):
         self.asys_connections = set()
         self.coords_for_asys  = {}
         
-        self.geoip    = GeoIPLookup()
-        
-        self.filename = filename
-        self.image    = new("RGB", (width, height), "white")
+        self.geoip = GeoIPLookup()
+        self.image = new("RGB", (width, height), "white")
         
     def add_auto_sys_ip(self, as_num, ip_address):
-        #try:
+        try:
             lat,lon       = self.geoip.get_latlon_for_ip(ip_address)
             width, height = self.image.size
             
@@ -38,8 +36,8 @@ class AtlasMap(object):
             y = map_lat_to_y_coord(lat, height)
             
             self.coords_for_asys[as_num] = (x,y)
-        #except:
-            #logging.warning("AtlasMap: unable to add " + str(as_num))
+        except:
+            logging.warning("AtlasMap: unable to add " + str(as_num))
         
     def add_link(self, start, end):
         start = int(start)
@@ -53,7 +51,7 @@ class AtlasMap(object):
         for (start, end) in self.asys_connections:
             self.__draw_link(start, end, draw_cursor)
                 
-        self.image.save(self.filename, "PNG")
+        return self.image
     
     def __draw_link(self, start, end, draw):
         try:
@@ -62,6 +60,9 @@ class AtlasMap(object):
             draw.line([start_xy, end_xy], fill=128, width=1)
         except KeyError as e:
             logging.warning("AtlasMap: AS" + str(e) + " not in list of coords")
+            
+    def save_graph(self, filename, filetype="PNG"):
+        self.image.save(filename, filetype)
             
 def map_lat_to_y_coord(lat_coord, img_height):
     centre = (img_height - 10) / 2.0
