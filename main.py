@@ -65,24 +65,20 @@ bgp_dump = BGPDumpExecutor(dir)
 atlas       = AtlasMap(20000, 10000)
 #chronoatlas = ChronologicalAtlasMap("chrono-atlas.png", 20000, 10000)
 
-total   = str(len(ip_addresses))
 counter = 0
 
 for auto_sys in bgp_dump.ip_addresses:
     counter += 1
-    print("AS: " + str(counter) + " of " + total)
+    print("AS: " + str(counter))
     atlas.add_auto_sys_ip(auto_sys, ip_addresses[auto_sys])
-
-total   = str(len(connections))
+    
 counter = 0
 
 for cxn in bgp_dump.connections:
     counter += 1
-    print("CN: " + str(counter) + " of " + total)
+    print("CN: " + str(counter))
     atlas.add_link(cxn[0], cxn[1])
 
 print("Drawing")
-#ring.draw_graph()
-#staggered.draw_graph()
 atlas.draw_graph()
 atlas.save_graph("new-atlas-map.png")

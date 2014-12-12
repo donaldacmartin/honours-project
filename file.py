@@ -50,8 +50,8 @@ class BGPDumpExecutor():
     def __parse_line(self, line):
         ip_address = self.__get_ip_address_from_line(line)
         
-        bgp_hops  = line.split("|")[6].split(" ")
-        as_path   = [int(AS) for AS in bgp_hops if not "{" in AS]
+        bgp_hops = line.split("|")[6].split(" ")
+        as_path  = [int(AS) for AS in bgp_hops if not "{" in AS]
         
         self.__add_as_path_to_connections(as_path)
         self.ip_addresses[as_path[-1]] = ip_address
