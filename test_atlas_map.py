@@ -23,7 +23,10 @@ class AtlasMapTest(unittest.TestCase):
                                rib.20011027.0849.bz2"""
                                
         self.bgp_dump = BGPDumpExecutor(self.simple_bgp_file)
-        
+    
+    # --------------------------------------------------------------------------
+    # Test that an actual image is generated. 
+    # --------------------------------------------------------------------------
     def test_image_is_generated(self):
         filename = "test-atlas-map.png"
         
@@ -34,13 +37,21 @@ class AtlasMapTest(unittest.TestCase):
         except Exception as e:
             self.fail("Unable to generate the image: " + str(e))
     
+    # --------------------------------------------------------------------------
+    # Test that the output produced for the smallest BGP dump file matches the
+    # expected output produced by an earlier experiment.
+    # --------------------------------------------------------------------------
     def test_image_matches(self):
         atlas_map       = setup_atlas_map(self.atlas_map, self.bgp_dump)
         generated_image = atlas_map.draw_graph()
         
         error_msg = "Generated picture did not match expected picture"
         self.assertEqual(self.expected_image, generated_image, error_msg)
-        
+    
+    # --------------------------------------------------------------------------
+    # Test that no graph should take longer than 10 minutes to generate (not
+    # including the time taken to process the BGP file using BGPDump).
+    # --------------------------------------------------------------------------
     def test_reasonable_time(self):
         start_time = time()
         
