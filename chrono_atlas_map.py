@@ -9,6 +9,7 @@ from atlas_map import map_lon_to_x_coord, map_lat_to_y_coord
 from geoip import GeoIPLookup
 from Image import new
 from ImageDraw import Draw
+from file import *
 import logging
 from threading import Thread
 
