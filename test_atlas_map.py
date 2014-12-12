@@ -16,8 +16,8 @@ import logging
 class AtlasMapTest(unittest.TestCase):
     def setUp(self):
         self.expected_image  = Image.open("test_cases/simple_atlas_map.png")
-        self.simple_bgp_file = "/nas05/users/csp/routing-data/" +
-                               "archive.routeviews.org/bgpdata/2001.10/RIBS/" +
+        self.simple_bgp_file = "/nas05/users/csp/routing-data/"
+                               "archive.routeviews.org/bgpdata/2001.10/RIBS/"
                                "rib.20011027.0849.bz2"
         
         self.bgp_dump = BGPDumpExecutor(self.simple_bgp_file)
