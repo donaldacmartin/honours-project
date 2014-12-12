@@ -23,6 +23,9 @@ class ChronologicalAtlasMap(object):
         self.image    = new("RGB", (width, height), "white")
         
     def add_auto_sys_ip(self, as_num, ip_address):
+        if int(as_num) in self.asys_coordinates:
+            return
+            
         try:
             lat,lon       = self.geoip.get_latlon_for_ip(ip_address)
             as_num        = int(as_num)

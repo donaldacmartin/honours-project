@@ -81,6 +81,6 @@ def get_bgp_files_under_directory(dir):
         
         for name in filenames:
             if bgp_regex_matcher.match(name) is not None:
-                available_files.append(dir + "/" + name)
+                available_files.append(directory + "/" + name)
                 
     return available_files
