@@ -33,7 +33,7 @@ class AtlasMapTest(unittest.TestCase):
         error_msg = "Simple graph took longer than 10 minutes to generate"
         self.assertTrue((end_time - start_time) < 600, error_msg)
         
-def setup_and_draw_atlas_map(atlas_map, bgp_dump):
+def setup_and_draw_atlas_map(bgp_dump):
     atlas_map    = AtlasMap(20000, 100000)
     ip_addresses = bgp_dump.get_ip_addresses()
     connections  = bgp_dump.get_connections()
