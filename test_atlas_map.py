@@ -31,17 +31,15 @@ class AtlasMapTest(unittest.TestCase):
         end_time   = time()
         
         error_msg = "Simple graph took longer than 10 minutes to generate"
-        self.assertTrue((end_time - start_time) < 600, error_msg)
+        self.assertTrue((end_time - start_time) <= 600, error_msg)
         
 def setup_and_draw_atlas_map(bgp_dump):
     atlas_map    = AtlasMap(20000, 100000)
-    ip_addresses = bgp_dump.get_ip_addresses()
-    connections  = bgp_dump.get_connections()
         
-    for auto_sys in ip_addresses:
+    for auto_sys in bgp_dump.ip_addresses:
         atlas_map.add_auto_sys_ip(auto_sys, ip_addresses[auto_sys])
         
-    for (start, end) in connections:
+    for (start, end) in bgp_dump.connections:
         atlas_map.add_link(start, end)
         
     return atlas_map.draw_graph()

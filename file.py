@@ -38,7 +38,7 @@ class BGPDumpExecutor():
     def __init__(self, file_path):
         self.args = split("bgpdump -m " + file_path)
         
-        self.conenctions  = set()
+        self.connections  = set()
         self.ip_addresses = {}
         
         self.__run_executer()
@@ -54,18 +54,23 @@ class BGPDumpExecutor():
                 self.__parse_line(line)
     
     def __parse_line(self, line):
+        ip_address = self.__get_ip_address_from_line(line)
+        
+        bgp_hops  = line.split("|")[6].split(" ")
+        as_path   = [int(AS) for AS in bgp_hops if not "{" in AS]
+        
+        self.__add_as_path_to_connections(as_path)
+        self.ip_addresses[as_path[-1]] = ip_address
+        
+    def __get_ip_address_from_line(self, line):
         ip_address = line.split("|")[5]
         
         if "/" in ip_address:
             ip_address = ip_address.split("/")[0]
             
-        bgp_hops = line.split("|")[6].split(" ")
-        as_path  = [int(AS) for AS in bgp_hops if not "{" in AS]
-        
-        self.__add_to_links(as_path)
-        self.ip_addresses[as_path[-1]] = ip_address
-        
-    def __add_to_links(self, as_path):
+        return ip_address
+    
+    def __add_as_path_to_connections(self, as_path):
         for i in range(1, len(as_path)):
             prev_asys = as_path[i-1]
             this_asys = as_path[i]

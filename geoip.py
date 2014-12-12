@@ -23,12 +23,12 @@ class GeoIPLookup(object):
         self.block_start_ip = sorted(self.ip_blocks.keys())
         
     def get_latlon_for_ip(self, ip):
-        #try:
+        try:
             data = get_ip_data(ip, self.block_start_ip, self.ip_blocks, self.geo_data)
             return data["latitude"], data["longitude"]
-        #except NameError:
-            #logging.error("GeoIP: no latlon coordinates for " + ip)
-            #raise
+        except NameError:
+            logging.error("GeoIP: no latlon coordinates for " + ip)
+            raise
 
     def get_country_for_ip(self, ip):
         try:
@@ -42,15 +42,12 @@ class GeoIPLookup(object):
 # Getting IP address data from database
 # ------------------------------------------------------------------------------
 def get_ip_data(ip_address, start_ips, blocks, locations):
-    #try:
-        ip_int = ip_to_int(ip_address)
-        index  = next(n[0] for n in enumerate(start_ips) if n[1] > ip_int) - 1
-        block  = start_ips[index]
-        
-        location = blocks[block]["location"]
-        return locations[location]
-    #except:
-        #raise NameError("Unable to locate " + ip_address + " in database")
+    ip_int = ip_to_int(ip_address)
+    index  = next(n[0] for n in enumerate(start_ips) if n[1] > ip_int) - 1
+    block  = start_ips[index]
+    
+    location = blocks[block]["location"]
+    return locations[location]
 
 # ------------------------------------------------------------------------------
 # File Handling
