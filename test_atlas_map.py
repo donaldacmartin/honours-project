@@ -32,7 +32,7 @@ class AtlasMapTest(unittest.TestCase):
             atlas_map = setup_atlas_map(bgp_dump)
             atlas_map.save_graph(filename)
         except Exception as e:
-            error_msg = "Unable to generate the image: " + e
+            error_msg = "Unable to generate the image: " + str(e)
             self.assertTrue(False, error_msg)
     
     def test_image_matches(self):
