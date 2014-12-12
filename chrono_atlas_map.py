@@ -53,13 +53,13 @@ class ChronologicalAtlasMap(object):
         draw_cursor = Draw(self.image)
         
         for (start, end) in self.connections_unchanged:
-            self.__draw_link(start, end, draw_cursor, (0,0,0))
+            self.__draw_link(start, end, draw_cursor, (212,212,212))
                 
         for (start, end) in self.connections_removed:
             self.__draw_link(start, end, draw_cursor, (128,0,0))
                 
         for (start, end) in self.connections_added:
-            self.__draw_link(start, end, draw_cursor, (0,0,128))
+            self.__draw_link(start, end, draw_cursor, (55,237,91))
             
         self.image.save(self.filename, "PNG")
     

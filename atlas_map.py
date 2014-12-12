@@ -39,7 +39,6 @@ class AtlasMap(object):
         except NameError as e:
             logging.warning("No LatLon for" + str(as_num) + e)
         
-        
     def add_link(self, start, end):
         start = int(start)
         end   = int(end)
