@@ -8,6 +8,9 @@ from graphs import RingGraph, StaggeredRingGraph
 from atlas_map import AtlasMap
 from file import *
 from chrono_atlas_map import ChronologicalAtlasMap
+import logging
+
+logging.basicConfig(format="%(asctime)s %(message)s", filename="log.out")
 
 base_dir       = "/nas05/users/csp/routing-data/archive.routeviews.org/bgpdata/"
 dir = base_dir + "2001.10/RIBS/rib.20011027.0849.bz2"
