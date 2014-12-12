@@ -62,24 +62,12 @@ for i in range(1, len(bgp_dumps)):
     
 """
 bgp_dump = BGPDumpExecutor(dir)
-
-#ring        = RingGraph("ring-graph.png", 20000, 20000)
-#staggered   = StaggeredRingGraph("staggered-graph.png", 20000, 20000)
 atlas       = AtlasMap(20000, 10000)
-#chronoatlas = ChronologicalAtlasMap("chrono-atlas.png", 20000, 10000)
-
-counter = 0
 
 for auto_sys in bgp_dump.ip_addresses:
-    counter += 1
-    print("AS: " + str(counter))
     atlas.add_auto_sys_ip(auto_sys, bgp_dump.ip_addresses[auto_sys])
-    
-counter = 0
 
 for cxn in bgp_dump.connections:
-    counter += 1
-    print("CN: " + str(counter))
     atlas.add_link(cxn[0], cxn[1])
 
 print("Drawing")
