@@ -64,7 +64,7 @@ class MonthlyTimeline(object):
         writeGif("big.gif", images, duration=0.5)
 
 def bgp_dump_thread(filepath, dump_location):
-    bgpdump = BGPDumpExecutor(file_path)
+    bgpdump = BGPDumpExecutor(filepath)
     dump_location[filepath] = bgpdump
     
 def graph_generator_thread(prev_dump, curr_dump, width, height, images, name):
