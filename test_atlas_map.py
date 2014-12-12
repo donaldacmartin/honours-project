@@ -31,8 +31,8 @@ class AtlasMapTest(unittest.TestCase):
             remove(filename) if path.exists(filename) else None
             atlas_map = setup_atlas_map(bgp_dump)
             atlas_map.save_graph(filename)
-        except:
-            error_msg = "Unable to generate the image"
+        except Exception as e:
+            error_msg = "Unable to generate the image: " + e
             self.assertTrue(False, error_msg)
     
     def test_image_matches(self):
