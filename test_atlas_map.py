@@ -15,9 +15,7 @@ import logging
 
 class AtlasMapTest(unittest.TestCase):
     def setUp(self):
-        self.expected_image = Image.open("test_cases/simple_atlas_map.png")
-        self.atlas_map      = AtlasMap(20000, 10000)
-        
+        self.expected_image  = Image.open("test_cases/simple_atlas_map.png")
         self.simple_bgp_file = """/nas05/users/csp/routing-data/
                                archive.routeviews.org/bgpdata/2001.10/RIBS/
                                rib.20011027.0849.bz2"""
@@ -32,7 +30,7 @@ class AtlasMapTest(unittest.TestCase):
         
         try:
             remove(filename) if path.exists(filename) else None
-            atlas_map = setup_atlas_map(bgp_dump)
+            atlas_map = setup_atlas_map(self.bgp_dump)
             atlas_map.save_graph(filename)
         except Exception as e:
             self.fail("Unable to generate the image: " + str(e))
@@ -42,7 +40,7 @@ class AtlasMapTest(unittest.TestCase):
     # expected output produced by an earlier experiment.
     # --------------------------------------------------------------------------
     def test_image_matches(self):
-        atlas_map       = setup_atlas_map(self.atlas_map, self.bgp_dump)
+        atlas_map       = setup_atlas_map(self.bgp_dump)
         generated_image = atlas_map.draw_graph()
         
         error_msg = "Generated picture did not match expected picture"
@@ -55,7 +53,7 @@ class AtlasMapTest(unittest.TestCase):
     def test_reasonable_time(self):
         start_time = time()
         
-        atlas_map = setup_atlas_map(self.atlas_map, self.bgp_dump)
+        atlas_map = setup_atlas_map(self.bgp_dump)
         atlas_map.draw_graph()
         
         end_time = time()
@@ -63,7 +61,9 @@ class AtlasMapTest(unittest.TestCase):
         error_msg = "Simple graph took longer than 10 minutes to generate"
         self.assertTrue((end_time - start_time) <= 600, error_msg)
         
-def setup_atlas_map(atlas_map, bgp_dump):
+def setup_atlas_map(bgp_dump):
+    atlas_map = AtlasMap(20000, 10000)
+    
     for auto_sys in bgp_dump.ip_addresses:
         atlas_map.add_auto_sys_ip(auto_sys, ip_addresses[auto_sys])
         
