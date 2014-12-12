@@ -70,7 +70,7 @@ counter = 0
 for auto_sys in bgp_dump.ip_addresses:
     counter += 1
     print("AS: " + str(counter))
-    atlas.add_auto_sys_ip(auto_sys, ip_addresses[auto_sys])
+    atlas.add_auto_sys_ip(auto_sys, bgp_dump.ip_addresses[auto_sys])
     
 counter = 0
 
