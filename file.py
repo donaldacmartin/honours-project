@@ -14,21 +14,6 @@ if version_info >= (3,0):
     from io import StringIO
 else:
     from StringIO import StringIO
-
-def get_bgp_files_in(dir):
-    bgp_regex_matcher = compile("rib.\d+.\d+.bz2")
-    available_files   = []
-    walker = walk(dir)
-    
-    for file_data in walker:
-        directory = file_data[0]
-        filenames = file_data[2]
-        
-        for name in filenames:
-            if bgp_regex_matcher.match(name) is not None:
-                available_files.append(dir + "/" + name)
-                
-    return available_files
         
 class BGPDumpExecutor():
     def __init__(self, file_path):
@@ -57,13 +42,15 @@ class BGPDumpExecutor():
         self.ip_addresses[as_path[-1]] = ip_address
         
     def __get_ip_address_from_line(self, line):
-        print(line)
-        ip_address = line.split("|")[5]
-        
-        if "/" in ip_address:
-            ip_address = ip_address.split("/")[0]
+        try:
+            ip_address = line.split("|")[5]
             
-        return ip_address
+            if "/" in ip_address:
+                ip_address = ip_address.split("/")[0]
+                
+            return ip_address
+        except:
+            print(line)
     
     def __add_as_path_to_connections(self, as_path):
         for i in range(1, len(as_path)):
@@ -72,3 +59,18 @@ class BGPDumpExecutor():
             
             link = (min(prev_asys, this_asys), max(prev_asys, this_asys))
             self.connections.add(link)
+            
+def get_bgp_files_under_directory(dir):
+    bgp_regex_matcher = compile("rib.\d+.\d+.bz2")
+    available_files   = []
+    walker = walk(dir)
+    
+    for file_data in walker:
+        directory = file_data[0]
+        filenames = file_data[2]
+        
+        for name in filenames:
+            if bgp_regex_matcher.match(name) is not None:
+                available_files.append(dir + "/" + name)
+                
+    return available_files
