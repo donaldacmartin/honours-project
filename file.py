@@ -14,7 +14,17 @@ if version_info >= (3,0):
     from io import StringIO
 else:
     from StringIO import StringIO
-        
+
+"""
+BGPDumpExecutor
+
+A class that acts as an interface to the BGPDump tool. Takes a filename and
+generates a set of connections between autonomous systems (each link is stored
+as a tuple containing the lower AS number then the larger AS number). A set is
+used in order to save memory and avoid duplication. Also generates a lookup
+table for AS numbers to IP addresses.
+"""
+    
 class BGPDumpExecutor():
     def __init__(self, file_path):
         self.args = split("bgpdump -m " + file_path)

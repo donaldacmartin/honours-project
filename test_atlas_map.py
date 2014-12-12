@@ -66,7 +66,7 @@ def setup_atlas_map(bgp_dump):
     atlas_map = AtlasMap(20000, 10000)
     
     for auto_sys in bgp_dump.ip_addresses:
-        atlas_map.add_auto_sys_ip(auto_sys, ip_addresses[auto_sys])
+        atlas_map.add_auto_sys_ip(auto_sys, bgp_dump.ip_addresses[auto_sys])
         
     for (start, end) in bgp_dump.connections:
         atlas_map.add_link(start, end)
