@@ -15,11 +15,11 @@ from threading import Thread
 class MonthlyTimeline(object):
     def __init__(self, files):
         self.files_to_parse = files
-        
-       self.bgp_dumps = {}
-       self.images    = {}
-       
-       self.__launch_bgp_threads()
+
+        self.bgp_dumps = {}
+        self.images    = {}
+
+        self.__launch_bgp_threads()
         
     def __launch_bgp_threads(self):
         bgp_threads = []
