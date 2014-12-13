@@ -6,19 +6,26 @@
 
 import logging
 
-from graphs.ring_graph import RingGraph
-from graphs.atlas_map import AtlasMap
 from graphs.chrono_atlas_map import ChronologicalAtlasMap
 from utilities.bgp import BGPDumpExecutor
+from threads.high_level import run_bgp_dump
 
-bgp1 = BGPDumpExecutor("/nas05/users/csp/routing-data/archive.routeviews.org/bgpdata/2001.10/RIBS/rib.20011027.0849.bz2")
-bgp2 = BGPDumpExecutor("/nas05/users/csp/routing-data/archive.routeviews.org/bgpdata/2003.10/RIBS/rib.20031021.1648.bz2")
-"""
-ring  = RingGraph(1920, 1080, bgp1.as_connections)
-ring.save("test-ring.png")
-"""
-atlas = AtlasMap(1920, 1080, bgp1.as_connections, bgp1.as_to_ip_address)
-atlas.save("test-atlas.png")
+base_dir = "/nas05/users/csp/routing-data/archive.routeviews.org/bgpdata/"
 
-chrono = ChronologicalAtlasMap(1920,1080, bgp1.as_connections, bgp2.as_connections, bgp1.as_to_ip_address, bgp2.as_to_ip_address)
-chrono.save("test-chrono.png")
+files = [base_dir + "2001.10/RIBS/rib.20011027.0849.bz2",
+         base_dir + "2003.10/RIBS/rib.20031021.1648.bz2"]
+
+bgp_dumps = run_bgp_dump(files)
+
+for i in range(1, len(files)):
+    prev_file = files[i-1]
+    curr_file = files[i]
+    
+    prev_cxns = bgp_dumps[prev_file].as_connections
+    curr_cxns = bgp_dumps[curr_file].as_connections
+    
+    prev_addr = bgp_dumps[prev_file].as_to_ip_address
+    curr_addr = bgp_dumps[curr_file].as_to_ip_address
+    
+    chrono = ChronologicalAtlasMap(1920,1080, prev_cxns, curr_cxns, prev_addr, curr_addr)
+    chrono.save("test-chrono" + str(i) + ".png")

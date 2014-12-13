@@ -34,7 +34,7 @@ class ChronologicalAtlasMap(object):
         self.geoip = GeoIPLookup()
         self.image = new("RGB", (width, height), "white")
         
-        for (asys, ip_address) in dict(ips1.items() + ips.items()).items():
+        for (asys, ip_address) in dict(ips1.items() + ips2.items()).items():
             self.__map_as_ip_to_coordinates(asys, ip_address)
 
         self.__draw()
