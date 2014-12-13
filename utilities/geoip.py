@@ -17,8 +17,8 @@ one of these instances for entires program, as setup is computationally intense.
 
 class GeoIPLookup(object):
     def __init__(self):
-        self.geo_data  = read_into_table("data/locations.csv", location_parser)
-        self.ip_blocks = read_into_table("data/blocks.csv", block_parser)
+        self.geo_data  = read_into_table("utilities/data/locations.csv", location_parser)
+        self.ip_blocks = read_into_table("utilities/data/blocks.csv", block_parser)
         
         self.block_start_ip = sorted(self.ip_blocks.keys())
         
