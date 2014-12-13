@@ -24,7 +24,7 @@ locations. Takes the following parameters:
 """
 
 class ChronologicalAtlasMap(object):
-    def __init__(self, width, height, cxns1, cxns2, ips1, ip2):
+    def __init__(self, width, height, cxns1, cxns2, ips1, ips2):
         self.added_cxns     = cxns2.difference(cxns1)
         self.removed_cxns   = cxns1.difference(cxns2)
         self.unchanged_cxns = cxns1.intersection(cxns2)
