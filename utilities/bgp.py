@@ -51,6 +51,9 @@ class BGPDumpExecutor():
         if "{" in asys or "}" in asys:
             return False
             
+        if asys == "" or asys == " "
+            return False
+            
         return True
         
     def __get_ip_address(self, line):
