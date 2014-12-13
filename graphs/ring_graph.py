@@ -31,7 +31,7 @@ class RingGraph(object):
             self.__add_connection(end, start)
         
         self.image = new("RGB", (width, height), "white")
-        self.__draw()
+        self.__calculate_asys_coordinates()
 
     def __add_connection(self, local_asys, foreign_asys):
         if local_asys not in self.asys_connections:
