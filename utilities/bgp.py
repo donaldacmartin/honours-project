@@ -51,7 +51,7 @@ class BGPDumpExecutor():
         if "{" in asys or "}" in asys:
             return False
             
-        if asys == "" or asys == " "
+        if asys == "" or asys == " ":
             return False
             
         return True
