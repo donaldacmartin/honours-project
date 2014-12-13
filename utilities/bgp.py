@@ -41,8 +41,8 @@ class BGPDumpExecutor():
         asys_hops  = line.split("|")[6].split(" ")
         asys_path  = [int(AS) for AS in asys_hops if self.__is_valid_asys(AS)]
         
-        self.as_to_ip_address[as_path[-1]] = ip_address
-        self.__add_as_path_to_connections(as_path)
+        self.as_to_ip_address[asys_path[-1]] = ip_address
+        self.__add_as_path_to_connections(asys_path)
         
     def __is_valid_asys(self, asys):
         if "(" in asys or ")" in asys:
