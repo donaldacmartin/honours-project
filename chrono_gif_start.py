@@ -14,12 +14,14 @@ files_to_use = []
 bgp_dumps = {}
 
 for year in range(2001, 2015):
-    for month in range(1, 13):
-        date = "rib." + str(year) + str(month).zfill(2)
-    
-        for bgp_file in all_files:
-            if date in bgp_file:
-                files_to_use.append(bgp_file)
-                break
+    date = "rib." + str(year) + "10"
+
+    for bgp_file in all_files:
+        if date in bgp_file:
+            files_to_use.append(bgp_file)
+            break
+           
+    if len(files_to_use) >= 3:
+        break
                 
 MonthlyTimeline(files_to_use)

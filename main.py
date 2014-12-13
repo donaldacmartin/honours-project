@@ -29,6 +29,8 @@ for year in range(2001, 2015):
             if date in bgp_file:
                 files_to_use.append(bgp_file)
                 break
+                
+                
 
 threads_in_use = []
 
