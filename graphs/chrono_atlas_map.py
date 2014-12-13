@@ -37,6 +37,10 @@ class ChronologicalAtlasMap(object):
         for (asys, ip_address) in dict(ips1.items() + ips2.items()).items():
             self.__map_as_ip_to_coordinates(asys, ip_address)
 
+        print("Added Connections     : " + str(len(self.added_cxns)))
+        print("Removed Connections   : " + str(len(self.removed_cxns)))
+        print("Unchanged Connections : " + str(len(self.unchanged_cxns)))
+        print("AS Coordinates        : " + str(len(self.asys_coordinates)))
         self.__draw()
         
     def __map_as_ip_to_coordinates(self, as_num, ip_address):
