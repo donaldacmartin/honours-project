@@ -29,7 +29,10 @@ def __get_list_of_files():
     
     for year in range(2001, 2015):
         for month in range(1, 13):
-            months.append(__filter_a_file(all_files, year, month))
+            filename = __filter_a_file(all_files, year, month)
+            
+            if filename is not None:
+                months.append(filename)
     
     return months
     
