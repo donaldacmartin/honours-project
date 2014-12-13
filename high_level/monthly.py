@@ -36,7 +36,7 @@ def __get_list_of_files():
 def __filter_a_file(files, month, year):
     name_key = "rib." + str(year) + str(month).zfill(2)
     
-    for bgp_file in all_files:
+    for bgp_file in files:
         if name_key in bgp_file:
             return bgp_file
             
