@@ -8,7 +8,7 @@ import logging
 
 from graphs.chrono_atlas_map import ChronologicalAtlasMap
 from utilities.bgp import BGPDumpExecutor
-from threads.high_level import run_bgp_dump
+from utilities.threads import run_bgp_dump
 
 base_dir = "/nas05/users/csp/routing-data/archive.routeviews.org/bgpdata/"
 
