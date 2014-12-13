@@ -32,7 +32,7 @@ def __filter_valid_files(path_to_dir, filenames, regex):
     matching_files = []
     
     for filename in filenames:
-        if regex.match(filename) is not None
+        if regex.match(filename) is not None:
             matching_files.append(path_to_dir + "/" + filename)
             
     return matching_files
