@@ -24,7 +24,7 @@ class GeoIPLookup(object):
         
     def get_latlon_for_ip(self, ip_address):
         try:
-            data = get_ip_data(ip_address)
+            data = self.__get_ip_data(ip_address)
             return data["latitude"], data["longitude"]
         except NameError:
             logging.error("GeoIP: no latlon coordinates for " + ip_address)
