@@ -25,7 +25,6 @@ class RingGraph(object):
     def __init__(self, width, height, asys_connections):
         self.asys_connections = {}
         self.asys_coordinates = {}
-        self.filename = filename
         
         for (start, end) in asys_connections:
             self.__add_connection(start, end)
@@ -36,9 +35,9 @@ class RingGraph(object):
 
     def __add_connection(self, local_asys, foreign_asys):
         if local_asys not in self.asys_connections:
-            self.links[local_asys] = set()
+            self.asys_connections[local_asys] = set()
             
-        self.links[local_asys].add(foreign_asys)
+        self.asys_connections[local_asys].add(foreign_asys)
         
     def __calculate_asys_coordinates(self):
         angle_delta   = 360.0 / len(self.asys_connections)

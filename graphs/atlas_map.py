@@ -53,9 +53,6 @@ class AtlasMap(object):
         
         for (start, end) in self.asys_connections:
             self.__draw_link(start, end, draw_cursor)
-                
-        self.drawn = True
-        return self.image
     
     def __draw_link(self, start, end, draw):
         try:

@@ -34,7 +34,7 @@ class ChronologicalAtlasMap(object):
         self.geoip = GeoIPLookup()
         self.image = new("RGB", (width, height), "white")
         
-        for (asys, ip_address) in asys_ip_addresses.items():
+        for (asys, ip_address) in dict(ips1.items() + ips.items()).items():
             self.__map_as_ip_to_coordinates(asys, ip_address)
 
         self.__draw()
@@ -54,17 +54,20 @@ class ChronologicalAtlasMap(object):
     def __draw(self):
         draw_cursor = Draw(self.image)
         
-        for (start, end) in self.asys_connections:
-            self.__draw_link(start, end, draw_cursor)
-                
-        self.drawn = True
-        return self.image
+        for (start, end) in self.unchanged_cxns:
+            self.__draw_link(start, end, draw_cursor, (162,162,162))
+            
+        for (start, end) in self.removed_cxns:
+            self.__draw_link(start, end, draw_cursor, (255, 59, 59))
+        
+        for (start, end) in self.added_cxns:
+            self.__draw_link(start, end, draw_cursor, (59, 255, 134))
     
-    def __draw_link(self, start, end, draw):
+    def __draw_link(self, start, end, draw, colour):
         try:
             start_xy = self.asys_coordinates[start]
             end_xy   = self.asys_coordinates[end]
-            draw.line([start_xy, end_xy], fill=128, width=1)
+            draw.line([start_xy, end_xy], fill=colour, width=1)
         except KeyError as e:
             logging.warning("AtlasMap: AS" + str(e) + " not in list of coords")
             
