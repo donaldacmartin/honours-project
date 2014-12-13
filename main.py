@@ -13,12 +13,12 @@ from utilities.bgp import BGPDumpExecutor
 
 bgp1 = BGPDumpExecutor("/nas05/users/csp/routing-data/archive.routeviews.org/bgpdata/2001.10/RIBS/rib.20011027.0849.bz2")
 bgp2 = BGPDumpExecutor("/nas05/users/csp/routing-data/archive.routeviews.org/bgpdata/2003.10/RIBS/rib.20031021.1648.bz2")
-
-ring  = RingGraph(1080, 1920, bgp1.as_connections)
+"""
+ring  = RingGraph(1920, 1080, bgp1.as_connections)
 ring.save("test-ring.png")
-
-atlas = AtlasMap(1080, 1920, bgp.as_connections, bgp1.as_to_ip_address)
+"""
+atlas = AtlasMap(1920, 1080, bgp1.as_connections, bgp1.as_to_ip_address)
 atlas.save("test-atlas.png")
 
-chrono = ChronologicalAtlasMap(1080,1920, bgp1.as_connections, bgp2.as_connections, bgp1.as_to_ip_address, bgp2.as_to_ip_address)
+chrono = ChronologicalAtlasMap(1920,1080, bgp1.as_connections, bgp2.as_connections, bgp1.as_to_ip_address, bgp2.as_to_ip_address)
 chrono.save("test-chrono.png")
