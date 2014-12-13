@@ -20,14 +20,14 @@ def run_bgp_dump(files):
     __wait(threads)
     return bgp_dumps
     
-def generate_chrono_map(filenames, bgp_dumps):
+def generate_chrono_map(filenames, bgp_dumps, image_db):
     threads = []
     
     for i in range(1, len(filenames)):
         prev_dump = bgp_dumps[filenames[i-1]]
         curr_dump = bgp_dumps[filenames[i]]
         
-        args = (prev_dump, curr_dump, str(i) + ".png",)
+        args = (prev_dump, curr_dump, i, image_db,)
         thread = Thread(target=__generate_chrono_map_thread, args=args)
         thread.start()
         threads.append(thread)
@@ -42,7 +42,7 @@ def __wait(threads):
     for thread in threads:
         thread.join()
         
-def __generate_chrono_map_thread(bgp_dump1, bgp_dump2, name):
+def __generate_chrono_map_thread(bgp_dump1, bgp_dump2, counter, image_db):
     prev_cxns = bgp_dump1.as_connections
     curr_cxns = bgp_dump2.as_connections
     
@@ -50,4 +50,5 @@ def __generate_chrono_map_thread(bgp_dump1, bgp_dump2, name):
     curr_addr = bgp_dump2.as_to_ip_address
     
     chrono = ChronologicalAtlasMap(1920,1080, prev_cxns, curr_cxns, prev_addr, curr_addr)
-    chrono.save(name)
+    chrono.save(str(counter) + ".png")
+    image_db[i] = chrono.image
