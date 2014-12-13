@@ -49,7 +49,7 @@ class ChronologicalAtlasMap(object):
             
             self.asys_coordinates[as_num] = (x,y)
         except NameError as e:
-            logging.warning("No LatLon for" + str(as_num) + e)
+            logging.warning("No LatLon for" + str(as_num))
         
     def __draw(self):
         draw_cursor = Draw(self.image)
