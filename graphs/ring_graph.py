@@ -56,7 +56,6 @@ class RingGraph(object):
             angle += angle_delta
             
         self.__draw()
-        self.image.save(self.filename, "PNG")
     
     def __draw(self):
         draw = Draw(self.image)
