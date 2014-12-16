@@ -97,8 +97,8 @@ class ChronologicalAtlasMap(object):
                 
                 draw.line([start_xy, (x1, mid_y)], fill=colour, width=1)
                 draw.line([(x2, mid_y), end_xy], fill=colour, width=1)
-                
-            draw.line([start_xy, end_xy], fill=colour, width=1)
+            else:
+                draw.line([start_xy, end_xy], fill=colour, width=1)
         except:
             self.fail_counter += 1
             
