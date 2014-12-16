@@ -29,7 +29,7 @@ def generate_monthly_diff_single_thread():
     asys_coords = {}
     output_imgs = []
     
-    for i in range(1, bgp_files):
+    for i in range(1, len(bgp_files)):
         print("Starting " + str(i) + " of " + str(len(bgp_files)))
         prev_path = bgp_files[i-1]
         curr_path = bgp_files[i]
