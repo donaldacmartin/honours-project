@@ -75,8 +75,8 @@ class ChronologicalAtlasMap(object):
             start_xy = self.__get_coords(start)
             end_xy   = self.__get_coords(end)
             draw.line([start_xy, end_xy], fill=colour, width=1)
-        except KeyError as e:
-            logging.warning("AtlasMap: AS" + str(e) + " not in list of coords")
+        except:
+            logging.warning("Unable to map connection: " + str(start) + " -> " + str(end))
             
     def save(self, filename, filetype="PNG"):
         self.image.save(filename, filetype)
