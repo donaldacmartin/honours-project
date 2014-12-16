@@ -32,6 +32,7 @@ class ChronologicalAtlasMap(object):
         self.unchanged_cxns = cxns1.intersection(cxns2)
         
         self.asys_coordinates = asys_coords
+        self.fail_counter   = 0
         
         self.geoip = GeoIPLookup()
         self.image = new("RGB", (width, height), "white")
@@ -46,6 +47,9 @@ class ChronologicalAtlasMap(object):
         
     def __map_as_ip_to_coordinates(self, as_num):
         try:
+            if asys not in self.ip_addresses:
+                raise NameError("ASYS does not map to IP address")
+                
             ip_address    = self.ip_addresses[asys]
             lat,lon       = self.geoip.get_latlon_for_ip(ip_address)
             width, height = self.image.size
@@ -56,7 +60,8 @@ class ChronologicalAtlasMap(object):
             self.asys_coordinates[as_num] = (x,y)
             return (x,y)
         except NameError as e:
-            logging.warning("No LatLon for" + str(as_num))
+            logging.warning("No LatLon for " + str(as_num))
+            raise
         
     def __draw(self):
         draw_cursor = Draw(self.image)
@@ -69,6 +74,9 @@ class ChronologicalAtlasMap(object):
         
         for (start, end) in self.added_cxns:
             self.__draw_link(start, end, draw_cursor, (59, 255, 134))
+        
+        total = str(len(self.unchanged_cxns) + len(self.removed_cxns) + len(self.added_cxns))
+        print("Unable to draw " + str(self.fail_counter) + " of " + total)
     
     def __draw_link(self, start, end, draw, colour):
         try:
@@ -76,7 +84,7 @@ class ChronologicalAtlasMap(object):
             end_xy   = self.__get_coords(end)
             draw.line([start_xy, end_xy], fill=colour, width=1)
         except:
-            logging.warning("Unable to map connection: " + str(start) + " -> " + str(end))
+            self.fail_counter += 1
             
     def save(self, filename, filetype="PNG"):
         self.image.save(filename, filetype)
