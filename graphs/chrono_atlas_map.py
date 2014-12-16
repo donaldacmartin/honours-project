@@ -84,6 +84,20 @@ class ChronologicalAtlasMap(object):
         try:
             start_xy = self.__get_coords(start)
             end_xy   = self.__get_coords(end)
+            
+            if abs(end_xy[0] - start_xy[0]) > (self.image.size[0] / 2):
+                mid_y = abs((start_xy[1] + end_xy[1]) / 2)
+                
+                if (self.image.size[0] - start[0] < start[0]):
+                    x1 = self.image.size[0]
+                else:
+                    x1 = 0
+                    
+                x2 = self.image.size[0] - x1
+                
+                draw.line([start_xy, (x1, mid_y)], fill=colour, width=1)
+                draw.line([(x2, mid_y), end_xy], fill=colour, width=1)
+                
             draw.line([start_xy, end_xy], fill=colour, width=1)
         except:
             self.fail_counter += 1
