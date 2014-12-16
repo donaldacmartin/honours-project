@@ -47,10 +47,10 @@ class ChronologicalAtlasMap(object):
         
     def __map_as_ip_to_coordinates(self, as_num):
         try:
-            if asys not in self.ip_addresses:
+            if as_num not in self.ip_addresses:
                 raise NameError("ASYS does not map to IP address")
                 
-            ip_address    = self.ip_addresses[asys]
+            ip_address    = self.ip_addresses[as_num]
             lat,lon       = self.geoip.get_latlon_for_ip(ip_address)
             width, height = self.image.size
             
