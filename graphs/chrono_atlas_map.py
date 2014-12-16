@@ -39,7 +39,7 @@ class ChronologicalAtlasMap(object):
         self.__draw()
         
     def __get_coords(self, asys):
-        if asys in self.asys_coordinates
+        if asys in self.asys_coordinates:
             return self.asys_coordinates[asys]
         
         return self.__map_as_ip_to_coordinates(asys)
