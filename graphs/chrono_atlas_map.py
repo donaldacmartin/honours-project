@@ -24,27 +24,29 @@ locations. Takes the following parameters:
 """
 
 class ChronologicalAtlasMap(object):
-    def __init__(self, width, height, cxns1, cxns2, ips1, ips2):
+    def __init__(self, width, height, cxns1, cxns2, ips1, ips2, asys_coords):
+        self.ip_addresses   = dict(ips1.items() + ips2.items())
+        
         self.added_cxns     = cxns2.difference(cxns1)
         self.removed_cxns   = cxns1.difference(cxns2)
         self.unchanged_cxns = cxns1.intersection(cxns2)
         
-        self.asys_coordinates = {}
+        self.asys_coordinates = asys_coords
         
         self.geoip = GeoIPLookup()
         self.image = new("RGB", (width, height), "white")
-        
-        for (asys, ip_address) in dict(ips1.items() + ips2.items()).items():
-            self.__map_as_ip_to_coordinates(asys, ip_address)
 
-        print("Added Connections     : " + str(len(self.added_cxns)))
-        print("Removed Connections   : " + str(len(self.removed_cxns)))
-        print("Unchanged Connections : " + str(len(self.unchanged_cxns)))
-        print("AS Coordinates        : " + str(len(self.asys_coordinates)))
         self.__draw()
         
-    def __map_as_ip_to_coordinates(self, as_num, ip_address):
+    def __get_coords(self, asys):
+        if asys in self.asys_coordinates
+            return self.asys_coordinates[asys]
+        
+        return self.__map_as_ip_to_coordinates(asys)
+        
+    def __map_as_ip_to_coordinates(self, as_num):
         try:
+            ip_address    = self.ip_addresses[asys]
             lat,lon       = self.geoip.get_latlon_for_ip(ip_address)
             width, height = self.image.size
             
@@ -52,6 +54,7 @@ class ChronologicalAtlasMap(object):
             y = map_lat_to_y_coord(lat, height)
             
             self.asys_coordinates[as_num] = (x,y)
+            return (x,y)
         except NameError as e:
             logging.warning("No LatLon for" + str(as_num))
         
@@ -69,8 +72,8 @@ class ChronologicalAtlasMap(object):
     
     def __draw_link(self, start, end, draw, colour):
         try:
-            start_xy = self.asys_coordinates[start]
-            end_xy   = self.asys_coordinates[end]
+            start_xy = self.__get_coords(start)
+            end_xy   = self.__get_coords(end)
             draw.line([start_xy, end_xy], fill=colour, width=1)
         except KeyError as e:
             logging.warning("AtlasMap: AS" + str(e) + " not in list of coords")
