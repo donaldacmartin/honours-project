@@ -75,8 +75,10 @@ class ChronologicalAtlasMap(object):
         for (start, end) in self.added_cxns:
             self.__draw_link(start, end, draw_cursor, (59, 255, 134))
         
-        total = str(len(self.unchanged_cxns) + len(self.removed_cxns) + len(self.added_cxns))
-        print("Unable to draw " + str(self.fail_counter) + " of " + total)
+        total = len(self.unchanged_cxns) + len(self.removed_cxns) + len(self.added_cxns)
+        
+        print("Unable to draw " + str(self.fail_counter) + " of " + str(total))
+        print("Failure rate: " + str((fail_counter / total) * 100) + "%")
     
     def __draw_link(self, start, end, draw, colour):
         try:
