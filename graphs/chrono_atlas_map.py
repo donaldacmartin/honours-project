@@ -107,7 +107,7 @@ class ChronologicalAtlasMap(object):
             else:
                 draw.line([start_xy, end_xy], fill=colour, width=1)
         except:
-            self.fail_counter += 1
+            pass
             
     def save(self, filename, filetype="PNG"):
         self.image.save(filename, filetype)
