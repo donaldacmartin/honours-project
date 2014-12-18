@@ -24,9 +24,9 @@ def generate_monthly_diff():
     args = []
     
     for i in range(len(files)):
-        args.append(files[i], semaphores[files[i]])
+        args.append((files[i], semaphores[files[i]]))
         
-    proc_pool   = Pool(cpu_count())
+    proc_pool   = Pool(cpu_count() / 2)
     proc_pool.map(__bgp_process, args)
     
     for i in range(1, len(files)):
@@ -39,7 +39,7 @@ def __get_list_of_files():
     all_files = get_bgp_binaries_in(base_dir)
     months    = []
     
-    for year in range(2001, 2002):
+    for year in range(2001, 2015):
         for month in range(1, 13):
             filename = __filter_a_file(all_files, month, year)
             
