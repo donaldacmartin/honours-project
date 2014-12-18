@@ -8,20 +8,27 @@ from utilities.threads import run_bgp_dump, generate_chrono_map
 from utilities.file_search import get_bgp_binaries_in
 from utilities.images2gif import writeGif
 from graphs.chrono_atlas_map import ChronologicalAtlasMap
-from multiprocessing import Process, Semaphore
+from multiprocessing import Process, Semaphore, Pool, cpu_count
 from utilities.bgp import BGPDumpExecutor
 
 def generate_monthly_diff():
     files       = __get_list_of_files()
-    semaphores  = [Semaphore(2) for _ in range(len(files))]
+    semaphores  = {}
+    
+    for bgp_file in files:
+        semaphores[bgp_file] = Semaphore(2)
+        
     bgp_dumps   = {}
     asys_coords = {}
     
+    args = []
+    
     for i in range(len(files)):
-        args = (files[i], bgp_dumps, semaphores[i], i,)
-        proc = Process(target=__bgp_process, args=args)
-        proc.start()
+        args.append(files[i], semaphores[files[i]])
         
+    proc_pool   = Pool(cpu_count())
+    proc_pool.map(__bgp_process, args)
+    
     for i in range(1, len(files)):
         args = (files[i-1], files[i], semaphores[i-1], semaphores[i], bgp_dumps, asys_coords, i,)
         proc = Process(target=__chrono_map_process, args=args)
@@ -31,7 +38,6 @@ def __get_list_of_files():
     base_dir  = "/nas05/users/csp/routing-data/archive.routeviews.org/bgpdata/"
     all_files = get_bgp_binaries_in(base_dir)
     months    = []
-    
     
     for year in range(2001, 2002):
         for month in range(1, 13):
