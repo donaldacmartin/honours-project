@@ -18,7 +18,7 @@ def generate_monthly_diff():
     asys_coords = {}
     
     for i in range(len(files)):
-        args = (files[i], bgp_dumps, semaphores[i],)
+        args = (files[i], bgp_dumps, semaphores[i], i,)
         proc = Process(target=__bgp_process, args=args)
         proc.start()
         
