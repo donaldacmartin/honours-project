@@ -30,7 +30,7 @@ class BGPDumpExecutor():
         
     def __run_executer(self):
         stdout = getoutput(self.cmd)
-        lines  = [line for line in stdout.split("\n") if __is_valid_line(line)]
+        lines  = [line for line in stdout.split("\n") if self.__is_valid_line(line)]
         
         for line in lines:
             self.__parse_line(line)
