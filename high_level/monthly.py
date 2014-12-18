@@ -8,26 +8,19 @@ from utilities.threads import run_bgp_dump, generate_chrono_map
 from utilities.file_search import get_bgp_binaries_in
 from utilities.images2gif import writeGif
 from graphs.chrono_atlas_map import ChronologicalAtlasMap
-from multiprocessing import Process, Semaphore, Pool, cpu_count
+from multiprocessing import Process, Semaphore
 from utilities.bgp import BGPDumpExecutor
 
 def generate_monthly_diff():
     files       = __get_list_of_files()
-    semaphores  = {}
-    
-    for bgp_file in files:
-        semaphores[bgp_file] = Semaphore(2)
-        
+    semaphores  = [Semaphore(2) for _ in range(len(files))]
     bgp_dumps   = {}
     asys_coords = {}
-    
-    args = []
-    
+
     for i in range(len(files)):
-        args.append((files[i], semaphores[files[i]]))
-        
-    proc_pool   = Pool(cpu_count() / 2)
-    proc_pool.map(__bgp_process, args)
+        args = (files[i], bgp_dumps, semaphores[i], i,)
+        proc = Process(target=__bgp_process, args=args)
+        proc.start()
     
     for i in range(1, len(files)):
         args = (files[i-1], files[i], semaphores[i-1], semaphores[i], bgp_dumps, asys_coords, i,)
@@ -39,7 +32,7 @@ def __get_list_of_files():
     all_files = get_bgp_binaries_in(base_dir)
     months    = []
     
-    for year in range(2001, 2015):
+    for year in range(2001, 2002):
         for month in range(1, 13):
             filename = __filter_a_file(all_files, month, year)
             
@@ -75,6 +68,7 @@ def __chrono_map_process(prev_filename, curr_filename, prev_semaphore, curr_sema
     prev_semaphore.acquire()
     curr_semaphore.acquire()
     
+    print(bgp_dumps)
     print("Starting to graph for " + str(counter))
     
     prev_cxns = bgp_dumps[prev_filename].as_connections
