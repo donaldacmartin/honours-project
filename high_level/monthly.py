@@ -20,17 +20,16 @@ def generate_monthly_diff():
     
     pool = Pool(30)
     
-    print(len(files))
     for i in range(len(files)):
         args = (files[i], bgp_dumps, semaphores[i], i,)
-        pool.apply_async(__bgp_process, args)
+        pool.apply_async(__bgp_process, args=args)
         #proc = Process(target=__bgp_process, args=args)
         #proc.start()
         #processes.append(proc)
     
     for i in range(1, len(files)):
         args = (files[i-1], files[i], semaphores[i-1], semaphores[i], bgp_dumps, asys_coords, i,)
-        pool.apply_async(__chrono_map_process, args)
+        pool.apply_async(__chrono_map_process, args=args)
         #proc = Process(target=__chrono_map_process, args=args)
         #proc.start()
         #processes.append(proc)
