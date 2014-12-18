@@ -8,14 +8,14 @@ from utilities.threads import run_bgp_dump, generate_chrono_map
 from utilities.file_search import get_bgp_binaries_in
 from utilities.images2gif import writeGif
 from graphs.chrono_atlas_map import ChronologicalAtlasMap
-from multiprocessing import Process, Semaphore
+from multiprocessing import Process, Semaphore, Manager
 from utilities.bgp import BGPDumpExecutor
 
 def generate_monthly_diff():
     files       = __get_list_of_files()
     semaphores  = [Semaphore(2) for _ in range(len(files))]
-    bgp_dumps   = {}
-    asys_coords = {}
+    bgp_dumps   = Manager.dict()
+    asys_coords = Manager.dict()
 
     for i in range(len(files)):
         args = (files[i], bgp_dumps, semaphores[i], i,)
