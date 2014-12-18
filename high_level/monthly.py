@@ -8,21 +8,33 @@ from utilities.threads import run_bgp_dump, generate_chrono_map
 from utilities.file_search import get_bgp_binaries_in
 from utilities.images2gif import writeGif
 from graphs.chrono_atlas_map import ChronologicalAtlasMap
+from multiprocessing import Process
 
 def generate_monthly_diff():
-    bgp_files   = __get_list_of_files()
-    bgp_dumps   = run_bgp_dump(bgp_files)
+    bgp_files          = __get_list_of_files()
+    threads, bgp_dumps = run_bgp_dump(bgp_files)
+    asys_coords        = {}
     
-    image_db  = {}
-    generate_chrono_map(bgp_files, bgp_dumps, image_db)
+    for i in range(1, len(threads)):
+        args = (threads[i-1], threads[i], bgp_files[i-1], bgp_files[i], bgp_dumps, asys_coords)
+        proc = Process(target=thread, args=args)
+        proc.start()
     
-    output_images = []
+def thread(process1, process2, file1, file2, bgp_dumps, asys_coords):
+    process1.join()
+    process2.join()
     
-    for i in range(len(bgp_files)):
-        output_images.append(image_db[i])
-        
-    writeGif("big.gif", output_images, duration=0.5)
-
+    print("Drawing")
+    prev_cxns = bgp_dumps[file1].as_connections
+    curr_cxns = bgp_dumps[file2].as_connections
+    
+    prev_ips  = bgp_dumps[file1].as_to_ip_address
+    curr_ips  = bgp_dumps[file2].as_to_ip_address
+    
+    chrono = ChronologicalAtlasMap(20000, 10000, prev_cxns, curr_cxns, prev_ips, curr_ips, asys_coords)
+    chrono.save(str(i) + ".png")
+    print("Finished")
+    
 def generate_monthly_diff_single_thread():
     bgp_files   = __get_list_of_files()
     bgp_dumps   = {}
