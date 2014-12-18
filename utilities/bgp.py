@@ -30,7 +30,7 @@ class BGPDumpExecutor():
         
     def __run_executer(self):
         stdout = getoutput(self.cmd)
-        lines  = [ln for ln in stdout.split("\n") if ln != "" and ln != " "]
+        lines  = [line for line in stdout.split("\n") if __is_valid_line(line)]
         
         for line in lines:
             self.__parse_line(line)
@@ -42,6 +42,15 @@ class BGPDumpExecutor():
         
         self.as_to_ip_address[asys_path[-1]] = ip_address
         self.__add_as_path_to_connections(asys_path)
+    
+    def __is_valid_line(self, line):
+        if line == "" or line == " ":
+            return False
+            
+        if "[info] logging to syslog" in line:
+            return False
+            
+        return True
         
     def __is_valid_asys(self, asys):
         if "(" in asys or ")" in asys:
