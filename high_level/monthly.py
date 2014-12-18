@@ -16,14 +16,11 @@ def generate_monthly_diff():
     asys_coords        = {}
     
     for i in range(1, len(threads)):
-        args = (threads[i-1], threads[i], bgp_files[i-1], bgp_files[i], bgp_dumps, asys_coords)
+        args = (bgp_files[i-1], bgp_files[i], bgp_dumps, asys_coords)
         proc = Process(target=thread, args=args)
         proc.start()
     
-def thread(process1, process2, file1, file2, bgp_dumps, asys_coords):
-    process1.join()
-    process2.join()
-    
+def thread(file1, file2, bgp_dumps, asys_coords):
     print("Drawing")
     prev_cxns = bgp_dumps[file1].as_connections
     curr_cxns = bgp_dumps[file2].as_connections

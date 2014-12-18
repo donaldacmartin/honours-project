@@ -4,5 +4,5 @@
 # Map of the Internet
 # Donald Martin (1101795)
 
-from high_level.monthly import generate_monthly_diff_single_thread
+from high_level.monthly import generate_monthly_diff
 generate_monthly_diff()

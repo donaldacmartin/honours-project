@@ -17,6 +17,7 @@ def run_bgp_dump(files):
         threads.append(thread)
         thread.start()
     
+    __wait(threads)
     return threads, bgp_dumps
     
 def generate_chrono_map(filenames, threads, bgp_dumps, asys_coords, image_db):
@@ -37,6 +38,7 @@ def generate_chrono_map(filenames, threads, bgp_dumps, asys_coords, image_db):
 def __bgp_dump_thread(file_path, bgp_database):
     bgp = BGPDumpExecutor(file_path)
     bgp_database[file_path] = bgp
+    print("Finished")
 
 def __wait(threads):
     for thread in threads:
