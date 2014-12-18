@@ -8,21 +8,14 @@ from utilities.threads import run_bgp_dump, generate_chrono_map
 from utilities.file_search import get_bgp_binaries_in
 from utilities.images2gif import writeGif
 from graphs.chrono_atlas_map import ChronologicalAtlasMap
-from multiprocessing import Process, Semaphore
-from multiprocessing.managers import SyncManager
-import signal
+from multiprocessing import Process, Semaphore, Manager
 from utilities.bgp import BGPDumpExecutor
-
-def mgr_init():
-    signal.signal(signal.SIGINT, signal.SIG_IGN)
 
 def generate_monthly_diff():
     files       = __get_list_of_files()
     semaphores  = [Semaphore(2) for _ in range(len(files))]
-    manager     = SyncManager()
-    
-    manager.start(mgr_init)
-    
+    processes   = []
+    manager     = Manager()
     bgp_dumps   = manager.dict()
     asys_coords = manager.dict()
 
@@ -30,11 +23,16 @@ def generate_monthly_diff():
         args = (files[i], bgp_dumps, semaphores[i], i,)
         proc = Process(target=__bgp_process, args=args)
         proc.start()
+        processes.append(proc)
     
     for i in range(1, len(files)):
         args = (files[i-1], files[i], semaphores[i-1], semaphores[i], bgp_dumps, asys_coords, i,)
         proc = Process(target=__chrono_map_process, args=args)
         proc.start()
+        processes.append(proc)
+        
+    for proc in processes:
+        proc.join()
     
 def __get_list_of_files():
     base_dir  = "/nas05/users/csp/routing-data/archive.routeviews.org/bgpdata/"
@@ -77,7 +75,6 @@ def __chrono_map_process(prev_filename, curr_filename, prev_semaphore, curr_sema
     prev_semaphore.acquire()
     curr_semaphore.acquire()
     
-    print(bgp_dumps)
     print("Starting to graph for " + str(counter))
     
     prev_cxns = bgp_dumps[prev_filename].as_connections
