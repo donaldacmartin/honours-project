@@ -33,7 +33,7 @@ def __get_list_of_files():
     months    = []
     
     
-    for year in range(2001, 2015):
+    for year in range(2001, 2002):
         for month in range(1, 13):
             filename = __filter_a_file(all_files, month, year)
             
