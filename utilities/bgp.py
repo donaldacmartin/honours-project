@@ -4,7 +4,7 @@
 # Map of the Internet
 # Donald Martin (1101795)
 
-from subprocess import Popen, PIPE
+from commands import getoutput
 from shlex import split
 from sys import version_info
 from StringIO import StringIO
@@ -21,7 +21,7 @@ table for AS numbers to IP addresses.
     
 class BGPDumpExecutor():
     def __init__(self, file_path):
-        self.args = split("bgpdump -m " + file_path)
+        self.cmd = "bgpdump -m " + file_path
         
         self.as_connections   = set()
         self.as_to_ip_address = {}
@@ -29,9 +29,8 @@ class BGPDumpExecutor():
         self.__run_executer()
         
     def __run_executer(self):
-        proc  = Popen(self.args, stdout=PIPE)
-        pipe  = proc.communicate()[0]
-        lines = [line for line in pipe.split("\n") if line != "" and line != " "]
+        stdout = getoutput(self.cmd)
+        lines  = [ln for ln in stdout.split("\n") if ln != "" and ln != " "]
         
         for line in lines:
             self.__parse_line(line)
