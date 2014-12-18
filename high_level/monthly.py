@@ -14,8 +14,9 @@ from utilities.bgp import BGPDumpExecutor
 def generate_monthly_diff():
     files       = __get_list_of_files()
     semaphores  = [Semaphore(2) for _ in range(len(files))]
-    bgp_dumps   = Manager.dict()
-    asys_coords = Manager.dict()
+    manager     = Manager()
+    bgp_dumps   = manager.dict()
+    asys_coords = manager.dict()
 
     for i in range(len(files)):
         args = (files[i], bgp_dumps, semaphores[i], i,)
