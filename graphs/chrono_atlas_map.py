@@ -32,7 +32,7 @@ class ChronologicalAtlasMap(object):
         self.unchanged_cxns = cxns1.intersection(cxns2)
         
         self.asys_coordinates = asys_coords
-        self.fail_counter   = 0
+        self.fast_reject      = set()
         
         self.geoip = GeoIPLookup()
         self.image = new("RGB", (width, height), "white")
@@ -47,7 +47,11 @@ class ChronologicalAtlasMap(object):
         
     def __map_as_ip_to_coordinates(self, as_num):
         try:
+            if as_num in self.fast_reject:
+                raise NameError("Nope")
+                
             if as_num not in self.ip_addresses:
+                self.fast_reject.add(as_num)
                 raise NameError("ASYS does not map to IP address")
                 
             ip_address    = self.ip_addresses[as_num]
@@ -60,7 +64,7 @@ class ChronologicalAtlasMap(object):
             self.asys_coordinates[as_num] = (x,y)
             return (x,y)
         except NameError as e:
-            logging.warning("No LatLon for " + str(as_num))
+            self.fast_reject.add(as_num)
             raise
         
     def __draw(self):
@@ -76,9 +80,6 @@ class ChronologicalAtlasMap(object):
             self.__draw_link(start, end, draw_cursor, (59, 255, 134))
         
         total = len(self.unchanged_cxns) + len(self.removed_cxns) + len(self.added_cxns)
-        
-        print("Unable to draw " + str(self.fail_counter) + " of " + str(total))
-        print("Failure rate: " + str((fail_counter / total) * 100) + "%")
     
     def __draw_link(self, start, end, draw, colour):
         try:
@@ -86,14 +87,20 @@ class ChronologicalAtlasMap(object):
             end_xy   = self.__get_coords(end)
             
             if abs(end_xy[0] - start_xy[0]) > (self.image.size[0] / 2):
-                mid_y = abs((start_xy[1] + end_xy[1]) / 2)
+                dy = abs(start_xy[1] - end_xy[1])
+                dx = abs(start_xy[0] - end_xy[0])
                 
-                if (self.image.size[0] - start[0] < start[0]):
+                if (self.image.size[0] - start_xy[0] < start_xy[0]):
                     x1 = self.image.size[0]
                 else:
                     x1 = 0
                     
                 x2 = self.image.size[0] - x1
+                
+                if end_xy[1] > start_xy[1]:
+                    mid_y = start_xy[1] + (abs((x1 - start_xy[0]) / dx) * dy)
+                else:
+                    mid_y = start_xy[1] - (abs((x1 - start_xy[0]) / dx) * dy)
                 
                 draw.line([start_xy, (x1, mid_y)], fill=colour, width=1)
                 draw.line([(x2, mid_y), end_xy], fill=colour, width=1)

@@ -10,8 +10,8 @@ from utilities.images2gif import writeGif
 from graphs.chrono_atlas_map import ChronologicalAtlasMap
 
 def generate_monthly_diff():
-    bgp_files = __get_list_of_files()
-    bgp_dumps = run_bgp_dump(bgp_files)
+    bgp_files   = __get_list_of_files()
+    bgp_dumps   = run_bgp_dump(bgp_files)
     
     image_db  = {}
     generate_chrono_map(bgp_files, bgp_dumps, image_db)
