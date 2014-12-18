@@ -23,7 +23,7 @@ def generate_monthly_diff():
         proc.start()
         
     for i in range(1, len(files)):
-        args = (files[i-1], files[i], semaphores[i-1], semaphores[i], asys_coords, i,)
+        args = (files[i-1], files[i], semaphores[i-1], semaphores[i], bgp_dumps, asys_coords, i,)
         proc = Process(target=__chrono_map_process, args=args)
         proc.start()
     
