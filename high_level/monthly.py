@@ -37,6 +37,9 @@ def generate_monthly_diff():
     #for proc in processes:
         #proc.join()
     
+    pool.close()
+    pool.join()
+    
 def __get_list_of_files():
     base_dir  = "/nas05/users/csp/routing-data/archive.routeviews.org/bgpdata/"
     all_files = get_bgp_binaries_in(base_dir)
