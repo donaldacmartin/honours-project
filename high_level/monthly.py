@@ -33,6 +33,7 @@ def generate_monthly_diff():
     proc_pool.join()
     
     print("Finished BGPing, now graphing")
+    print(bgp_dumps)
     
     for i in range(1, len(files)):
         prev_file = files[i-1]
