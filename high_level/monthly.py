@@ -11,24 +11,17 @@ from multiprocessing import Process, Semaphore, Manager, Pool
 from utilities.bgp import BGPDumpExecutor
 
 def generate_monthly_diff():
-    files       = __get_list_of_files()
-    semaphores  = [Semaphore(2) for _ in range(len(files))]
-    processes   = []
-    manager     = Manager()
-    bgp_dumps   = manager.dict()
-    pool        = Pool(processes=60)
-    asys_coords = manager.dict()
+    files          = __get_list_of_files()
+    processes      = []
+    manager        = Manager()
+    bgp_dumps      = manager.dict()
+    asys_coords    = manager.dict()
     
-    for i in range(len(files)):
-        args = (files[i], bgp_dumps, i,)
-        result = pool.apply_async(__bgp_process, args)
-        result.get(block=False)
-        #proc = Process(target=__bgp_process, args=args)
-        #proc.start()
-        #processes.append(proc)
+    args = (files, bgp_dumps, )
+    proc = Process(target=__sentinel, args=args)
+    proc.start()
+    proc.join()
     
-    pool.close()
-    pool.join()
     """
     for i in range(1, len(files)):
         args = (files[i-1], files[i], semaphores[i-1], semaphores[i], bgp_dumps, asys_coords, i,)
@@ -37,8 +30,7 @@ def generate_monthly_diff():
         processes.append(proc)
         
     for proc in processes:
-        proc.join()
-    """
+        proc.join()"""
     
 def __get_list_of_files():
     base_dir  = "/nas05/users/csp/routing-data/archive.routeviews.org/bgpdata/"
@@ -62,20 +54,35 @@ def __filter_a_file(files, month, year):
             return bgp_file
             
     return None
-
-def __bgp_process(filename, bgp_dumps, counter):
-    #semaphore.acquire()
-    #semaphore.acquire()
     
+def __sentinel(files, bgp_dumps):
+    locks     = [Lock() for _ in range(60)]
+    processes = []
+    
+    for i in range(len(locks)):
+        lock = locks[i]
+        
+        if lock.acquire(False):
+            processes[i].terminate()
+            lock.release()
+            
+            if len(files) > 0:
+                args = (files.pop(0), lock, 1,)
+                proc = Process(target=__bgp_process, args=args)
+                proc.start()
+                processes[i] = proc
+            else:
+                break
+
+def __bgp_process(filename, lock, counter):
+    lock.acquire()
     print("Starting to get BGP for " + str(counter))
     
     bgp = BGPDumpExecutor(filename)
     bgp_dumps[filename] = bgp
     
     print("Finished BGP for " + str(counter))
-    
-    #semaphore.release()
-    #semaphore.release()
+    lock.release()
     
 def __chrono_map_process(prev_filename, curr_filename, prev_semaphore, curr_semaphore, bgp_dumps, asys_coords, counter):
     prev_semaphore.acquire()
