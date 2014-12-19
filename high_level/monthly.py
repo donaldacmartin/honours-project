@@ -7,7 +7,7 @@
 from utilities.file_search import get_bgp_binaries_in
 from utilities.images2gif import writeGif
 from graphs.chrono_atlas_map import ChronologicalAtlasMap
-from multiprocessing import Process, Semaphore, Manager
+from multiprocessing import Process, Semaphore, Manager, Pool
 from utilities.bgp import BGPDumpExecutor
 
 def generate_monthly_diff():
@@ -16,14 +16,19 @@ def generate_monthly_diff():
     processes   = []
     manager     = Manager()
     bgp_dumps   = manager.dict()
+    pool        = Pool(processes=60)
     asys_coords = manager.dict()
     
     for i in range(len(files)):
-        args = (files[i], bgp_dumps, semaphores[i], i,)
-        proc = Process(target=__bgp_process, args=args)
-        proc.start()
-        processes.append(proc)
+        args = (files[i], bgp_dumps, semaphores[i], i)
+        pool.apply_async(__bgp_process, args)
+        #proc = Process(target=__bgp_process, args=args)
+        #proc.start()
+        #processes.append(proc)
     
+    pool.close()
+    pool.join()
+    """
     for i in range(1, len(files)):
         args = (files[i-1], files[i], semaphores[i-1], semaphores[i], bgp_dumps, asys_coords, i,)
         proc = Process(target=__chrono_map_process, args=args)
@@ -32,6 +37,7 @@ def generate_monthly_diff():
         
     for proc in processes:
         proc.join()
+    """
     
 def __get_list_of_files():
     base_dir  = "/nas05/users/csp/routing-data/archive.routeviews.org/bgpdata/"
