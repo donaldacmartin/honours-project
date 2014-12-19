@@ -63,22 +63,19 @@ def __sentinel(files, bgp_dumps):
     i = 0
     
     while running:
-        if i == len(locks):
+        if i >= len(locks):
             i = 0
         else:
             i += 1
-            
-        lock = locks[i]
-        
-        if lock.acquire(False):
+
+        if locks[i].acquire(False):
             if processes[i] is not None:
-                processes[i].terminate()
                 processes[i] = None
                 
-            lock.release()
+            locks[i]release()
             
             if len(files) > 0:
-                args = (files.pop(0), lock, bgp_dumps, i,)
+                args = (files.pop(0), locks[i], bgp_dumps, i,)
                 proc = Process(target=__bgp_process, args=args)
                 proc.start()
                 processes[i] = proc
