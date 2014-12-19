@@ -12,8 +12,6 @@ from utilities.bgp import BGPDumpExecutor
 from time import time
 
 def generate_monthly_diff():
-    global start
-    
     files          = __get_list_of_files()
     processes      = []
     manager        = Manager()
