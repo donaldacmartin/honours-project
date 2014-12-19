@@ -18,6 +18,7 @@ def generate_monthly_diff():
     manager        = Manager()
     bgp_dumps      = manager.dict()
     asys_coords    = manager.dict()
+    image_db       = manager.dict()
     
     start = time()
     
@@ -39,13 +40,21 @@ def generate_monthly_diff():
         prev_file = files[i-1]
         curr_file = files[i]
         
-        args = (prev_file, curr_file, bgp_dumps, asys_coords, i,)
+        args = (prev_file, curr_file, bgp_dumps, asys_coords, i, image_db)
         proc_pool.add_job(__chrono_map_process, args)
         
     proc_pool.run()
     proc_pool.join()
 
     end = time()
+    
+    output = []
+    
+    for i in range(1, len(files)):
+        bgp_file = files[i]
+        output.append(image_db[bgp_file])
+        
+    writeGif("lol.gif", output, duration=0.1)
     print("Completed " + str(len(files)) + " in " + str(end - start) + "s")
     
 def __get_list_of_files():
@@ -53,7 +62,7 @@ def __get_list_of_files():
     all_files = get_bgp_binaries_in(base_dir)
     months    = []
     
-    for year in range(2001, 2002):
+    for year in range(2001, 2015):
         for month in range(1, 13):
             filename = __filter_a_file(all_files, month, year)
             
@@ -75,7 +84,7 @@ def __bgp_process(filename, bgp_dumps):
     bgp = BGPDumpExecutor(filename)
     bgp_dumps[filename] = bgp
     
-def __chrono_map_process(prev_filename, curr_filename, bgp_dumps, asys_coords, counter):
+def __chrono_map_process(prev_filename, curr_filename, bgp_dumps, asys_coords, counter, image_db):
     prev_cxns = bgp_dumps[prev_filename].as_connections
     curr_cxns = bgp_dumps[curr_filename].as_connections
     
@@ -84,3 +93,4 @@ def __chrono_map_process(prev_filename, curr_filename, bgp_dumps, asys_coords, c
     
     chrono = ChronologicalAtlasMap(20000,10000, prev_cxns, curr_cxns, prev_addr, curr_addr, asys_coords)
     chrono.save(str(counter) + ".png")
+    image_db[curr_filename] = chrono.image
