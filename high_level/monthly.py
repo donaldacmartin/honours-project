@@ -12,6 +12,8 @@ from utilities.bgp import BGPDumpExecutor
 from time import time
 
 def generate_monthly_diff():
+    global start
+    
     files          = __get_list_of_files()
     processes      = []
     manager        = Manager()
@@ -97,12 +99,8 @@ def __sentinel(files, bgp_dumps):
 def __bgp_process(filename, lock, bgp_dumps, counter):
     lock.acquire()
     
-    print(str(counter) + " has started")
-
     bgp = BGPDumpExecutor(filename)
     bgp_dumps[filename] = bgp
-    
-    print(str(counter) + " has completed")
     
     lock.release()
     
