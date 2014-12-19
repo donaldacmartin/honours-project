@@ -69,10 +69,12 @@ def __sentinel(files, bgp_dumps):
             i += 1
 
         if locks[i].acquire(False):
+            print("Lock for " + str(i) + " acquired")
             if processes[i] is not None:
                 processes[i] = None
                 
-            locks[i]release()
+            locks[i].release()
+            print("Lock for " + str(i) + " released")
             
             if len(files) > 0:
                 args = (files.pop(0), locks[i], bgp_dumps, i,)
