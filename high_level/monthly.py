@@ -77,7 +77,6 @@ def __sentinel(files, bgp_dumps):
 
         if locks[i].acquire(False):
             if processes[i] is not None:
-                processes[i].terminate()
                 processes[i] = None
                 
             locks[i].release()
