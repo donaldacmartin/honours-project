@@ -70,7 +70,7 @@ def __sentinel(files, bgp_dumps):
             lock.release()
             
             if len(files) > 0:
-                args = (files.pop(0), lock, 1,)
+                args = (files.pop(0), lock, i,)
                 proc = Process(target=__bgp_process, args=args)
                 proc.start()
                 processes[i] = proc
