@@ -9,6 +9,7 @@ from utilities.images2gif import writeGif
 from graphs.chrono_atlas_map import ChronologicalAtlasMap
 from multiprocessing import Process, Semaphore, Manager, Lock
 from utilities.bgp import BGPDumpExecutor
+from time import time
 
 def generate_monthly_diff():
     files          = __get_list_of_files()
@@ -17,10 +18,16 @@ def generate_monthly_diff():
     bgp_dumps      = manager.dict()
     asys_coords    = manager.dict()
     
+    start = time()
+    
     args = (files, bgp_dumps, )
     proc = Process(target=__sentinel, args=args)
     proc.start()
     proc.join()
+    
+    end = time()
+    
+    print("Completed " + str(len(files)) + " in " str(end - start) + "s")
     
     """
     for i in range(1, len(files)):
@@ -70,6 +77,7 @@ def __sentinel(files, bgp_dumps):
 
         if locks[i].acquire(False):
             if processes[i] is not None:
+                processes[i].terminate()
                 processes[i] = None
                 
             locks[i].release()
@@ -81,15 +89,17 @@ def __sentinel(files, bgp_dumps):
                 processes[i] = proc
             else:
                 running = False
+                
+    for proc in process:
+        if proc is not None:
+            proc.join()
 
 def __bgp_process(filename, lock, bgp_dumps, counter):
     lock.acquire()
-    print("Starting to get BGP for " + str(counter))
-    
+
     bgp = BGPDumpExecutor(filename)
     bgp_dumps[filename] = bgp
     
-    print("Finished BGP for " + str(counter))
     lock.release()
     
 def __chrono_map_process(prev_filename, curr_filename, prev_semaphore, curr_semaphore, bgp_dumps, asys_coords, counter):
