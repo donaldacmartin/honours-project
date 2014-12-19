@@ -5,6 +5,7 @@
 # Donald Martin (1101795)
 
 from multiprocessing import Process, Lock
+from sys import exit
 
 class ProcessPool(object):
     def __init__(self, max_processes):
@@ -27,6 +28,7 @@ class ProcessPool(object):
         lock.acquire()
         job_func(*args)
         lock.release()
+        exit()
         
     def __start_new_process(self, proc_num):
         func, args = self.jobs.pop(0)
