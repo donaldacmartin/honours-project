@@ -70,11 +70,6 @@ def __sentinel(files, bgp_dumps):
     i = 0
     
     while running:
-        if i < len(locks) - 1:
-            i += 1
-        else:
-            i = 0
-
         if locks[i].acquire(False):
             if processes[i] is not None:
                 processes[i] = None
@@ -90,15 +85,24 @@ def __sentinel(files, bgp_dumps):
             else:
                 running = False
                 
+        if i < len(locks) - 1:
+            i += 1
+        else:
+            i = 0
+                
     for proc in process:
         if proc is not None:
             proc.join()
 
 def __bgp_process(filename, lock, bgp_dumps, counter):
     lock.acquire()
+    
+    print(str(i) + " has started")
 
     bgp = BGPDumpExecutor(filename)
     bgp_dumps[filename] = bgp
+    
+    print(str(i) + " has completed")
     
     lock.release()
     
