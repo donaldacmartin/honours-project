@@ -7,31 +7,32 @@
 from multiprocessing import Process, Lock
 
 class ProcessPool(object):
-    def __init__(self, max_threads):
-        self.finished_locks    = [Lock() for _ in range(max_threads)]
-        self.processes         = []
+    def __init__(self, max_processes):
+        self.max_processes = max_processes
+        self.control_locks = [Lock() for _ in range(max_processes)]
+        self.processes     = [None for _ in range(50)]
+        self.jobs          = []
         
-        self.backlog_functions = []
-        self.backlog_arguments = []
-
+    def add_job(self, func, args):
+        self.jobs.append((func, args))
+        
+    def __wrapper_func(self, lock, job_func, args):
+        lock.acquire()
+        job_func(args)
+        lock.release()
+        
     def __start_new_process(self, proc_num):
-        func = self.backlog_functions.pop(0)
-        args = self.backlog_arguments.pop(0)
+        func, args = self.jobs.pop(0)
+        lock       = self.control_locks[proc_num]
+        proc_args  = (lock, func, args,)
         
-        lock = self.finished_locks[proc_num]
+        proc = Process(target=__wrapper_func, args=proc_args)
+        proc.start()
+        self.processes[proc_num] = proc
         
-        self.processes[proc_num] = Process(func, args)
-        self.processes[proc_num].start()
-        
-    def __terminate_process(self, proc_num):
-        self.processes[proc_num].terminate()
-        self.processes[proc_num] = None
-
-    def __sentinel(self):
-        for i in range(len(self.finished_locks)):
-            lock = self.finished_locks[i]
-            
-            if lock.acquire(False):
-                self.__terminate_process(i)
-                lock.release()
-                self.__start_new_process()
+    def __sentinal(self):
+        while len(self.jobs) > 0:
+            for i in range(self.max_processes):
+                if locks[i].acquire(False):
+                    locks[i].release()
+                    self.__start_new_process(i)

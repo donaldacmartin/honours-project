@@ -63,8 +63,8 @@ def __filter_a_file(files, month, year):
     return None
     
 def __sentinel(files, bgp_dumps):
-    locks     = [Lock() for _ in range(50)]
-    processes = [None for _ in range(50)]
+    locks     = [Lock() for _ in range(30)]
+    processes = [None for _ in range(30)]
     
     running = True
     i = 0
