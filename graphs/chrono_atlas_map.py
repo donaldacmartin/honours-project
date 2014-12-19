@@ -62,6 +62,7 @@ class ChronologicalAtlasMap(object):
             y = map_lat_to_y_coord(lat, height)
             
             self.asys_coordinates[as_num] = (x,y)
+            print("(" + str(x) + "," + str(y) + ")")
             return (x,y)
         except NameError as e:
             print("Fast rejecting " + str(as_num))

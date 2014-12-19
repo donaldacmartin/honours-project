@@ -44,9 +44,7 @@ def generate_monthly_diff():
         
     proc_pool.run()
     proc_pool.join()
-    
-    print(asys_coords)
-    
+
     end = time()
     print("Completed " + str(len(files)) + " in " + str(end - start) + "s")
     
@@ -55,7 +53,7 @@ def __get_list_of_files():
     all_files = get_bgp_binaries_in(base_dir)
     months    = []
     
-    for year in range(2001, 2003):
+    for year in range(2001, 2002):
         for month in range(1, 13):
             filename = __filter_a_file(all_files, month, year)
             
