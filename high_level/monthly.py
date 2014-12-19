@@ -7,7 +7,7 @@
 from utilities.file_search import get_bgp_binaries_in
 from utilities.images2gif import writeGif
 from graphs.chrono_atlas_map import ChronologicalAtlasMap
-from multiprocessing import Process, Semaphore, Manager, Pool
+from multiprocessing import Process, Semaphore, Manager, Lock
 from utilities.bgp import BGPDumpExecutor
 
 def generate_monthly_diff():
