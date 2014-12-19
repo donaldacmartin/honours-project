@@ -27,7 +27,7 @@ def generate_monthly_diff():
     
     end = time()
     
-    print("Completed " + str(len(files)) + " in " str(end - start) + "s")
+    print("Completed " + str(len(files)) + " in " + str(end - start) + "s")
     
     """
     for i in range(1, len(files)):
@@ -87,6 +87,7 @@ def __sentinel(files, bgp_dumps):
                 proc = Process(target=__bgp_process, args=args)
                 proc.start()
                 processes[i] = proc
+                print(str(len(files)) + " still waiting to be served")
             else:
                 running = False
                 
