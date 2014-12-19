@@ -27,7 +27,7 @@ def generate_monthly_diff():
         args = (bgp_file, bgp_dumps)
         proc_pool.add_job(__bgp_process, args)
         
-    proc_pool.start()
+    proc_pool.run()
     proc_pool.join()
     #args = (files, bgp_dumps, )
     #proc = Process(target=__sentinel, args=args)
