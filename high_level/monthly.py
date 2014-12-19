@@ -60,6 +60,7 @@ def __sentinel(files, bgp_dumps):
     processes = [None for _ in range(30)]
     
     running = True
+    i = 0
     
     while running:
         if i == len(locks):
