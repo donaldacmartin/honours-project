@@ -45,6 +45,8 @@ def generate_monthly_diff():
     proc_pool.run()
     proc_pool.join()
     
+    print(asys_coords)
+    
     end = time()
     print("Completed " + str(len(files)) + " in " + str(end - start) + "s")
     
