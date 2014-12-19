@@ -17,7 +17,7 @@ class ProcessPool(object):
         self.jobs.append((func, args))
         
     def run(self):
-        self.proc = Process(target=__sentinal)
+        self.proc = Process(target=self.__sentinal)
         self.proc.start()
         
     def join(self):
