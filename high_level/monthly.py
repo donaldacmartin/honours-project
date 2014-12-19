@@ -97,12 +97,12 @@ def __sentinel(files, bgp_dumps):
 def __bgp_process(filename, lock, bgp_dumps, counter):
     lock.acquire()
     
-    print(str(i) + " has started")
+    print(str(counter) + " has started")
 
     bgp = BGPDumpExecutor(filename)
     bgp_dumps[filename] = bgp
     
-    print(str(i) + " has completed")
+    print(str(counter) + " has completed")
     
     lock.release()
     
