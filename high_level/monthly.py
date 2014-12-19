@@ -57,13 +57,16 @@ def __filter_a_file(files, month, year):
     
 def __sentinel(files, bgp_dumps):
     locks     = [Lock() for _ in range(60)]
-    processes = []
+    processes = [None for _ in range(60)]
     
     for i in range(len(locks)):
         lock = locks[i]
         
         if lock.acquire(False):
-            processes[i].terminate()
+            if processes[i] is not None:
+                processes[i].terminate()
+                processes[i] = None
+                
             lock.release()
             
             if len(files) > 0:
