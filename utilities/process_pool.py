@@ -25,7 +25,7 @@ class ProcessPool(object):
         
     def __wrapper_func(self, lock, job_func, args):
         lock.acquire()
-        job_func(args)
+        job_func(*args)
         lock.release()
         
     def __start_new_process(self, proc_num):
