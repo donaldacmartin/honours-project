@@ -70,14 +70,14 @@ def __sentinel(files, bgp_dumps):
             lock.release()
             
             if len(files) > 0:
-                args = (files.pop(0), lock, i,)
+                args = (files.pop(0), lock, bgp_dumps, i,)
                 proc = Process(target=__bgp_process, args=args)
                 proc.start()
                 processes[i] = proc
             else:
                 break
 
-def __bgp_process(filename, lock, counter):
+def __bgp_process(filename, lock, bgp_dumps, counter):
     lock.acquire()
     print("Starting to get BGP for " + str(counter))
     
