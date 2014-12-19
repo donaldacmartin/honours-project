@@ -33,7 +33,7 @@ class ProcessPool(object):
         lock       = self.control_locks[proc_num]
         proc_args  = (lock, func, args,)
         
-        proc = Process(target=__wrapper_func, args=proc_args)
+        proc = Process(target=self.__wrapper_func, args=proc_args)
         proc.start()
         self.processes[proc_num] = proc
         
