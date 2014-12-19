@@ -63,17 +63,14 @@ def __filter_a_file(files, month, year):
     return None
     
 def __sentinel(files, bgp_dumps):
-    locks     = [Lock() for _ in range(60)]
-    processes = [None for _ in range(60)]
+    locks     = [Lock() for _ in range(50)]
+    processes = [None for _ in range(50)]
     
     running = True
     i = 0
     
     while running:
         if locks[i].acquire(False):
-            if processes[i] is not None:
-                processes[i] = None
-                
             locks[i].release()
             
             if len(files) > 0:
@@ -102,10 +99,8 @@ def __bgp_process(filename, lock, bgp_dumps, counter):
     
     lock.release()
     
-def __chrono_map_process(prev_filename, curr_filename, prev_semaphore, curr_semaphore, bgp_dumps, asys_coords, counter):
-    prev_semaphore.acquire()
-    curr_semaphore.acquire()
-    
+def __chrono_map_process(prev_filename, curr_filename, lock, bgp_dumps, asys_coords, counter):
+    lock.acquire()
     print("Starting to graph for " + str(counter))
     
     prev_cxns = bgp_dumps[prev_filename].as_connections
@@ -118,6 +113,4 @@ def __chrono_map_process(prev_filename, curr_filename, prev_semaphore, curr_sema
     chrono.save(str(counter) + ".png")
     
     print("Finished graph for " + str(counter))
-    
-    curr_semaphore.release()
-    prev_semaphore.release()
+    lock.release()
