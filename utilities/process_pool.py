@@ -16,6 +16,13 @@ class ProcessPool(object):
     def add_job(self, func, args):
         self.jobs.append((func, args))
         
+    def run(self):
+        self.proc = Process(target=__sentinal)
+        self.proc.start()
+        
+    def join(self):
+        self.proc.join()
+        
     def __wrapper_func(self, lock, job_func, args):
         lock.acquire()
         job_func(args)
