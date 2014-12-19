@@ -43,7 +43,7 @@ class GeoIPLookup(object):
         i = bisect_left(self.block_start_ip, ip_int)
         
         if i:
-            return a[i-1]
+            return i-1
             
         raise ValueError
     
