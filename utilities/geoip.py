@@ -5,6 +5,7 @@
 # University of Glasgow
 
 import logging
+from bisect import bisect_left
 
 """
 GeoIPLookup
@@ -37,6 +38,14 @@ class GeoIPLookup(object):
         except NameError:
             logging.error("GeoIP: no country for " + ip_address)
             raise
+            
+    def __locate_block(self, ip_int):
+        i = bisect_left(self.block_start_ip, ip_int)
+        
+        if i:
+            return a[i-1]
+            
+        raise ValueError
     
     def __get_ip_data(self, ip_address):
         block    = self.__get_ip_block(ip_address)
@@ -45,8 +54,7 @@ class GeoIPLookup(object):
         
     def __get_ip_block(self, ip_address):
         ip_int = ip_to_int(ip_address)
-        index  = next(n[0] for n in enumerate(self.block_start_ip) if n[1] > ip_int)
-        block  = self.block_start_ip[index - 1]
+        block  = self.__locate_block(ip_int)
         return self.ip_blocks[block]
 
 # ------------------------------------------------------------------------------

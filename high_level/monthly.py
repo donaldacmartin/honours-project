@@ -63,10 +63,10 @@ def __sentinel(files, bgp_dumps):
     i = 0
     
     while running:
-        if i >= len(locks):
-            i = 0
-        else:
+        if i < len(locks) - 1:
             i += 1
+        else:
+            i = 0
 
         if locks[i].acquire(False):
             print("Lock for " + str(i) + " acquired")
