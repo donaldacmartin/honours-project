@@ -40,6 +40,6 @@ class ProcessPool(object):
     def __sentinal(self):
         while len(self.jobs) > 0:
             for i in range(self.max_processes):
-                if locks[i].acquire(False):
-                    locks[i].release()
+                if self.control_locks[i].acquire(False):
+                    self.control_locks[i].release()
                     self.__start_new_process(i)
