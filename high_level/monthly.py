@@ -10,6 +10,7 @@ from graphs.chrono_atlas_map import ChronologicalAtlasMap
 from multiprocessing import Process, Semaphore, Manager, Lock
 from utilities.bgp import BGPDumpExecutor
 from time import time
+from utilities.process_pool import ProcessPool
 
 def generate_monthly_diff():
     files          = __get_list_of_files()
@@ -20,10 +21,18 @@ def generate_monthly_diff():
     
     start = time()
     
-    args = (files, bgp_dumps, )
-    proc = Process(target=__sentinel, args=args)
-    proc.start()
-    proc.join()
+    proc_pool      = ProcessPool(30)
+    
+    for bgp_file in files:
+        args = (bgp_file, bgp_dumps)
+        proc_pool.add_job(__bgp_process, args)
+        
+    proc_pool.start()
+    proc_pool.join()
+    #args = (files, bgp_dumps, )
+    #proc = Process(target=__sentinel, args=args)
+    #proc.start()
+    #proc.join()
     
     end = time()
     
@@ -91,13 +100,9 @@ def __sentinel(files, bgp_dumps):
         if proc is not None:
             proc.join()
 
-def __bgp_process(filename, lock, bgp_dumps, counter):
-    lock.acquire()
-    
+def __bgp_process(filename, bgp_dumps):
     bgp = BGPDumpExecutor(filename)
     bgp_dumps[filename] = bgp
-    
-    lock.release()
     
 def __chrono_map_process(prev_filename, curr_filename, lock, bgp_dumps, asys_coords, counter):
     lock.acquire()
