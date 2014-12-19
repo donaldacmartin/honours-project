@@ -21,6 +21,8 @@ def generate_monthly_diff():
     
     start = time()
     
+    print("Starting BGPing")
+    
     proc_pool      = ProcessPool(30)
     
     for bgp_file in files:
@@ -29,6 +31,8 @@ def generate_monthly_diff():
         
     proc_pool.run()
     proc_pool.join()
+    
+    print("Finished BGPing, now graphing")
     
     for i in range(1, len(files)):
         prev_file = files[i-1]

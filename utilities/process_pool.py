@@ -24,16 +24,18 @@ class ProcessPool(object):
     def join(self):
         self.proc.join()
         
-    def __wrapper_func(self, lock, job_func, args):
+    def __wrapper_func(self, proc_num, lock, job_func, args):
+        print("Starting BGP " + str(proc_num))
         lock.acquire()
         job_func(*args)
         lock.release()
+        print("Finished BGP " + str(proc_num))
         exit()
         
     def __start_new_process(self, proc_num):
         func, args = self.jobs.pop(0)
         lock       = self.control_locks[proc_num]
-        proc_args  = (lock, func, args,)
+        proc_args  = (proc_num, lock, func, args,)
         
         proc = Process(target=self.__wrapper_func, args=proc_args)
         proc.start()
