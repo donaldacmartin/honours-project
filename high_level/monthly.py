@@ -24,7 +24,7 @@ def generate_monthly_diff():
     proc_pool      = ProcessPool(30)
     
     for bgp_file in files:
-        args = (bgp_file, bgp_dumps)
+        args = (bgp_file, bgp_dumps,)
         proc_pool.add_job(__bgp_process, args)
         
     proc_pool.run()
