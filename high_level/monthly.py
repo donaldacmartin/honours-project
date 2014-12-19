@@ -56,10 +56,17 @@ def __filter_a_file(files, month, year):
     return None
     
 def __sentinel(files, bgp_dumps):
-    locks     = [Lock() for _ in range(60)]
-    processes = [None for _ in range(60)]
+    locks     = [Lock() for _ in range(30)]
+    processes = [None for _ in range(30)]
     
-    for i in range(len(locks)):
+    running = True
+    
+    while running:
+        if i == len(locks):
+            i = 0
+        else:
+            i += 1
+            
         lock = locks[i]
         
         if lock.acquire(False):
@@ -75,7 +82,7 @@ def __sentinel(files, bgp_dumps):
                 proc.start()
                 processes[i] = proc
             else:
-                break
+                running = False
 
 def __bgp_process(filename, lock, bgp_dumps, counter):
     lock.acquire()
