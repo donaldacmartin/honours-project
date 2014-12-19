@@ -20,7 +20,7 @@ def generate_monthly_diff():
     asys_coords = manager.dict()
     
     for i in range(len(files)):
-        args = (files[i], bgp_dumps, semaphores[i], i)
+        args = (files[i], bgp_dumps, i,)
         result = pool.apply_async(__bgp_process, args)
         print(result.get())
         #proc = Process(target=__bgp_process, args=args)
@@ -63,9 +63,9 @@ def __filter_a_file(files, month, year):
             
     return None
 
-def __bgp_process(filename, bgp_dumps, semaphore, counter):
-    semaphore.acquire()
-    semaphore.acquire()
+def __bgp_process(filename, bgp_dumps, counter):
+    #semaphore.acquire()
+    #semaphore.acquire()
     
     print("Starting to get BGP for " + str(counter))
     
@@ -74,8 +74,8 @@ def __bgp_process(filename, bgp_dumps, semaphore, counter):
     
     print("Finished BGP for " + str(counter))
     
-    semaphore.release()
-    semaphore.release()
+    #semaphore.release()
+    #semaphore.release()
     
 def __chrono_map_process(prev_filename, curr_filename, prev_semaphore, curr_semaphore, bgp_dumps, asys_coords, counter):
     prev_semaphore.acquire()
