@@ -2,4 +2,4 @@
 
 | Problem | Solution |
 | ------- | -------- |
-| Global Interpreter Lock | Multiprocessing Module |
+| Global Interpreter Lock | `multiprocessing` Module |
