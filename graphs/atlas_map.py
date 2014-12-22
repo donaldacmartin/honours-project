@@ -20,7 +20,7 @@ locations. Takes the following parameters:
 
 class AtlasMap(Graph):
     def __init__(self, width, height, asys_conns, asys_ip_addrs, line_colour=128):
-        super(AtlasMap, self).__init__()
+        super(AtlasMap, self).__init__(width, height)
         
         self.geoip = GeoIPLookup()
         self.asys_coords = {}
