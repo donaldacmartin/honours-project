@@ -5,13 +5,6 @@
 # University of Glasgow
 
 from utilities.geoip import GeoIPLookup
-from utilities.atlas_math import map_lat_to_y_coord, map_lon_to_x_coord
-from utilities.atlas_math import should_wrap_over_pacific
-from utilities.atlas_math import coord_missing
-
-from utilities.atlas_imaging import draw_connection
-from utilities.atlas_imaging import draw_transpacific_connection
-
 from graph import Graph
 
 """
@@ -65,3 +58,53 @@ class AtlasMap(Graph):
             draw_transpacific_connection(start, end, self.image, colour)
         else:
             draw_connection(start, end, self.image, colour)
+            
+# ------------------------------------------------------------------------------
+# Helper Maths Functions
+# ------------------------------------------------------------------------------
+def map_lat_to_y_coord(lat_coord, img_height):
+    img_centre     = (img_height - 10) / 2.0
+    pixels_per_deg = (img_height - 10) / 180.0
+    return img_centre - (lat_coord * pixels_per_deg)
+    
+def map_lon_to_x_coord(lon_coord, img_width):
+    img_centre     = (img_width - 10) / 2.0
+    pixels_per_deg = (img_width - 10) / 360.0
+    return img_centre + (lon_coord * pixels_per_deg)
+    
+def should_wrap_over_pacific(start, end, image):
+    start_x   = start[0]
+    end_x     = end[0]
+    img_width = image.size[0]
+    
+    return abs(end_x - start_x) > (img_width / 2)
+    
+def coord_missing(start, end, coords):
+    return not all(asys in coords for asys in [start,end])
+    
+# ------------------------------------------------------------------------------
+# Drawing Functions
+# ------------------------------------------------------------------------------
+    
+def draw_connection(start, end, image, colour):
+    draw_cursor = Draw(image)
+    draw_cursor.line([start, end], fill=colour, width=1)
+    
+def draw_transpacfic_connection(start, end, image, colour):
+    start_x, start_y      = start
+    end_x, end_y          = end
+    img_width, img_height = image.size
+    draw_cursor           = Draw(image)
+    
+    dx = end_x - start_x
+    dy = end_y - start_y
+    
+    line_1_x = img_width if start_closer_to_RHS(start_x, img_width) else 0    
+    line_2_x = img_width - line_1_x
+    lines_y  = start_y - (((line_1_x - start_x) / dx) * dy)
+    
+    draw_cursor.line([start, (line_1_x, lines_y)], fill=colour, width=1)
+    draw_cursor.line([end, (line_2_x, lines_y)], fill=colour, width=1)
+        
+def start_closer_to_RHS(start_x, img_width):
+    return (img_width - start_x) < start_x
