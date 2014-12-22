@@ -5,6 +5,6 @@
 # Donald Martin (1101795)
 
 from high_level.monthly import generate_monthly_diff
-from utilities.bgp import BGPDumpExecutor()
+from utilities.bgp import BGPDumpExecutor
 
 # generate_monthly_diff()
