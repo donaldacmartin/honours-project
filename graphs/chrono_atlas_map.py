@@ -20,14 +20,15 @@ locations. Takes the following parameters:
 class ChronoAtlasMap(AtlasMap):
     def __init__(self, width, height, cxns1, cxns2, ips1, ips2):
         ip_addrs = dict(ips1.items() + ips2.items())
-        unchanged_cxns = cxns1.intersection(cxns2)
-        super(ChronoAtlasMap, self).__init__(width, height, unchanged_cxns, ip_addrs, (162,162,162))
+        conns    = cxns1.intersection(cxns2)
         
-        added_cxns   = cxns2.difference(cxns1)
-        removed_cxns = cxns1.difference(cxns2)
+        super(ChronoAtlasMap, self).__init__(width, height, conns, ip_addrs, (162,162,162))
+        
+        new_connections     = cxns2.difference(cxns1)
+        removed_connections = cxns1.difference(cxns2)
 
-        for (start, end) in removed_cxns:
+        for (start, end) in removed_connections:
             super(ChronoAtlasMap, self).__draw_line(start, end, (255, 59, 59))
             
-        for (start, end) in added_cxns:
+        for (start, end) in new_connections:
             super(ChronoAtlasMap, self).__draw_line(start, end, (59, 255, 134))
