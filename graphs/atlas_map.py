@@ -6,6 +6,11 @@
 
 from utilities.geoip import GeoIPLookup
 from utilities.atlas_math import map_lat_to_y_coord, map_lon_to_x_coord
+from utilities.atlas_math import should_wrap_over_pacific
+from utilities.atlas_math import coord_missing
+
+from utilities.atlas_imaging import draw_connection
+from utilities.atlas_imaging import draw_transpacific_connection
 
 from Image import new
 from ImageDraw import Draw
@@ -27,6 +32,7 @@ class AtlasMap(object):
     def __init__(self, width, height, asys_connections, asys_ip_addresses):
         self.asys_connections = asys_connections
         self.asys_coordinates = {}
+        self.fast_reject      = set()
         
         self.geoip = GeoIPLookup()
         self.image = new("RGB", (width, height), "white")
@@ -34,11 +40,15 @@ class AtlasMap(object):
         for (asys, ip_address) in asys_ip_addresses.items():
             self.__map_as_ip_to_coordinates(asys, ip_address)
 
-        self.__draw()
+        for (start, end) in self.asys_connections:
+            self.__draw_link(start, end)
         
     def __map_as_ip_to_coordinates(self, as_num, ip_address):
         try:
-            lat,lon       = self.geoip.get_latlon_for_ip(ip_address)
+            if as_num in self.asys_coordinates or as_num in self.fast_reject:
+                return
+                
+            lat,lon = self.geoip.get_latlon_for_ip(ip_address)
             width, height = self.image.size
             
             x = map_lon_to_x_coord(lon, width)
@@ -46,21 +56,19 @@ class AtlasMap(object):
             
             self.asys_coordinates[as_num] = (x,y)
         except NameError as e:
-            logging.warning("No LatLon for" + str(as_num))
+            self.fast_reject.add(as_num)
+            
+    def __draw_link(self, start, end):
+        if coord_missing(start, end, self.asys_coordinates):
+            return
+            
+        start = self.asys_coordinates[start]
+        end   = self.asys_coordinates[end]
         
-    def __draw(self):
-        draw_cursor = Draw(self.image)
-        
-        for (start, end) in self.asys_connections:
-            self.__draw_link(start, end, draw_cursor)
-    
-    def __draw_link(self, start, end, draw):
-        try:
-            start_xy = self.asys_coordinates[start]
-            end_xy   = self.asys_coordinates[end]
-            draw.line([start_xy, end_xy], fill=128, width=1)
-        except KeyError as e:
-            logging.warning("AtlasMap: AS" + str(e) + " not in list of coords")
+        if should_wrap_over_pacific(start, end, self.image):
+            draw_transpacific_connection(start, end, self.image, 128)
+        else:
+            draw_connection(start, end, self.image, 128)
             
     def save(self, filename, filetype="PNG"):
         self.image.save(filename, filetype)

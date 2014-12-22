@@ -5,7 +5,13 @@
 # University of Glasgow
 
 from utilities.geoip import GeoIPLookup
+
 from utilities.atlas_math import map_lat_to_y_coord, map_lon_to_x_coord
+from utilities.atlas_math import should_wrap_over_pacific
+from utilities.atlas_math import coord_missing
+
+from utilities.atlas_imaging import draw_connection
+from utilities.atlas_imaging import draw_transpacific_connection
 
 from Image import new
 from ImageDraw import Draw
@@ -83,29 +89,13 @@ class ChronologicalAtlasMap(object):
     
     def __draw_link(self, start, end, draw, colour):
         try:
-            start_xy = self.__get_coords(start)
-            end_xy   = self.__get_coords(end)
+            start = self.__get_coords(start)
+            end   = self.__get_coords(end)
             
-            if abs(end_xy[0] - start_xy[0]) > (self.image.size[0] / 2):
-                dy = abs(start_xy[1] - end_xy[1])
-                dx = abs(start_xy[0] - end_xy[0])
-                
-                if (self.image.size[0] - start_xy[0] < start_xy[0]):
-                    x1 = self.image.size[0]
-                else:
-                    x1 = 0
-                    
-                x2 = self.image.size[0] - x1
-                
-                if end_xy[1] > start_xy[1]:
-                    mid_y = start_xy[1] + (abs((x1 - start_xy[0]) / dx) * dy)
-                else:
-                    mid_y = start_xy[1] - (abs((x1 - start_xy[0]) / dx) * dy)
-                
-                draw.line([start_xy, (x1, mid_y)], fill=colour, width=1)
-                draw.line([(x2, mid_y), end_xy], fill=colour, width=1)
+            if should_wrap_over_pacific(start, end, self.image):
+                draw_transpacific_connection(start, end, self.image, colour)
             else:
-                draw.line([start_xy, end_xy], fill=colour, width=1)
+                draw_connection(start, end, self.image, colour)
         except:
             pass
             

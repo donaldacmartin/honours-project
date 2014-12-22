@@ -90,15 +90,5 @@ class LayeredRingGraph(RingGraph):
             
             self.asys_coordinates[asys] = (x,y)
             angle += angle_delta
-            
-        self.draw()
         
-    def __draw(self):
-        draw = Draw(self.image)
-        
-        for (asys, connections) in self.asys_connections.items():
-            start_xy = self.asys_coordinates[asys]
-            
-            for connected_asys in connections:
-                end_xy = self.asys_coordinates[connected_asys]
-                draw.line([start_xy, end_xy], fill=128, width=1)
+        super(LayeredRingGraph, self).draw()
