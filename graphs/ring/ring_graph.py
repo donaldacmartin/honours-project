@@ -5,8 +5,6 @@
 # University of Glasgow
 
 from math import sin, cos
-from Image import new
-from ImageDraw import Draw
 from graphs.graph import Graph
 
 """
@@ -22,55 +20,51 @@ systems in a series of rings, based on the number of connections that each AS
 has to other ASs.
 """
 
-class RingGraph(object):
-    def __init__(self, width, height, asys_connections):
-        self.asys_connections = {}
+class RingGraph(Graph):
+    def __init__(self, width, bgp_dump):
+        super(RingGraph, self).__init__(width, width)
+        self.geoip = GeoIPLookup()
+        
         self.asys_coordinates = {}
+        self.fast_reject      = set()
         
-        for (start, end) in asys_connections:
-            self.__add_connection(start, end)
-            self.__add_connection(end, start)
+        for (asys, ip_address) in bgp_dump.as_to_ip_address.items():
+            self.__map_as_ip_to_circumference_pos(asys, ip_address)
         
-        self.image = new("RGB", (width, height), "white")
-        self.__calculate_asys_coordinates()
-
-    def __add_connection(self, local_asys, foreign_asys):
-        if local_asys not in self.asys_connections:
-            self.asys_connections[local_asys] = set()
-            
-        self.asys_connections[local_asys].add(foreign_asys)
+        for (start, end) in bgp_dump.as_connections:
+            self.__draw_connection(start, end)
         
-    def __calculate_asys_coordinates(self):
-        angle_delta   = 360.0 / len(self.asys_connections)
-        width, height = self.image.size
-        
-        centre = (width / 2, height / 2)
-        radius = (width - 10) / 2
-        
-        angle = 0
-        
-        for asys in self.asys_connections:
-            x = centre[0] - (radius * sin(angle))
-            y = centre[1] - (radius * cos(angle))
-            
-            self.asys_coordinates[asys] = (x,y)
-            angle += angle_delta
-            
-        self.__draw()
-    
-    def __draw(self):
-        draw = Draw(self.image)
-        
-        for (asys, connections) in self.asys_connections.items():
-            start_xy = self.asys_coordinates[asys]
-            
-            for connected_asys in connections:
-                end_xy = self.asys_coordinates[connected_asys]
-                draw.line([start_xy, end_xy], fill=128, width=1)
+    def __map_as_ip_to_circumference_pos(self, asys, ip_addr):
+        try:
+            if as_num in self.asys_coordinates or as_num in self.fast_reject:
+                return
                 
-    def save(self, filename, filetype="PNG"):
-        self.image.save(filename, filetype)
+            lat,lon = self.geoip.get_latlon_for_ip(ip_address)
+            width, height = self.image.size
+            
+            radius = (width - 10) / 2
+            centre = (width / 2, height / 2)
+            
+            x = centre[0] + (radius * sin(lon))
+            y = centre[1] - (radius * cos(lon))
 
+            self.asys_coordinates[as_num] = (x,y)
+        except:
+            self.fast_reject.add(as_num)
+            
+    def __draw_connection(self, start, end):
+        if coord_missing(start, end, self.asys_coords):
+            return
+            
+        start = self.asys_coords[start]
+        end   = self.asys_coords[end]
+
+        super(RingGraph, self).draw_line(start, end)
+
+def coord_missing(start, end, coords):
+    return not all(asys in coords for asys in [start,end])
+    
+"""
 class LayeredRingGraph(RingGraph):
     def __calculate_asys_coordinates(self):
         angle_delta   = 360.0 / len(self.asys_connections)
@@ -93,3 +87,4 @@ class LayeredRingGraph(RingGraph):
             angle += angle_delta
         
         super(LayeredRingGraph, self).draw()
+"""
