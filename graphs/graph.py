@@ -19,5 +19,27 @@ class Graph(object):
         cursor = Draw(self.image)
         cursor.line([start, end], fill=colour, width=1)
         
+    def draw_bresenham_line(self, start, end, colour):
+        img_pixels = self.image.load()
+        x0, y0 = start
+        x1, y1 = end
+        
+        dx = x1 - x0
+        dy = y1 - y0
+        
+        D = (2 * dy) - dx
+        img_pixels[x0, y0] = colour
+        
+        y = y0
+        
+        for x in range(x0 + 1, x1):
+            if D > 0:
+                y += 1
+                img_pixels[x, y] = colour
+                D += (2 * dy) - (2 * dx)
+            else:
+                img_pixels[x, y] = colour
+                D += (2 * dy)
+        
     def save(self, filename, filetype="PNG"):
         self.image.save(filename, filetype)
