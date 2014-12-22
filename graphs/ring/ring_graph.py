@@ -7,6 +7,7 @@
 from math import sin, cos
 from Image import new
 from ImageDraw import Draw
+from graphs.graph import Graph
 
 """
 RingGraph

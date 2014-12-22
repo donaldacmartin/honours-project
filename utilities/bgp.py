@@ -5,8 +5,6 @@
 # Donald Martin (1101795)
 
 from commands import getoutput
-from shlex import split
-from sys import version_info
 from StringIO import StringIO
 
 """
