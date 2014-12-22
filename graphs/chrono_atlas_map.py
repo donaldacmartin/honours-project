@@ -5,6 +5,7 @@
 # University of Glasgow
 
 from atlas_map import AtlasMap
+from graph import LIGHT_GREY, LIGHT_GREEN, DARK_RED
 
 """
 AtlasMap
@@ -18,17 +19,20 @@ locations. Takes the following parameters:
 """
 
 class ChronoAtlasMap(AtlasMap):
-    def __init__(self, width, height, cxns1, cxns2, ips1, ips2):
-        ip_addrs = dict(ips1.items() + ips2.items())
-        conns    = cxns1.intersection(cxns2)
+    def __init__(self, width, height, old_bgp, new_bgp):
+        super(ChronoAtlasMap, self).__init__(width, height, old_bgp, LIGHT_GREY)
         
-        super(ChronoAtlasMap, self).__init__(width, height, conns, ip_addrs, (162,162,162))
+        for (asys, ip_address) in new_bgp.as_to_ip_address.items():
+            super(ChronoAtlasMap, self).__map_as_ip_to_coordinates(asys, ip_address)
         
-        new_connections     = cxns2.difference(cxns1)
-        removed_connections = cxns1.difference(cxns2)
+        old_cxns = old_bgp.as_connections
+        new_cxns = new_bgp.as_connections
+        
+        new_connections     = new_cxns.difference(old_cxns)
+        removed_connections = old_cxns.difference(new_cxns)
 
         for (start, end) in removed_connections:
-            super(ChronoAtlasMap, self).__draw_line(start, end, (255, 59, 59))
+            super(ChronoAtlasMap, self).__draw_line(start, end, DARK_RED)
             
         for (start, end) in new_connections:
-            super(ChronoAtlasMap, self).__draw_line(start, end, (59, 255, 134))
+            super(ChronoAtlasMap, self).__draw_line(start, end, LIGHT_GREEN)

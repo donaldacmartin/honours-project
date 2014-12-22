@@ -5,7 +5,7 @@
 # University of Glasgow
 
 from utilities.geoip import GeoIPLookup
-from graph import Graph
+from graph import Graph, DARK_RED
 
 """
 AtlasMap
@@ -19,17 +19,17 @@ locations. Takes the following parameters:
 """
 
 class AtlasMap(Graph):
-    def __init__(self, width, height, asys_conns, asys_ip_addrs, line_colour=128):
+    def __init__(self, width, height, bgp_dump, line_colour=DARK_RED):
         super(AtlasMap, self).__init__(width, height)
         
         self.geoip = GeoIPLookup()
         self.asys_coords = {}
         self.fast_reject = set()
         
-        for (asys, ip_address) in asys_ip_addrs.items():
+        for (asys, ip_address) in bgp_dump.as_to_ip_address.items():
             self.__map_as_ip_to_coordinates(asys, ip_address)
 
-        for (start, end) in asys_conns:
+        for (start, end) in bgp_dump.as_connections:
             self.__draw_line(start, end, line_colour)
         
     def __map_as_ip_to_coordinates(self, as_num, ip_address):
