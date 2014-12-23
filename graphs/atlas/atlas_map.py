@@ -160,5 +160,6 @@ def draw_borders(img, (limit1, limit2)=None):
         for (lon, lat) in points:
             x = (map_lon_to_x_coord(lon, img.size[0]) - x_anchor) * x_scale
             y = (map_lat_to_y_coord(lat, img.size[1]) - y_anchor) * y_scale
+            outline.append((x,y))
             
         draw.polygon(outline, outline="black")
