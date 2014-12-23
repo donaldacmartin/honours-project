@@ -69,7 +69,7 @@ class AtlasMap(Graph):
         dy = y2 - y1
         
         x_anchor = min(x1, x2)
-        y_anchor = min(y1, y2)
+        y_anchor = max(y1, y2)
         
         x_scale = img_width / abs(dx)
         y_scale = img_height / abs(dy)
