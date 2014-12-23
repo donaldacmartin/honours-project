@@ -27,12 +27,12 @@ class AtlasMap(Graph):
         self.fast_reject = set()
         
         for (asys, ip_address) in bgp_dump.as_to_ip_address.items():
-            self.__map_as_ip_to_coordinates(asys, ip_address)
+            self._map_as_ip_to_coordinates(asys, ip_address)
 
         for (start, end) in bgp_dump.as_connections:
-            self.__draw_line(start, end, line_colour)
+            self._draw_line(start, end, line_colour)
         
-    def __map_as_ip_to_coordinates(self, as_num, ip_address):
+    def _map_as_ip_to_coordinates(self, as_num, ip_address):
         try:
             if as_num in self.asys_coordinates or as_num in self.fast_reject:
                 return
@@ -48,7 +48,7 @@ class AtlasMap(Graph):
             print(str(e))
             self.fast_reject.add(as_num)
             
-    def __draw_line(self, start, end, colour):
+    def _draw_line(self, start, end, colour):
         if coord_missing(start, end, self.asys_coords):
             return
             
@@ -60,10 +60,10 @@ class AtlasMap(Graph):
         else:
             draw_connection(start, end, self.image, colour)
             
-    def __draw_connection(self, start, end, colour):
+    def _draw_connection(self, start, end, colour):
         super(AtlasMap, self).draw_line(start, end, colour)
         
-    def __draw_transpacific_connection(self, start, end, colour):
+    def _draw_transpacific_connection(self, start, end, colour):
         start_x, start_y      = start
         end_x, end_y          = end
         img_width, img_height = image.size

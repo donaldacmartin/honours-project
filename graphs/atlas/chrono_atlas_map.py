@@ -16,7 +16,7 @@ class ChronoAtlasMap(AtlasMap):
         super(ChronoAtlasMap, self).__init__(width, height, old_bgp, LIGHT_GREY)
         
         for (asys, ip_addr) in new_bgp.as_to_ip_address.items():
-            super(ChronoAtlasMap, self).__map_as_ip_to_coordinates(asys, ip_addr)
+            super(ChronoAtlasMap, self)._map_as_ip_to_coordinates(asys, ip_addr)
         
         removed_cxns = old_bgp.as_connections.difference(new_bgp.as_connections)
         new_cxns     = new_bgp.as_connections.difference(old_bgp.as_connections)
@@ -26,4 +26,4 @@ class ChronoAtlasMap(AtlasMap):
 
     def __setup_and_draw(self, connections, colour):
         for (start, end) in connections:
-            super(ChronoAtlasMap, self).__draw_line(start, end, colour)
+            super(ChronoAtlasMap, self)._draw_line(start, end, colour)
