@@ -26,18 +26,18 @@ class RingGraph(Graph):
         super(RingGraph, self).__init__(width, width)
         self.geoip = GeoIPLookup()
         
-        self.asys_coordinates = {}
-        self.fast_reject      = set()
+        self.asys_coords = {}
+        self.fast_reject = set()
         
         for (asys, ip_address) in bgp_dump.as_to_ip_address.items():
-            self.__map_as_ip_to_circumference_pos(asys, ip_address)
+            self._map_as_ip_to_circumference_pos(asys, ip_address)
         
         for (start, end) in bgp_dump.as_connections:
-            self.__draw_connection(start, end)
+            self._draw_connection(start, end)
         
-    def __map_as_ip_to_circumference_pos(self, as_num, ip_addr):
+    def _map_as_ip_to_circumference_pos(self, as_num, ip_addr):
         try:
-            if as_num in self.asys_coordinates or as_num in self.fast_reject:
+            if as_num in self.asys_coords or as_num in self.fast_reject:
                 return
                 
             lat,lon = self.geoip.get_latlon_for_ip(ip_address)
@@ -49,11 +49,11 @@ class RingGraph(Graph):
             x = centre[0] + (radius * sin(lon))
             y = centre[1] - (radius * cos(lon))
 
-            self.asys_coordinates[as_num] = (x,y)
+            self.asys_coords[as_num] = (x,y)
         except:
             self.fast_reject.add(as_num)
             
-    def __draw_connection(self, start, end):
+    def _draw_connection(self, start, end):
         if coord_missing(start, end, self.asys_coords):
             return
             

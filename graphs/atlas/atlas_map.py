@@ -28,6 +28,9 @@ class AtlasMap(Graph):
         
         for (asys, ip_address) in bgp.as_to_ip_address.items():
             self._map_as_ip_to_coordinates(asys, ip_address)
+            
+        if latlon_limits is not None:
+            self._scale_coords(latlon_limits)
 
         for (start, end) in bgp.as_connections:
             self._draw_line(start, end, line_colour)
@@ -54,6 +57,13 @@ class AtlasMap(Graph):
         min_lat = min(limit1[1], limit2[1])
         min_lon = min(limit1[0], limit2[0])
         
+        x_scale = 360 / (max_lon - min_lon)
+        y_scale = 180 / (max_lat - min_lat)
+        
+        for (asys, (x,y)) in self.asys_coords.items():
+            new_x = (x * x_scale) - min_lon
+            new_y = (y * y_scale) - max_lat
+            self.asys_coords[asys] = (new_x, new_y)
             
     def _draw_line(self, start, end, colour):
         if coord_missing(start, end, self.asys_coords):
