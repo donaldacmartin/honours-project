@@ -18,7 +18,7 @@ bgp1 = BGPDumpExecutor(base + "2001.10/RIBS/rib.20011026.1648.bz2")
 a = AtlasMap(1920, 1080, bgp1)
 a.save("atlas-no-limits.png")
 
-b = AtlasMap(1920, 1080, ((53.76, -137.37), (23.43, -53.17)), bgp1)
+b = AtlasMap(1920, 1080, bgp1, ((53.76, -137.37), (23.43, -53.17)))
 b.save("atlas-limits.png")
 
 """
