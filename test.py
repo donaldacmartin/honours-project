@@ -1,11 +1,11 @@
-import utilities.shapefile
+import utilities.shapefile import Reader
 from Image import new
 from ImageDraw import Draw
 
 img = new("RGB", (400, 400), "white")
 draw = Draw(img)
 
-reader = shapefile.Reader("utilies/data/country_outlines/countries")
+reader = Reader("utilies/data/country_outlines/countries")
 
 for shape in reader.shapeRecords():
     points  = shape.shape.points
