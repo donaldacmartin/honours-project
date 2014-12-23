@@ -57,20 +57,26 @@ class AtlasMap(Graph):
             self.fast_reject.add(as_num)
             
     def _scale_coords(self, (limit1, limit2)):
-        max_lat = max(limit1[0], limit2[0])
-        max_lon = max(limit1[1], limit2[1])
-        
-        min_lat = min(limit1[0], limit2[0])
-        min_lon = min(limit1[1], limit2[1])
-        
-        x_scale = 360 / max_lon - min_lon
-        y_scale = 180 / max_lat - min_lat
-        
         img_width, img_height = self.image.size
         
+        limit1_x = map_lon_to_x_coord(limit1[1], img_width)
+        limit1_y = map_lat_to_y_coord(limit1[0], img_height)
+        
+        limit2_x = map_lon_to_x_coord(limit2[1], img_width)
+        limit2_y = map_lat_to_y_coord(limit2[0], img_height)
+        
+        max_x = max(limit1_x, limit2_x)
+        max_y = max(limit1_y, limit2_y)
+        
+        min_x = min(limit1_x, limit2_x)
+        min_y = min(limit1_y, limit2_y)
+        
+        x_scale = 360 / (max_x - min_x)
+        y_scale = 180 / (max_y - min_y)
+
         for (asys, (x,y)) in self.asys_coords.items():
-            new_x = (x * x_scale) - map_lon_to_x_coord(min_lon, img_width)
-            new_y = (y * y_scale) - map_lat_to_y_coord(max_lat, img_height)
+            new_x = (x * x_scale) - min_x
+            new_y = (y * y_scale) - max_y
             self.asys_coords[asys] = (new_x, new_y)
             
     def _draw_line(self, start, end, colour):
