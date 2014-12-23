@@ -18,6 +18,10 @@ locations. Takes the following parameters:
 - asys_ip_addresses     dictionary mapping integer AS to string IP address
 """
 
+EUROPE        = ((61.16, -11.51), (35.63, 33.66))
+NORTH_AMERICA = ((62.95, -167.52), (17.04, -52.56))
+SOUTH_AMERICA = ((10.21, -92.64), (-54.94, -35.33))
+
 class AtlasMap(Graph):
     def __init__(self, width, height, bgp, latlon_limits=None, line_colour=DARK_RED):
         super(AtlasMap, self).__init__(width, height)
@@ -51,14 +55,14 @@ class AtlasMap(Graph):
             self.fast_reject.add(as_num)
             
     def _scale_coords(self, (limit1, limit2)):
-        max_lat = max(limit1[1], limit2[1])
-        max_lon = max(limit1[0], limit2[0])
+        max_lat = max(limit1[0], limit2[0])
+        max_lon = max(limit1[1], limit2[1])
         
-        min_lat = min(limit1[1], limit2[1])
-        min_lon = min(limit1[0], limit2[0])
+        min_lat = min(limit1[0], limit2[0])
+        min_lon = min(limit1[1], limit2[1])
         
-        x_scale = 360 / abs(max_lon - min_lon)
-        y_scale = 180 / abs(max_lat - min_lat)
+        x_scale = 360 / max_lon - min_lon
+        y_scale = 180 / max_lat - min_lat
         
         for (asys, (x,y)) in self.asys_coords.items():
             new_x = (x * x_scale) - min_lon
