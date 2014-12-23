@@ -31,15 +31,17 @@ class AtlasMap(Graph):
         self.geoip = GeoIPLookup()
         self.asys_coords = {}
         self.fast_reject = set()
+        scaled           = False
         
         for (asys, ip_address) in bgp.as_to_ip_address.items():
             self._map_as_ip_to_coordinates(asys, ip_address)
             
         if latlon_limits is not None:
             self._scale_coords(latlon_limits)
+            scaled = True
 
         for (start, end) in bgp.as_connections:
-            self._draw_line(start, end, line_colour)
+            self._draw_line(start, end, line_colour, scaled)
         
     def _map_as_ip_to_coordinates(self, as_num, ip_address):
         try:
@@ -65,28 +67,25 @@ class AtlasMap(Graph):
         y1 = map_lat_to_y_coord(limit1[0], img_height)
         y2 = map_lat_to_y_coord(limit2[0], img_height)
         
-        dx = x2 - x1
-        dy = y2 - y1
-        
         x_anchor = min(x1, x2)
         y_anchor = min(y1, y2)
         
-        x_scale = img_width / abs(dx)
-        y_scale = img_height / abs(dy)
+        x_scale = img_width / abs(x2 - x1)
+        y_scale = img_height / abs(y2 - y1)
 
         for (asys, (x,y)) in self.asys_coords.items():
             new_x = (x - x_anchor) * x_scale
             new_y = (y - y_anchor) * y_scale
             self.asys_coords[asys] = (new_x, new_y)
             
-    def _draw_line(self, start, end, colour):
+    def _draw_line(self, start, end, colour, scaled):
         if coord_missing(start, end, self.asys_coords):
             return
             
         start = self.asys_coords[start]
         end   = self.asys_coords[end]
         
-        if should_wrap_over_pacific(start, end, self.image):
+        if not scaled and should_wrap_over_pacific(start, end, self.image):
             self._draw_transpacific_connection(start, end, colour)
         else:
             self._draw_connection(start, end, colour)
