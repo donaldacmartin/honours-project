@@ -6,6 +6,7 @@
 
 from utilities.geoip import GeoIPLookup
 from graphs.graph import Graph, DARK_RED
+from utilities.border_mapper import draw_borders
 
 """
 AtlasMap
@@ -38,6 +39,7 @@ class AtlasMap(Graph):
             
         if latlon_limits is not None:
             self._scale_coords(latlon_limits)
+            draw_borders(self.image, latlon_limits)
             scaled = True
 
         for (start, end) in bgp.as_connections:
