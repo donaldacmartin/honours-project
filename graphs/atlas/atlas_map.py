@@ -44,7 +44,8 @@ class AtlasMap(Graph):
             y = map_lat_to_y_coord(lat, height)
             
             self.asys_coordinates[as_num] = (x,y)
-        except:
+        except e:
+            print(str(e))
             self.fast_reject.add(as_num)
             
     def __draw_line(self, start, end, colour):
