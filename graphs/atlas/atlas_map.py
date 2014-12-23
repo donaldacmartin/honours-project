@@ -65,9 +65,8 @@ class AtlasMap(Graph):
     def _draw_transpacific_connection(self, start, end, colour):
         start_x, start_y      = start
         end_x, end_y          = end
-        img_width, img_height = image.size
-        draw_cursor           = Draw(image)
-
+        img_width, img_height = self.image.size
+        
         dx = end_x - start_x
         dy = end_y - start_y
 
