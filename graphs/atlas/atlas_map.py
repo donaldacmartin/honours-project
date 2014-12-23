@@ -75,8 +75,8 @@ class AtlasMap(Graph):
         y_scale = img_height / abs(dy)
 
         for (asys, (x,y)) in self.asys_coords.items():
-            new_x = x - x_anchor
-            new_y = y - y_anchor
+            new_x = (x - x_anchor) * x_scale
+            new_y = (y - y_anchor) * y_scale
             self.asys_coords[asys] = (new_x, new_y)
             
     def _draw_line(self, start, end, colour):
