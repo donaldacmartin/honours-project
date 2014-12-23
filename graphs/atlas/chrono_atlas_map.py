@@ -21,9 +21,9 @@ class ChronoAtlasMap(AtlasMap):
         removed_cxns = old_bgp.as_connections.difference(new_bgp.as_connections)
         new_cxns     = new_bgp.as_connections.difference(old_bgp.as_connections)
         
-        self.__setup_and_draw(removed_cxns, DARK_RED)
-        self.__setup_and_draw(new_cxns, LIGHT_GREEN)
+        self._setup_and_draw(removed_cxns, DARK_RED)
+        self._setup_and_draw(new_cxns, LIGHT_GREEN)
 
-    def __setup_and_draw(self, connections, colour):
+    def _setup_and_draw(self, connections, colour):
         for (start, end) in connections:
             super(ChronoAtlasMap, self)._draw_line(start, end, colour)

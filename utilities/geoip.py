@@ -25,7 +25,7 @@ class GeoIPLookup(object):
         
     def get_latlon_for_ip(self, ip_address):
         try:
-            data = self.__get_ip_data(ip_address)
+            data = self._get_ip_data(ip_address)
             return data["latitude"], data["longitude"]
         except NameError:
             logging.error("GeoIP: no latlon coordinates for " + ip_address)
@@ -39,7 +39,7 @@ class GeoIPLookup(object):
             logging.error("GeoIP: no country for " + ip_address)
             raise
             
-    def __locate_block(self, ip_int):
+    def _locate_block(self, ip_int):
         i = bisect_left(self.block_start_ip, ip_int)
         
         if i:
@@ -47,14 +47,14 @@ class GeoIPLookup(object):
             
         raise ValueError
     
-    def __get_ip_data(self, ip_address):
-        block    = self.__get_ip_block(ip_address)
+    def _get_ip_data(self, ip_address):
+        block    = self._get_ip_block(ip_address)
         location = block["location"]
         return self.geo_data[location]
         
-    def __get_ip_block(self, ip_address):
+    def _get_ip_block(self, ip_address):
         ip_int = ip_to_int(ip_address)
-        block  = self.__locate_block(ip_int)
+        block  = self._locate_block(ip_int)
         return self.ip_blocks[block]
 
 # ------------------------------------------------------------------------------
