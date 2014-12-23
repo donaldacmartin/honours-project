@@ -16,6 +16,6 @@ for shape in reader.shapeRecords():
         lat = point[1]
         outline.append((lat, lon))
         
-    draw.polygon(outline, width=1, fill="black")
+    draw.polygon(outline, fill="black")
     
 img.save("test.png", "PNG")
