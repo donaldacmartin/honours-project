@@ -71,8 +71,8 @@ class AtlasMap(Graph):
         x_anchor = min(x1, x2)
         y_anchor = min(y1, y2)
         
-        x_scale = img_width / dx
-        y_scale = img_height / dy
+        x_scale = img_width / abs(dx)
+        y_scale = img_height / abs(dy)
 
         for (asys, (x,y)) in self.asys_coords.items():
             new_x = (x * x_scale) #- x_anchor
