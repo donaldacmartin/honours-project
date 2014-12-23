@@ -57,8 +57,8 @@ class AtlasMap(Graph):
         min_lat = min(limit1[1], limit2[1])
         min_lon = min(limit1[0], limit2[0])
         
-        x_scale = 360 / (max_lon - min_lon)
-        y_scale = 180 / (max_lat - min_lat)
+        x_scale = 360 / abs(max_lon - min_lon)
+        y_scale = 180 / abs(max_lat - min_lat)
         
         for (asys, (x,y)) in self.asys_coords.items():
             new_x = (x * x_scale) - min_lon
