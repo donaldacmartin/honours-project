@@ -44,5 +44,5 @@ class Graph(object):
     def save(self, filename, filetype="PNG"):
         x, y = self.image.size
         
-        self.image.resize((x / 10, y / 10), ANTIALIAS)
-        self.image.save(filename, filetype)
+        resized_img = self.image.resize((x / 10, y / 10), ANTIALIAS)
+        resized_img.save(filename, filetype)

@@ -14,10 +14,10 @@ base = "/nas05/users/csp/routing-data/archive.routeviews.org/bgpdata/"
 
 bgp1 = BGPDumpExecutor(base + "2001.10/RIBS/rib.20011026.1648.bz2")
 #bgp2 = BGPDumpExecutor(base + "2002.10/RIBS/rib.20021026.1517.bz2")
-"""
+
 a = AtlasMap(1920, 1080, bgp1)
 a.save("atlas-no-limits.png")
-"""
+
 
 b = AtlasMap(1920, 1080, bgp1, NORTH_AMERICA)
 b.save("atlas-limits.png")
