@@ -18,6 +18,8 @@ locations. Takes the following parameters:
 - asys_ip_addresses     dictionary mapping integer AS to string IP address
 """
 
+AFRICA        = ((36.08, -21.62), (-38.50, 50.45))
+# ASIA          = () - This is too big to make a difference
 EUROPE        = ((61.16, -11.51), (35.63, 33.66))
 NORTH_AMERICA = ((62.95, -167.52), (17.04, -52.56))
 SOUTH_AMERICA = ((10.21, -92.64), (-54.94, -35.33))
