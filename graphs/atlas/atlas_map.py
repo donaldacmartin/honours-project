@@ -19,7 +19,7 @@ locations. Takes the following parameters:
 """
 
 class AtlasMap(Graph):
-    def __init__(self, width, height, bgp, latlon_limits=None, line_colour=DARK_RED):
+    def __init__(self, width, height, latlon_limits=None, bgp, line_colour=DARK_RED):
         super(AtlasMap, self).__init__(width, height)
         
         self.geoip = GeoIPLookup()
