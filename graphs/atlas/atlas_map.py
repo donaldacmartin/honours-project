@@ -44,8 +44,7 @@ class AtlasMap(Graph):
             y = map_lat_to_y_coord(lat, height)
             
             self.asys_coords[as_num] = (x,y)
-        except Exception, e:
-            print(str(e))
+        except:
             self.fast_reject.add(as_num)
             
     def _draw_line(self, start, end, colour):
@@ -56,9 +55,9 @@ class AtlasMap(Graph):
         end   = self.asys_coords[end]
         
         if should_wrap_over_pacific(start, end, self.image):
-            draw_transpacific_connection(start, end, self.image, colour)
+            self._draw_transpacific_connection(start, end, self.image, colour)
         else:
-            draw_connection(start, end, self.image, colour)
+            self._draw_connection(start, end, self.image, colour)
             
     def _draw_connection(self, start, end, colour):
         super(AtlasMap, self).draw_line(start, end, colour)
