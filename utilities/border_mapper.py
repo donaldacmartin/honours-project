@@ -5,7 +5,7 @@
 # University of Glasgow
 
 from utilities.shapefile import Reader
-from graphs.atlas.atlas_map import map_lon_to_x_coord, map_lat_to_y_coord
+#from graphs.atlas.atlas_map import map_lon_to_x_coord, map_lat_to_y_coord
 from ImageDraw import Draw
 
 def draw_borders(img, (limit1, limit2)=None):
