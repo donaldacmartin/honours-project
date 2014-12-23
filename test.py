@@ -1,4 +1,4 @@
-import utilities.shapefile import Reader
+from utilities.shapefile import Reader
 from Image import new
 from ImageDraw import Draw
 
