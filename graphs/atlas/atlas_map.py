@@ -57,7 +57,7 @@ class AtlasMap(Graph):
         if should_wrap_over_pacific(start, end, self.image):
             self._draw_transpacific_connection(start, end, self.image, colour)
         else:
-            self._draw_connection(start, end, self.image, colour)
+            self._draw_connection(start, end, colour)
             
     def _draw_connection(self, start, end, colour):
         super(AtlasMap, self).draw_line(start, end, colour)
