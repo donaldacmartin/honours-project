@@ -47,6 +47,14 @@ class AtlasMap(Graph):
         except:
             self.fast_reject.add(as_num)
             
+    def _scale_coords(self, (limit1, limit2)):
+        max_lat = max(limit1[1], limit2[1])
+        max_lon = max(limit1[0], limit2[0])
+        
+        min_lat = min(limit1[1], limit2[1])
+        min_lon = min(limit1[0], limit2[0])
+        
+            
     def _draw_line(self, start, end, colour):
         if coord_missing(start, end, self.asys_coords):
             return

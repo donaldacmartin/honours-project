@@ -21,8 +21,8 @@ class Graph(object):
         
     def draw_line(self, start, end, colour):
         img_pixels = self.image.load()
-        x0, y0 = start
-        x1, y1 = end
+        x0, y0 = [int(coord) for coord in start]
+        x1, y1 = [int(coord) for coord in end]
         
         dx = x1 - x0
         dy = y1 - y0
