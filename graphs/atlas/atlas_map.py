@@ -34,7 +34,7 @@ class AtlasMap(Graph):
         
     def _map_as_ip_to_coordinates(self, as_num, ip_address):
         try:
-            if as_num in self.asys_coordinates or as_num in self.fast_reject:
+            if as_num in self.asys_coords or as_num in self.fast_reject:
                 return
                 
             lat,lon = self.geoip.get_latlon_for_ip(ip_address)
@@ -43,7 +43,7 @@ class AtlasMap(Graph):
             x = map_lon_to_x_coord(lon, width)
             y = map_lat_to_y_coord(lat, height)
             
-            self.asys_coordinates[as_num] = (x,y)
+            self.asys_coords[as_num] = (x,y)
         except Exception, e:
             print(str(e))
             self.fast_reject.add(as_num)

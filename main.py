@@ -23,5 +23,5 @@ c = ChronoAtlasMap(1920, 1080, bgp1, bgp2)
 c.save("chrono.png")
 """
 
-r = RingGraph(1920, 1080, bgp1)
+r = RingGraph(1080, bgp1)
 r.save("ring.png")
