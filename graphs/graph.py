@@ -18,6 +18,10 @@ class Graph(object):
     def draw_line(self, start, end, colour):
         cursor = Draw(self.image)
         cursor.line([start, end], fill=colour, width=1)
+    
+    def draw_circle(self, (x,y), r, colour):
+        cursor = Draw(self.image)
+        cursor.ellipse([(x-r, y-r), (x+r, y+r)], fill=colour)
         
     def draw_bresenham_line(self, start, end, colour):
         img_pixels = self.image.load()

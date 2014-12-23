@@ -95,6 +95,8 @@ class AtlasMap(Graph):
             
     def _draw_connection(self, start, end, colour):
         super(AtlasMap, self).draw_line(start, end, colour)
+        super(AtlasMap, self).draw_circle(start, 2, "blue")
+        super(AtlasMap, self).draw_circle(end, 2, "blue")
         
     def _draw_transpacific_connection(self, start, end, colour):
         start_x, start_y      = start
