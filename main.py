@@ -6,7 +6,7 @@
 
 from utilities.bgp import BGPDumpExecutor
 
-from graphs.atlas.atlas_map import AtlasMap, NORTH_AMERICA
+from graphs.atlas.atlas_map import AtlasMap, EUROPE
 from graphs.atlas.chrono_atlas_map import ChronoAtlasMap
 from graphs.ring.ring_graph import RingGraph
 
@@ -20,7 +20,7 @@ a = AtlasMap(1920, 1080, bgp1)
 a.save("atlas-no-limits.png")
 """
 
-b = AtlasMap(1920, 1080, bgp1, NORTH_AMERICA)
+b = AtlasMap(1920, 1080, bgp1, EUROPE)
 b.save("atlas-limits.png")
 
 """

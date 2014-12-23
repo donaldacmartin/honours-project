@@ -63,8 +63,8 @@ class AtlasMap(Graph):
         min_lat = min(limit1[0], limit2[0])
         min_lon = min(limit1[1], limit2[1])
         
-        x_scale = 360 / (max_lon - min_lon)
-        y_scale = 180 / (max_lat - min_lat)
+        x_scale = 360.0 / (max_lon - min_lon)
+        y_scale = 180.0 / (max_lat - min_lat)
         
         img_width, img_height = self.image.size
         
