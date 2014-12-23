@@ -35,7 +35,7 @@ class RingGraph(Graph):
         for (start, end) in bgp_dump.as_connections:
             self.__draw_connection(start, end)
         
-    def __map_as_ip_to_circumference_pos(self, asys, ip_addr):
+    def __map_as_ip_to_circumference_pos(self, as_num, ip_addr):
         try:
             if as_num in self.asys_coordinates or as_num in self.fast_reject:
                 return

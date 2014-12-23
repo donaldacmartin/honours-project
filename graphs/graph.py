@@ -15,11 +15,11 @@ class Graph(object):
     def __init__(self, width, height):
         self.image = new("RGB", (width, height), "white")
         
-    def draw_line(self, start, end, colour):
+    def draw_line2(self, start, end, colour):
         cursor = Draw(self.image)
         cursor.line([start, end], fill=colour, width=1)
         
-    def draw_bresenham_line(self, start, end, colour):
+    def draw_line(self, start, end, colour):
         img_pixels = self.image.load()
         x0, y0 = start
         x1, y1 = end

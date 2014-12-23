@@ -19,17 +19,17 @@ locations. Takes the following parameters:
 """
 
 class AtlasMap(Graph):
-    def __init__(self, width, height, bgp_dump, line_colour=DARK_RED):
+    def __init__(self, width, height, bgp, latlon_limits=None, line_colour=DARK_RED):
         super(AtlasMap, self).__init__(width, height)
         
         self.geoip = GeoIPLookup()
         self.asys_coords = {}
         self.fast_reject = set()
         
-        for (asys, ip_address) in bgp_dump.as_to_ip_address.items():
+        for (asys, ip_address) in bgp.as_to_ip_address.items():
             self._map_as_ip_to_coordinates(asys, ip_address)
 
-        for (start, end) in bgp_dump.as_connections:
+        for (start, end) in bgp.as_connections:
             self._draw_line(start, end, line_colour)
         
     def _map_as_ip_to_coordinates(self, as_num, ip_address):
