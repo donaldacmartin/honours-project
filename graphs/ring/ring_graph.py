@@ -6,6 +6,7 @@
 
 from math import sin, cos
 from graphs.graph import Graph
+from utilities.geoip import GeoIPLookup
 
 """
 RingGraph

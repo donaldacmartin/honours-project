@@ -75,7 +75,7 @@ class AtlasMap(Graph):
         lines_y  = start_y - (((line_1_x - start_x) / dx) * dy)
         
         super(AtlasMap, self).draw_line(start, (line_1_x, lines_y), colour)
-        super(AtlasMap, self).draw_line(end, (line_1_x, lines_y), colour)
+        super(AtlasMap, self).draw_line(end, (line_2_x, lines_y), colour)
             
 # ------------------------------------------------------------------------------
 # Helper Maths Functions
