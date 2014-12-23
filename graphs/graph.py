@@ -4,7 +4,7 @@
 # Map of the Internet
 # Donald Martin (1101795)
 
-from Image import new
+from Image import new, ANTIALIAS
 from ImageDraw import Draw
 
 LIGHT_GREY  = (162,162,162)
@@ -13,7 +13,7 @@ DARK_RED    = (255, 59, 59)
 
 class Graph(object):
     def __init__(self, width, height):
-        self.image = new("RGB", (width, height), "white")
+        self.image = new("RGB", (width * 10, height * 10), "white")
         
     def draw_line(self, start, end, colour):
         cursor = Draw(self.image)
@@ -40,6 +40,9 @@ class Graph(object):
             else:
                 img_pixels[x, y] = colour
                 D += (2 * dy)
-        
+
     def save(self, filename, filetype="PNG"):
+        x, y = self.image.size
+        
+        self.image.rezie((x / 10, y / 10), ANTIALIAS)
         self.image.save(filename, filetype)
