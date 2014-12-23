@@ -4,15 +4,11 @@
 # Map of the Internet
 # Donald Martin (1101795)
 
-from high_level.monthly import generate_monthly_diff
-
 from utilities.bgp import BGPDumpExecutor
 
 from graphs.atlas.atlas_map import AtlasMap
 from graphs.atlas.chrono_atlas_map import ChronoAtlasMap
 from graphs.ring.ring_graph import RingGraph
-
-# generate_monthly_diff()
 
 base = "/nas05/users/csp/routing-data/archive.routeviews.org/bgpdata/"
 
