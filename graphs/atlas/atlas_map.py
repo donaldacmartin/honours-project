@@ -116,6 +116,9 @@ class AtlasMap(Graph):
         super(AtlasMap, self).draw_line(end, (line_2_x, lines_y), colour)
 
     def _draw_borders(self, (limit1, limit2)=((-180,90),(180,90))):
+        if limit1 is None or limit2 is None:
+            (limit1, limit2)=((-180,90),(180,90))
+            
         reader = Reader("utilities/data/country_outlines/countries")
         draw = Draw(self.image)
         img_width, img_height = self.image.size
