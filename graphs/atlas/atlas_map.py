@@ -129,8 +129,8 @@ class AtlasMap(Graph):
         x_anchor = min(x1, x2)
         y_anchor = min(y1, y2)
 
-        x_scale = img.size[0] / abs(x2 - x1)
-        y_scale = img.size[1] / abs(y2 - y1)
+        x_scale = img_width / abs(x2 - x1)
+        y_scale = img_height / abs(y2 - y1)
 
         for record in reader.shapeRecords():
             points  = record.shape.points
