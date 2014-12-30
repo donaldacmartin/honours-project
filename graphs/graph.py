@@ -26,7 +26,7 @@ class Graph(object):
 
     def add_text(self, text):
         cursor = Draw(self.image)
-        font   = truetype("sans-serif.ttf", 80)
+        font   = truetype("utilities/fonts/calibri.ttf", 80)
         cursor.text((10,10), text, (255,255,255), font=font)
 
     def save(self, filename, filetype="PNG"):
