@@ -24,10 +24,10 @@ class Graph(object):
         cursor = Draw(self.image)
         cursor.ellipse((x-r, y-r, x+r, y+r), fill=colour)
 
-    def add_text(self, text):
+    def draw_text(self, text):
         cursor = Draw(self.image)
-        font   = truetype("utilities/fonts/calibri.ttf", 800)
-        cursor.text((10,10), text, fill=(0,0,0), font=font)
+        font   = truetype("utilities/fonts/calibri.ttf", 600)
+        cursor.text((50,50), text, fill=(0,0,0), font=font)
 
     def save(self, filename, filetype="PNG"):
         x, y = self.image.size

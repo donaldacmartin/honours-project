@@ -45,8 +45,6 @@ class AtlasMap(Graph):
         for (start, end) in bgp.as_connections:
             self._draw_line(start, end, line_colour, scaled)
 
-        super(AtlasMap, self).add_text("Test Text")
-
     def _map_as_ip_to_coordinates(self, as_num, ip_address):
         try:
             if as_num in self.asys_coords or as_num in self.fast_reject:
