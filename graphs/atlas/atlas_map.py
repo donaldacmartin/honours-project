@@ -117,7 +117,7 @@ class AtlasMap(Graph):
 
     def _draw_borders(self, latlon_limit):
         if latlon_limit is None:
-            (limit1, limit2) = ((-180,90),(180,90))
+            (limit1, limit2) = ((90,-180),(-90,180))
         else:
             (limit1, limit2) = latlon_limit
 
