@@ -18,12 +18,15 @@ class ChronoAtlasMap(AtlasMap):
         for (asys, ip_addr) in new_bgp.as_to_ip_address.items():
             super(ChronoAtlasMap, self)._map_as_ip_to_coordinates(asys, ip_addr)
 
+        scaled = True
+        if latlon_limits is None:
+            latlon_limits = ((90, 180), (-90, -180))
+            scaled = False
+
         super(ChronoAtlasMap, self)._scale_coords(latlon_limits)
 
         removed_cxns = old_bgp.as_connections.difference(new_bgp.as_connections)
         new_cxns     = new_bgp.as_connections.difference(old_bgp.as_connections)
-
-        scaled = False if latlon_limits is None else True
 
         self._setup_and_draw(removed_cxns, DARK_RED, scaled)
         self._setup_and_draw(new_cxns, LIGHT_GREEN, scaled)
