@@ -1,5 +1,0 @@
-#!/usr/bin/python
-#
-# Donald Martin
-# Honours Project: Map of the Internet (2014/15)
-# University of Glasgow
