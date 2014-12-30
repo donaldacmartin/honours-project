@@ -30,6 +30,12 @@ class AtlasMap(Graph):
     def __init__(self, width, height, bgp, latlon_limits=None, line_colour=DARK_RED):
         super(AtlasMap, self).__init__(width, height)
 
+        scaled = False
+
+        if latlon_limits is None:
+            latlon_limits = ((90, 180), (-90, -180))
+            scaled = True
+
         self.geoip = GeoIPLookup()
         self.asys_coords = {}
         self.fast_reject = set()
@@ -40,7 +46,6 @@ class AtlasMap(Graph):
             self._map_as_ip_to_coordinates(asys, ip_address)
 
         self._scale_coords(latlon_limits)
-        scaled = False if latlon_limits is None else True
 
         for (start, end) in bgp.as_connections:
             self._draw_line(start, end, line_colour, scaled)
@@ -60,10 +65,7 @@ class AtlasMap(Graph):
         except:
             self.fast_reject.add(as_num)
 
-    def _scale_coords(self, (limit1, limit2)=None):
-        if limit1 is None or limit2 is None:
-            return
-
+    def _scale_coords(self, (limit1, limit2)):
         img_width, img_height = self.image.size
 
         x1 = map_lon_to_x_coord(limit1[1], img_width)
@@ -115,12 +117,7 @@ class AtlasMap(Graph):
         super(AtlasMap, self).draw_line(start, (line_1_x, lines_y), colour)
         super(AtlasMap, self).draw_line(end, (line_2_x, lines_y), colour)
 
-    def _draw_borders(self, latlon_limit):
-        if latlon_limit is None:
-            (limit1, limit2) = ((90,-180),(-90,180))
-        else:
-            (limit1, limit2) = latlon_limit
-
+    def _draw_borders(self, (limit1, limit2)):
         reader = Reader("utilities/data/country_outlines/countries")
         draw = Draw(self.image)
         img_width, img_height = self.image.size

@@ -23,9 +23,11 @@ class ChronoAtlasMap(AtlasMap):
         removed_cxns = old_bgp.as_connections.difference(new_bgp.as_connections)
         new_cxns     = new_bgp.as_connections.difference(old_bgp.as_connections)
 
-        self._setup_and_draw(removed_cxns, DARK_RED)
-        self._setup_and_draw(new_cxns, LIGHT_GREEN)
+        scaled = False if latlon_limits is None else True
 
-    def _setup_and_draw(self, connections, colour):
+        self._setup_and_draw(removed_cxns, DARK_RED, scaled)
+        self._setup_and_draw(new_cxns, LIGHT_GREEN, scaled)
+
+    def _setup_and_draw(self, connections, colour, scaled):
         for (start, end) in connections:
-            super(ChronoAtlasMap, self)._draw_line(start, end, colour)
+            super(ChronoAtlasMap, self)._draw_line(start, end, colour, scaled)
