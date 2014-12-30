@@ -33,7 +33,6 @@ class AtlasMap(Graph):
         self.geoip = GeoIPLookup()
         self.asys_coords = {}
         self.fast_reject = set()
-        scaled           = False
 
         self._draw_borders(latlon_limits)
 
@@ -119,7 +118,7 @@ class AtlasMap(Graph):
     def _draw_borders(self, (limit1, limit2)=((-180,90),(180,90))):
         reader = Reader("utilities/data/country_outlines/countries")
         draw = Draw(self.image)
-        img_width, height = self.image.size
+        img_width, img_height = self.image.size
 
         x1 = map_lon_to_x_coord(limit1[1], img_width)
         x2 = map_lon_to_x_coord(limit2[1], img_width)
