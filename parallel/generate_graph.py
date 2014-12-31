@@ -9,11 +9,15 @@ from pickle import load
 from graphs.atlas.chrono_atlas_map import ChronoAtlasMap
 
 def generate_graphs(filename1, filename2):
-    bgp1 = unpickle_dump(filename1)
-    bgp2 = unpickle_dump(filename2)
+    bgp1 = unpickle_dump("temp/" + filename1.replace("/", "_"))
+    bgp2 = unpickle_dump("temp/" + filename2.replace("/", "_"))
 
     chrono = ChronoAtlasMap(1920, 1080, bgp1, bgp2)
-    chrono.save("temp/map" + filename1 + ".png")
+
+    title = get_title_from_filename(filename1)
+    chrono.add_title(title)
+
+    chrono.save("temp/map" + filename1.replace("/", "_") + ".png")
 
 def unpickle_dump(filename):
     pickle_file = open("temp/" + filename, "rb")
@@ -21,6 +25,16 @@ def unpickle_dump(filename):
 
     pickle_file.close()
     return bgp_file
+
+def get_title_from_filename(filename):
+    date_start = filename.find("rib.") + 4
+    year       = filename[date_start:date_start+3]
+    month      = int(filename[date_start+4:date_start+5])
+
+    months = ["Jan", "Feb", "Mar", "Apr", "May", "June", "Jul", "Aug", "Sep",
+              "Oct", "Nov", "Dec"]
+
+    return months[month-1] + " " + year
 
 if __name__ == "main":
     generate_graphs(argv[1], argv[2])
