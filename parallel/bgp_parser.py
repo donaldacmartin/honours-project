@@ -15,6 +15,7 @@ def parse_bgp(filename):
     output_file     = open(output_filename, "wb")
 
     dump(bgp, output_file)
+    output_file.close()
 
 if __name__ == "__main__":
     parse_bgp(argv[1])

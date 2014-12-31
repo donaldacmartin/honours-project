@@ -15,7 +15,7 @@ def generate_graphs(filename1, filename2):
     chrono = ChronoAtlasMap(1920, 1080, bgp1, bgp2)
 
     title = get_title_from_filename(filename1)
-    chrono.add_title(title)
+    chrono.draw_text(title)
 
     chrono.save("temp/map" + filename1.replace("/", "_") + ".png")
 
@@ -36,5 +36,5 @@ def get_title_from_filename(filename):
 
     return months[month-1] + " " + year
 
-if __name__ == "main":
+if __name__ == "__main__":
     generate_graphs(argv[1], argv[2])

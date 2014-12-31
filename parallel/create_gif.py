@@ -10,7 +10,7 @@ from sys import argv
 from utilities.images2gif import writeGif
 
 def create_gifs(filename):
-    files  = sorted((f for f in os.listdir("temp") if f.endswith(".png")))
+    files  = sorted((f for f in listdir("temp") if f.endswith(".png")))
     images = [open(f) for f in files]
 
     writeGif(filename, images, duration=0.5)

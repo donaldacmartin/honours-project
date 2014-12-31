@@ -9,17 +9,7 @@ from graphs.graph import Graph, DARK_RED
 from utilities.shapefile import Reader
 from ImageDraw import Draw
 
-"""
-AtlasMap
-
-Generates a connected graph of autonomous systems based on their geographical
-locations. Takes the following parameters:
-- width                 image width in pixels
-- hash                  image height in pixels
-- asys_connections      set of connections between ASs as integers (as1, as2)
-- asys_ip_addresses     dictionary mapping integer AS to string IP address
-"""
-
+GLOBAL        = ((90, 180), (-90,-180))
 AFRICA        = ((36.08, -21.62), (-38.50, 50.45))
 # ASIA          = () - This is too big to make a difference
 EUROPE        = ((61.16, -11.51), (35.63, 33.66))
@@ -27,75 +17,41 @@ NORTH_AMERICA = ((62.95, -167.52), (17.04, -52.56))
 SOUTH_AMERICA = ((10.21, -92.64), (-54.94, -35.33))
 
 class AtlasMap(Graph):
-    def __init__(self, width, height, bgp, latlon_limits=None, line_colour=DARK_RED):
+    def __init__(self, width, height, bgp, region=GLOBAL, line_colour=DARK_RED):
         super(AtlasMap, self).__init__(width, height)
-
-        scaled = False
-
-        if latlon_limits is None:
-            latlon_limits = ((90, 180), (-90, -180))
-            scaled = True
 
         self.geoip = GeoIPLookup()
         self.asys_coords = {}
         self.fast_reject = set()
+        self.region = region
 
-        self._draw_borders(latlon_limits)
+        self._draw_borders()
 
         for (asys, ip_address) in bgp.as_to_ip_address.items():
             self._map_as_ip_to_coordinates(asys, ip_address)
 
-        self._scale_coords(latlon_limits)
-
         for (start, end) in bgp.as_connections:
-            self._draw_line(start, end, line_colour, scaled)
-
-    def add_title(self, title):
-        super(AtlasMap, self).draw_text(title)
+            self._draw_line(start, end, line_colour)
 
     def _map_as_ip_to_coordinates(self, as_num, ip_address):
         try:
             if as_num in self.asys_coords or as_num in self.fast_reject:
                 return
 
-            lat,lon = self.geoip.get_latlon_for_ip(ip_address)
-            width, height = self.image.size
-
-            x = map_lon_to_x_coord(lon, width)
-            y = map_lat_to_y_coord(lat, height)
-
-            self.asys_coords[as_num] = (x,y)
+            latlon   = self.geoip.get_latlon_for_ip(ip_address)
+            xy_coord = scale_coords(latlon, self.region, self.image)
+            self.asys_coords[as_num] = xy_coord
         except:
             self.fast_reject.add(as_num)
 
-    def _scale_coords(self, (limit1, limit2)):
-        img_width, img_height = self.image.size
-
-        x1 = map_lon_to_x_coord(limit1[1], img_width)
-        x2 = map_lon_to_x_coord(limit2[1], img_width)
-
-        y1 = map_lat_to_y_coord(limit1[0], img_height)
-        y2 = map_lat_to_y_coord(limit2[0], img_height)
-
-        x_anchor = min(x1, x2)
-        y_anchor = min(y1, y2)
-
-        x_scale = img_width / abs(x2 - x1)
-        y_scale = img_height / abs(y2 - y1)
-
-        for (asys, (x,y)) in self.asys_coords.items():
-            new_x = (x - x_anchor) * x_scale
-            new_y = (y - y_anchor) * y_scale
-            self.asys_coords[asys] = (new_x, new_y)
-
-    def _draw_line(self, start, end, colour, scaled):
+    def _draw_line(self, start, end, colour):
         if coord_missing(start, end, self.asys_coords):
             return
 
         start = self.asys_coords[start]
         end   = self.asys_coords[end]
 
-        if not scaled and should_wrap_over_pacific(start, end, self.image):
+        if self.region == GLOBAL and should_wrap_over_pacific(start, end, self.image):
             self._draw_transpacific_connection(start, end, colour)
         else:
             self._draw_connection(start, end, colour)
@@ -120,30 +76,16 @@ class AtlasMap(Graph):
         super(AtlasMap, self).draw_line(start, (line_1_x, lines_y), colour)
         super(AtlasMap, self).draw_line(end, (line_2_x, lines_y), colour)
 
-    def _draw_borders(self, (limit1, limit2)):
+    def _draw_borders(self):
         reader = Reader("utilities/data/country_outlines/countries")
         draw = Draw(self.image)
-        img_width, img_height = self.image.size
-
-        x1 = map_lon_to_x_coord(limit1[1], img_width)
-        x2 = map_lon_to_x_coord(limit2[1], img_width)
-
-        y1 = map_lat_to_y_coord(limit1[0], img_height)
-        y2 = map_lat_to_y_coord(limit2[0], img_height)
-
-        x_anchor = min(x1, x2)
-        y_anchor = min(y1, y2)
-
-        x_scale = img_width / abs(x2 - x1)
-        y_scale = img_height / abs(y2 - y1)
 
         for record in reader.shapeRecords():
             points  = record.shape.points
             outline = []
 
             for (lon, lat) in points:
-                x = (map_lon_to_x_coord(lon, img_width) - x_anchor) * x_scale
-                y = (map_lat_to_y_coord(lat, img_height) - y_anchor) * y_scale
+                x, y = scale_coords((lat, lon), self.region, self.image)
                 outline.append((x,y))
 
             for i in range(1, len(outline)):
@@ -174,3 +116,26 @@ def coord_missing(start, end, coords):
 
 def start_closer_to_RHS(start_x, img_width):
     return (img_width - start_x) < start_x
+
+def scale_coords((lat,lon), ((lat1, lon1), (lat2, lon2)), img):
+    img_width, img_height = img.size
+
+    x = map_lon_to_x_coord(lon, img_width)
+    y = map_lat_to_y_coord(lat, img_height)
+
+    x1 = map_lon_to_x_coord(lon1, img_width)
+    x2 = map_lon_to_x_coord(lon2, img_width)
+
+    y1 = map_lat_to_y_coord(lat1, img_height)
+    y2 = map_lat_to_y_coord(lat2, img_height)
+
+    x_anchor = min(x1, x2)
+    y_anchor = min(y1, y2)
+
+    x_scale = img_width / abs(x2 - x1)
+    y_scale = img_height / abs(y2 - y1)
+
+    x = (x - x_anchor) * x_scale
+    y = (y - y_anchor) * y_scale
+
+    return (x,y)

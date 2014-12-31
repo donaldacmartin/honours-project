@@ -24,12 +24,13 @@ def sort_files(bgp_files):
     sorted_files = []
 
     for year in range(2001, 2015):
-        name_identifier = "rib." + str(year)
+        for month in range(1, 13):
+            name_identifier = "rib." + str(year) + str(month).zfill(2) + "01"
 
-        for bgp_file in bgp_files:
-            if name_identifier in bgp_file:
-                sorted_files.append(bgp_file)
-                break
+            for bgp_file in bgp_files:
+                if name_identifier in bgp_file:
+                    sorted_files.append(bgp_file)
+                    break
 
     return sorted_files
 
