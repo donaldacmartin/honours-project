@@ -20,7 +20,7 @@ def generate_graphs(filename1, filename2):
     chrono.save("temp/map" + filename1.replace("/", "_") + ".png")
 
 def unpickle_dump(filename):
-    pickle_file = open("temp/" + filename, "rb")
+    pickle_file = open(filename, "rb")
     bgp_file = load(pickle_file)
 
     pickle_file.close()
@@ -28,8 +28,8 @@ def unpickle_dump(filename):
 
 def get_title_from_filename(filename):
     date_start = filename.find("rib.") + 4
-    year       = filename[date_start:date_start+3]
-    month      = int(filename[date_start+4:date_start+5])
+    year       = filename[date_start:date_start+8]
+    month      = int(filename[date_start+8:date_start+10])
 
     months = ["Jan", "Feb", "Mar", "Apr", "May", "June", "Jul", "Aug", "Sep",
               "Oct", "Nov", "Dec"]
