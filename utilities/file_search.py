@@ -16,23 +16,23 @@ as a list of strings.
 """
 
 def get_bgp_binaries_in(directory):
-    regex      = compile("rib.\d+.\d+.bz2")
+    regex      = compile("rib\.\d+\.\d+\.bz2")
     bgp_files  = []
     dir_walker = walk(directory)
-    
+
     for dir_data in dir_walker:
         path_to_dir = dir_data[0]
         filenames   = dir_data[2]
-        
+
         bgp_files += __filter_valid_files(path_to_dir, filenames, regex)
-                
+
     return bgp_files
-    
+
 def __filter_valid_files(path_to_dir, filenames, regex):
     matching_files = []
-    
+
     for filename in filenames:
         if regex.match(filename) is not None:
             matching_files.append(path_to_dir + "/" + filename)
-            
+
     return matching_files
