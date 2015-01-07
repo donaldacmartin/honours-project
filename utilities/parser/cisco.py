@@ -30,9 +30,7 @@ class CiscoParser(Parser):
         if not line.startswith("*"):
             return
 
-        print(line)
         tokens              = self._tokenise(line)
-        print(tokens)
         ip_addr, alloc_size = self._get_allocated_base_ip_and_size(tokens)
         asys                = self._add_asys_path_and_get_dest_asys(tokens)
 
@@ -40,7 +38,7 @@ class CiscoParser(Parser):
             self._record_ip_alloc_size(ip_addr, alloc_size, asys)
 
     def _tokenise(self, line):
-        line   = sub("[*>]", "", line)
+        line   = sub("[*>d]", "", line)
         tokens = line.split(" ")
         return [token for token in tokens if token != ""]
 
