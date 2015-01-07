@@ -83,7 +83,7 @@ class Parser(object):
 
     def _convert_size_to_cidr(self, size):
         bits = int(log(size, 2))
-        return bits + 32
+        return 32 - bits
 
     def _convert_sig_figs_to_size(self, ip_addr):
         ip_addr = [int(bits) for bits in ip_addr.split(".")]
