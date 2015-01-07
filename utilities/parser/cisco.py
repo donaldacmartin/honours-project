@@ -53,7 +53,7 @@ class CiscoParser(Parser):
         asys_path   = tokens[path_weight + 1:]
         asys_path   = [int(asys) for asys in asys_path if asys.isdigit()]
 
-        self.add_asys_path(asys_path)
+        self._add_asys_path(asys_path)
         return asys_path[-1]
 
     def _contains_two_ip_addrs(self, tokens):
