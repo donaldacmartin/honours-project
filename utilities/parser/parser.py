@@ -65,7 +65,7 @@ class Parser(object):
             self.as_alloc_size[asys] = 0
 
         self.as_alloc_size[asys] += alloc_size
-        cidr_block = self._convert_size_to_cidr_(alloc_size)
+        cidr_block = self._convert_size_to_cidr(alloc_size)
         self.alloc_blocks[cidr_block] += 1
 
         self.visible_address_space += alloc_size
