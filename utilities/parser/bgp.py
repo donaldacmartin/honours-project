@@ -41,5 +41,5 @@ class BGPParser(Parser):
     def _add_asys_path_and_get_dest_asys(self, tokens):
         asys_hops = tokens[6].split(" ")
         asys_path = [int(asys) for asys in asys_hops if asys.isdigit()]
-        self.add_asys_path(asys_path)
+        self._add_asys_path(asys_path)
         return asys_path[-1]
