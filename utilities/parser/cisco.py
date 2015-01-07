@@ -44,7 +44,7 @@ class CiscoParser(Parser):
 
     def _get_allocated_base_ip_and_size(self, tokens):
         if not self._contains_two_ip_addrs(tokens):
-            return None
+            return None, None
 
         return self._convert_ip_block_to_base_and_size(tokens[0])
 
