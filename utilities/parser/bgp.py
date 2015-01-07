@@ -24,7 +24,7 @@ class BGPParser(Parser):
         visited_ips = set()
 
         for line in lines:
-            self._parse_line(line)
+            self._parse_line(line, visited_ips)
 
     def _parse_line(self, line, visited_ips):
         if line == "" or line == " " or "[info] logging to syslog" in line:
