@@ -80,7 +80,7 @@ class Parser(object):
         return 2 ** host
 
     def _convert_size_to_cidr(self, size):
-        bits = int(log(alloc_size, 2))
+        bits = int(log(size, 2))
         return bits + 32
 
     def _convert_sig_figs_to_size(self, ip_addr):
