@@ -10,10 +10,13 @@ def merge_dumps(files):
         parser = open_dump(files[0])
         save_dump(name, parser)
 
-    final_parser = MergedParser(files.pop(), files.pop())
+    parser1 = open_dump(files.pop())
+    parser2 = open_dump(files.pop())
+    final_parser = MergedParser(parser1, parser2)
 
     while len(files) > 1:
-        final_parser = MergedParser(final_parser, files.pop())
+        parser = open_dump(files.pop())
+        final_parser = MergedParser(final_parser, parser)
 
     save_dump(name, parser)
 
