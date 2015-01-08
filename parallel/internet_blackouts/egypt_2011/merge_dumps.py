@@ -3,7 +3,7 @@ from pickle import load, dump
 from sys import argv
 
 def merge_dumps(files):
-    files = files.split("|")
+    files = [f for f in files.split("|") if f != ""]
     name  = files[0]
 
     if len(files) < 2:

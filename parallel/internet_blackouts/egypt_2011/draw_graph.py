@@ -6,7 +6,7 @@ def draw_graph(file1, file2):
     parser2 = open_dump(file2)
 
     c = ChronoAtlasMap(1920, 1080, parser1, parser1)
-    c.save("graphs/" + file1.replace("/", "_") + ".png")
+    c.save("finished_graphs/" + file1.replace("/", "_") + ".png")
 
 def open_dump(filename):
     pickle_file = open("temp/merged/" + filename.replace("/", "_"), "rb")
