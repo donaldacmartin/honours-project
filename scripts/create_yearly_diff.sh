@@ -13,6 +13,10 @@ rm -rf $ROOTDIR/dumps
 
 echo "Merging router dumps"
 parallel --no-notice -a temp/years "python $ROOTDIR/parallel/merge_dumps.py"
+rm -rf _nas05*
+
+echo "Creating yearly diff frames"
+
 rm -rf $ROOTDIR/years
 
 echo "Cleaning up"
