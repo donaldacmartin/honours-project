@@ -48,6 +48,8 @@ class Parser(object):
             ip_addr       = ip_block
             alloc_size    = self._convert_sig_figs_to_size(ip_block)
 
+        if alloc_size < 1:
+            print(ip_block)
         return ip_addr, alloc_size
 
     # --------------------------------------------------------------------------
@@ -64,7 +66,7 @@ class Parser(object):
         if asys not in self.as_alloc_size:
             self.as_alloc_size[asys] = 0
 
-        self.as_alloc_size[asys] += alloc_size
+        self.as_alloc_size[asys] += int(alloc_size)
 
         try:
             cidr_block = self._convert_size_to_cidr(alloc_size) - 1
