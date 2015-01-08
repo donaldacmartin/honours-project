@@ -5,7 +5,6 @@
 # Donald Martin (1101795)
 
 from os import walk
-from re import compile
 
 """
 File Search
@@ -17,9 +16,6 @@ as a list of strings.
 
 class FileBrowser(object):
     def __init__(self, directory):
-        files = self._load_all_files(directory)
-        files = self._filter_files(files)
-
         self.oix_dumps  = {}
         self.eqix_dumps = {}
         self.isc_dumps  = {}
@@ -34,6 +30,8 @@ class FileBrowser(object):
                             self.rv3_dumps,
                             self.rv4_dumps)
 
+        files = self._load_all_files(directory)
+        files = self._filter_files(files)
         self._organise_into_dates(files)
 
     def get_files_for_time(self, yy, mm, dd, hh):
@@ -49,13 +47,13 @@ class FileBrowser(object):
 
     def _try_to_find_dump(self, router, yy, mm, dd, hh):
         if (yy, mm, dd, hh) in router:
-            return router[(yy, mm, dd, yy, hh)]
+            return router[(yy, mm, dd, hh)]
 
         if (yy, mm, dd, hh-1) in router:
-            return router[(yy, mm, dd, yy, hh-1)]
+            return router[(yy, mm, dd, hh-1)]
 
         if (yy, mm, dd, hh+1) in router:
-            return router[(yy, mm, dd, yy, hh+1)]
+            return router[(yy, mm, dd, hh+1)]
 
         return None
 
