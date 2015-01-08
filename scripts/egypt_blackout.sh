@@ -15,4 +15,5 @@ mkdir $ROOT_DIR/temp/parsed
 parallel --no-notice -a temp/parsing_index "python $WORKING_DIR/parse_file.py"
 
 echo "Merging parsed outputs"
-mkdir 
+mkdir temp/merged
+parallel --no-notice --xapply -a temp/merging_index "python $WORKING_DIR/merge_dumps.py"

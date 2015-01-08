@@ -69,14 +69,8 @@ class Parser(object):
             self.as_alloc_size[asys] = 0
 
         self.as_alloc_size[asys] += int(alloc_size)
-
-        try:
-            cidr_block = self._convert_size_to_cidr(alloc_size) - 1
-            cidr_block = 0 if cidr_block < 0 else cidr_block
-            self.alloc_blocks[cidr_block] += 1
-        except:
-            print(str(cidr_block) + "|" + str(alloc_size) + "|" + ip_addr)
-
+        cidr_block = self._convert_size_to_cidr(alloc_size) - 1
+        self.alloc_blocks[cidr_block] += 1
         self.visible_address_space += alloc_size
 
     # --------------------------------------------------------------------------
