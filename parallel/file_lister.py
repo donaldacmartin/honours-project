@@ -18,7 +18,7 @@ def list_files():
         all_files += this_year
         yearly_files.append(this_year)
 
-    output_all(dumps)
+    output_all(all_files)
     output_years(yearly_files)
 
 def output_all(files):
