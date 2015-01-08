@@ -48,7 +48,7 @@ class FileBrowser(object):
 
     def _map_oix_filename(self, filename):
         tokens = filename.split("-")
-
+        print(tokens)
         yy = int(tokens[-4])
         mm = int(tokens[-3])
         dd = int(tokens[-2])
@@ -58,7 +58,7 @@ class FileBrowser(object):
 
     def _map_rib_filename(self, filename):
         tokens = filename.split(".")
-
+        print(tokens)
         yy = int(tokens[-3][0:4])
         mm = int(tokens[-3][4:6])
         dd = int(tokens[-3][6:8])
