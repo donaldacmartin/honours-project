@@ -7,11 +7,9 @@
 from os import walk
 
 """
-File Search
+FileBrowser
 
-Returns a list of paths to BGP binary files in a specified directory. BGP files
-are identified by the filename format rib.YYMMDD.HHMM.bz2. Paths are returned
-as a list of strings.
+An object that parses a directory for routing dumps and can present them in
 """
 
 class FileBrowser(object):
@@ -44,6 +42,17 @@ class FileBrowser(object):
                 files.append(dump)
 
         return files
+
+    def get_available_timestamps(self):
+        keys = set()
+
+        for router in self.all_routers:
+            router_keys = router.keys()
+
+            for k in router_keys:
+                keys.add(k)
+
+        return sorted(keys)
 
     def _try_to_find_dump(self, router, yy, mm, dd, hh):
         if (yy, mm, dd, hh) in router:
