@@ -30,12 +30,15 @@ class CiscoParser(Parser):
         if not line.startswith("*"):
             return
 
-        tokens              = self._tokenise(line)
-        ip_addr, alloc_size = self._get_allocated_base_ip_and_size(tokens)
-        asys                = self._add_asys_path_and_get_dest_asys(tokens)
+        try:
+            tokens              = self._tokenise(line)
+            ip_addr, alloc_size = self._get_allocated_base_ip_and_size(tokens)
+            asys                = self._add_asys_path_and_get_dest_asys(tokens)
 
-        if ip_addr is not None:
-            self._record_ip_alloc_size(ip_addr, alloc_size, asys)
+            if ip_addr is not None:
+                self._record_ip_alloc_size(ip_addr, alloc_size, asys)
+        except:
+            print("Unable to parse line: " + line)
 
     def _tokenise(self, line):
         line   = sub("[*>d]", "", line)
@@ -57,8 +60,5 @@ class CiscoParser(Parser):
         return asys_path[-1]
 
     def _contains_two_ip_addrs(self, tokens):
-        try:
-            ip_addr_regex = compile("\d+\.\d+\.\d+\.\d+")
-            return True if ip_addr_regex.match(tokens[1]) is not None else False
-        except:
-            return False
+        ip_addr_regex = compile("\d+\.\d+\.\d+\.\d+")
+        return True if ip_addr_regex.match(tokens[1]) is not None else False
