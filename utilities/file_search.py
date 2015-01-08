@@ -45,13 +45,18 @@ class FileBrowser(object):
 
     def _organise_into_dates(self, files):
         for filename in files:
+            if "UPDATES" in filename:
+                continue
+
             if "oix" in filename:
                 self._map_cisco_filename(filename, self.oix_dumps)
             elif "eqix" in filename:
                 self._map_ribs_filename(filename, self.eqix_dumps)
             elif "isc" in filename:
                 self._map_ribs_filename(filename, self.isc_dumps)
-            elif "route-views3" in filename:
+            elif "route-views3" in filename and "RIBS" in filename:
+                self._map_ribs_filename(filename, self.rv3_dumps)
+            elif "route-views3" in filename and "RIBS" not in filename:
                 self._map_cisco_filename(filename, self.rv3_dumps)
             elif "route-views4" in filename:
                 self._map_ribs_filename(filename, self.rv4_dumps)
