@@ -24,8 +24,8 @@ def list_files():
 def output_all(files):
     output_file = open("temp/dumps", "w+")
 
-    for dump in files:
-        output_file.write(dump + "\n")
+    for filename in files:
+        output_file.write(filename + "\n")
 
     output_file.close()
 
@@ -33,8 +33,8 @@ def output_years(yearly_files):
     output_file = open("temp/years", "w+")
 
     for year in yearly_files:
-        for f in year:
-            output_file.write(dump + "|")
+        for filename in year:
+            output_file.write(filename + "|")
 
         output_file.write("\n")
     output_file.close()

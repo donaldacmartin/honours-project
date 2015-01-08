@@ -57,5 +57,8 @@ class CiscoParser(Parser):
         return asys_path[-1]
 
     def _contains_two_ip_addrs(self, tokens):
-        ip_addr_regex = compile("\d+\.\d+\.\d+\.\d+")
-        return True if ip_addr_regex.match(tokens[1]) is not None else False
+        try:
+            ip_addr_regex = compile("\d+\.\d+\.\d+\.\d+")
+            return True if ip_addr_regex.match(tokens[1]) is not None else False
+        except:
+            return False
