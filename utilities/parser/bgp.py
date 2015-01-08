@@ -34,7 +34,7 @@ class BGPParser(Parser):
         ip_addr, alloc_size = self._convert_ip_block_to_base_and_size(tokens[5])
         asys                = self._add_asys_path_and_get_dest_asys(tokens)
 
-        if ip_addr not in visited_ips:
+        if ip_addr is not None and ip_addr not in visited_ips:
             self._record_ip_alloc_size(ip_addr, alloc_size, asys)
             visited_ips.add(ip_addr)
 

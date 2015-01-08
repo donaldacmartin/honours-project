@@ -41,6 +41,9 @@ class Parser(object):
             self._add_asys_connection(prev, curr)
 
     def _convert_ip_block_to_base_and_size(self, ip_block):
+        if any(c.isalpha() for c in ip_block):
+            return (None, 0)
+
         if "/" in ip_block:
             ip_addr, cidr = ip_block.split("/")
             alloc_size    = self._convert_cidr_to_size(cidr)
@@ -48,8 +51,6 @@ class Parser(object):
             ip_addr       = ip_block
             alloc_size    = self._convert_sig_figs_to_size(ip_block)
 
-        if alloc_size < 1:
-            print(ip_block)
         return ip_addr, alloc_size
 
     # --------------------------------------------------------------------------
