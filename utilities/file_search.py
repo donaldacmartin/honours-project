@@ -47,21 +47,27 @@ class FileBrowser(object):
                 self._map_rib_filename(filename)
 
     def _map_oix_filename(self, filename):
-        tokens = filename.split("-")
-        print(tokens)
-        yy = int(tokens[-4])
-        mm = int(tokens[-3])
-        dd = int(tokens[-2])
-        hh = int(tokens[-1].split(".")[0][0:2])
+        try:
+            tokens = filename.split("-")
 
-        self.oix_dumps[(yy, mm, dd, hh)] = filename
+            yy = int(tokens[-4])
+            mm = int(tokens[-3])
+            dd = int(tokens[-2])
+            hh = int(tokens[-1].split(".")[0][0:2])
+
+            self.oix_dumps[(yy, mm, dd, hh)] = filename
+        except:
+            print("Could not parse OIX filename: " + filename)
 
     def _map_rib_filename(self, filename):
-        tokens = filename.split(".")
-        print(tokens)
-        yy = int(tokens[-3][0:4])
-        mm = int(tokens[-3][4:6])
-        dd = int(tokens[-3][6:8])
-        hh = int(tokens[-2][0:2])
+        try:
+            tokens = filename.split(".")
 
-        self.rib_dumps[(yy, mm, dd, hh)] = filename
+            yy = int(tokens[-3][0:4])
+            mm = int(tokens[-3][4:6])
+            dd = int(tokens[-3][6:8])
+            hh = int(tokens[-2][0:2])
+
+            self.rib_dumps[(yy, mm, dd, hh)] = filename
+        except:
+            print("Could not parse RIB filename: " + filename)
