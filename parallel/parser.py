@@ -9,14 +9,16 @@ from utilities.parser.cisco import CiscoParser
 from pickle import dump
 from sys import argv
 
-def dump_data(filename, parser_dump):
+def parse_dump(filename):
+    parser = BGPParser(filename) if "rib" in filename else CiscoParser(filename)
+    dump_data(filename, parsed)
+
+def dump_data(filename, parser):
     output_filename = "temp/" + filename.replace("/", "_")
     output_file     = open(output_filename, "wb")
 
-    dump(parser_dump, output_file)
+    dump(parser, output_file)
     output_file.close()
 
 if __name__ == "__main__":
-    filename = argv[1]
-    dump = BGPParser(filename) if "rib" in filename else CiscoParser(filename)
-    dump_data(filename, dump)
+    parse_dump(argv[1])
