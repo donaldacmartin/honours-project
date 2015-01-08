@@ -6,14 +6,12 @@ def create_list_of_files():
     hourly   = []
 
     for dd in range(28, 32):
-        for hh in range(0, 24, 2):
-            files = database.get_files_for_time(2011, 1, dd, hh)
-            hourly.append(files)
+        files = database.get_files_for_time(2011, 1, dd, 0)
+        hourly.append(files)
 
-    for dd in range(1, 3):
-        for hh in range(0, 24, 2):
-            files = database.get_files_for_time(2011, 2, dd, hh)
-            hourly.append(files)
+    for dd in range(1, 4):
+        files = database.get_files_for_time(2011, 2, dd, 0)
+        hourly.append(files)
 
     create_index_for_parallel_parsing(hourly)
     create_hours_for_merging(hourly)
