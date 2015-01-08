@@ -7,12 +7,12 @@ def create_list_of_files():
 
     for dd in range(28, 32):
         for hh in range(0, 24):
-            files = database.get_files_for_time(2001, 1, dd, hh)
+            files = database.get_files_for_time(2011, 1, dd, hh)
             hourly.append(files)
 
     for dd in range(1, 3):
         for hh in range(0, 24):
-            files = database.get_files_for_time(2001, 2, dd, hh)
+            files = database.get_files_for_time(2011, 2, dd, hh)
             hourly.append(files)
 
     create_index_for_parallel_parsing(hourly)
