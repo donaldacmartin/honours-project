@@ -27,7 +27,37 @@ class FileBrowser(object):
         self.rv3_dumps  = {}
         self.rv4_dumps  = {}
 
+        self.all_routers = (self.oix_dumps,
+                            self.eqix_dumps,
+                            self.isc_dumps,
+                            self.rv1_dumps,
+                            self.rv3_dumps,
+                            self.rv4_dumps)
+
         self._organise_into_dates(files)
+
+    def get_files_for_time(self, yy, mm, dd, hh):
+        files = []
+
+        for router in self.all_routers:
+            dump = self._try_to_find_dump(router, yy, mm, dd, hh)
+
+            if dump is not None:
+                files.append(dump)
+
+        return files
+
+    def _try_to_find_dump(self, router, yy, mm, dd, hh):
+        if (yy, mm, dd, hh) in router:
+            return router[(yy, mm, dd, yy, hh)]
+
+        if (yy, mm, dd, hh-1) in router:
+            return router[(yy, mm, dd, yy, hh-1)]
+
+        if (yy, mm, dd, hh+1) in router:
+            return router[(yy, mm, dd, yy, hh+1)]
+
+        return None
 
     def _load_all_files(self, directory):
         files  = []
@@ -79,14 +109,17 @@ class FileBrowser(object):
 
             dump_location[(yy, mm, dd, hh)] = filename
         except:
-            print("Couldn't handle " + filename)
+            print("Unable to parse Cisco style filename: " + filename)
 
     def _map_ribs_filename(self, filename, dump_location):
-        tokens = filename.split(".")
+        try:
+            tokens = filename.split(".")
 
-        yy = int(tokens[-3][0:4])
-        mm = int(tokens[-3][4:6])
-        dd = int(tokens[-3][6:8])
-        hh = int(tokens[-2][0:2])
+            yy = int(tokens[-3][0:4])
+            mm = int(tokens[-3][4:6])
+            dd = int(tokens[-3][6:8])
+            hh = int(tokens[-2][0:2])
 
-        dump_location[(yy, mm, dd, hh)] = filename
+            dump_location[(yy, mm, dd, hh)] = filename
+        except:
+            print("Unable to parse RIBS style filename: " + filename)
