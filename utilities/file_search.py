@@ -61,17 +61,20 @@ class FileBrowser(object):
                 print("Unable to classify filename: " + filename)
 
     def _map_cisco_filename(self, filename, dump_location):
-        if "full-snapshot-latest.dat.bz2" in filename:
-            return
+        try:
+            if "latest.dat.bz2" in filename:
+                return
 
-        tokens = filename.split("-")
+            tokens = filename.split("-")
 
-        yy = int(tokens[-4])
-        mm = int(tokens[-3])
-        dd = int(tokens[-2])
-        hh = int(tokens[-1].split(".")[0][0:2])
+            yy = int(tokens[-4])
+            mm = int(tokens[-3])
+            dd = int(tokens[-2])
+            hh = int(tokens[-1].split(".")[0][0:2])
 
-        dump_location[(yy, mm, dd, hh)] = filename
+            dump_location[(yy, mm, dd, hh)] = filename
+        except:
+            print("Couldn't handle " + filename)
 
     def _map_ribs_filename(self, filename, dump_location):
         tokens = filename.split(".")
