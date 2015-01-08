@@ -71,7 +71,7 @@ class Parser(object):
             cidr_block = 0 if cidr_block < 0 else cidr_block
             self.alloc_blocks[cidr_block] += 1
         except:
-            print(cidr_block)
+            print(str(cidr_block) + "|" + str(alloc_size))
 
         self.visible_address_space += alloc_size
 
