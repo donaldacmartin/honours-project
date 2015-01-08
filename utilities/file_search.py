@@ -43,6 +43,14 @@ class FileBrowser(object):
 
         return files
 
+    def get_year_end_files(self, year):
+        for date in range(32, 0, -1):
+            for hour in range(24, -1, -1):
+                f = self._get_files_for_time(year, 12, date, hour)
+
+                if len(f) > 0:
+                    return f
+
     def get_available_timestamps(self):
         keys = set()
 
