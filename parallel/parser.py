@@ -11,7 +11,7 @@ from sys import argv
 
 def parse_dump(filename):
     parser = BGPParser(filename) if "rib" in filename else CiscoParser(filename)
-    dump_data(filename, parsed)
+    dump_data(filename, parser)
 
 def dump_data(filename, parser):
     output_filename = "temp/" + filename.replace("/", "_")
