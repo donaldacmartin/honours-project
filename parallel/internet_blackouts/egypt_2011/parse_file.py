@@ -5,7 +5,7 @@ from sys import argv
 
 def parse_file(filename):
     parser = BGPParser(filename) if "rib" in filename else CiscoParser(filename)
-    pickle_parser(parser)
+    pickle_parser(filename, parser)
 
 def pickle_parser(filename, parser):
     output_file = open("temp/parsed/" + filename.replace("/", "_"))
