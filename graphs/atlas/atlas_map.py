@@ -16,6 +16,8 @@ EUROPE        = ((61.16, -11.51), (35.63, 33.66))
 NORTH_AMERICA = ((62.95, -167.52), (17.04, -52.56))
 SOUTH_AMERICA = ((10.21, -92.64), (-54.94, -35.33))
 
+EGYPT         = ((33.49, 21.29), (21.15, 41.55))
+
 class AtlasMap(Graph):
     def __init__(self, width, height, bgp, region=GLOBAL, line_colour=DARK_RED):
         super(AtlasMap, self).__init__(width, height)
