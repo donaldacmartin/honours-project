@@ -20,8 +20,12 @@ class FileBrowser(object):
         files = self._load_all_files(directory)
         files = self._filter_files(files)
 
-        self.oix_dumps = {}
-        self.rib_dumps = {}
+        self.oix_dumps  = {}
+        self.eqix_dumps = {}
+        self.isc_dumps  = {}
+        self.rv1_dumps  = {}
+        self.rv3_dumps  = {}
+        self.rv4_dumps  = {}
 
         self._organise_into_dates(files)
 
@@ -42,32 +46,39 @@ class FileBrowser(object):
     def _organise_into_dates(self, files):
         for filename in files:
             if "oix" in filename:
-                self._map_oix_filename(filename)
+                self._map_cisco_filename(filename, self.oix_dumps)
+            elif "eqix" in filename:
+                self._map_ribs_filename(filename, self.eqix_dumps)
+            elif "isc" in filename:
+                self._map_ribs_filename(filename, self.isc_dumps)
+            elif "route-views3" in filename:
+                self._map_cisco_filename(filename, self.rv3_dumps)
+            elif "route-views4" in filename:
+                self._map_ribs_filename(filename, self.rv4_dumps)
             elif "RIBS" in filename:
-                self._map_rib_filename(filename)
+                self._map_ribs_filename(filename, self.rv1_dumps)
+            else:
+                print("Unable to classify filename: " + filename)
 
-    def _map_oix_filename(self, filename):
-        try:
-            tokens = filename.split("-")
+    def _map_cisco_filename(self, filename, dump_location):
+        if "full-snapshot-latest.dat.bz2" in filename:
+            return
 
-            yy = int(tokens[-4])
-            mm = int(tokens[-3])
-            dd = int(tokens[-2])
-            hh = int(tokens[-1].split(".")[0][0:2])
+        tokens = filename.split("-")
 
-            self.oix_dumps[(yy, mm, dd, hh)] = filename
-        except:
-            print("Could not parse OIX filename: " + filename)
+        yy = int(tokens[-4])
+        mm = int(tokens[-3])
+        dd = int(tokens[-2])
+        hh = int(tokens[-1].split(".")[0][0:2])
 
-    def _map_rib_filename(self, filename):
-        try:
-            tokens = filename.split(".")
+        dump_location[(yy, mm, dd, hh)] = filename
 
-            yy = int(tokens[-3][0:4])
-            mm = int(tokens[-3][4:6])
-            dd = int(tokens[-3][6:8])
-            hh = int(tokens[-2][0:2])
+    def _map_ribs_filename(self, filename, dump_location):
+        tokens = filename.split(".")
 
-            self.rib_dumps[(yy, mm, dd, hh)] = filename
-        except:
-            print("Could not parse RIB filename: " + filename)
+        yy = int(tokens[-3][0:4])
+        mm = int(tokens[-3][4:6])
+        dd = int(tokens[-3][6:8])
+        hh = int(tokens[-2][0:2])
+
+        dump_location[(yy, mm, dd, hh)] = filename
