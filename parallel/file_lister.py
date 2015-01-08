@@ -20,6 +20,7 @@ def list_files():
 
     output_all(all_files)
     output_years(yearly_files)
+    output_merged_names(yearly_files)
 
 def output_all(files):
     output_file = open("temp/dumps", "w+")
@@ -30,14 +31,19 @@ def output_all(files):
     output_file.close()
 
 def output_years(yearly_files):
-    output_file = open("temp/years", "w+")
+    years_file  = open("temp/years", "w+")
+    merged_file = open("temp/merged", "w+")
 
     for year in yearly_files:
-        for filename in year:
-            output_file.write(filename + "|")
+        merged_file.write(year[0] + "\n")
 
-        output_file.write("\n")
-    output_file.close()
+        for filename in year:
+            years_file.write(filename + "|")
+
+        years_file.write("\n")
+
+    years_file.close()
+    merged_file.close()
 
 if __name__ == "__main__":
     list_files()
