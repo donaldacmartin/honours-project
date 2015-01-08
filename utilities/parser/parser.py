@@ -5,6 +5,7 @@
 # Donald Martin (1101795)
 
 from commands import getoutput
+from re import search
 from math import log
 
 """
@@ -41,7 +42,7 @@ class Parser(object):
             self._add_asys_connection(prev, curr)
 
     def _convert_ip_block_to_base_and_size(self, ip_block):
-        if any(c.isalpha() for c in ip_block):
+        if search("[a-zA-Z]+", ip_block) is not None:
             return (None, 0)
 
         if "/" in ip_block:

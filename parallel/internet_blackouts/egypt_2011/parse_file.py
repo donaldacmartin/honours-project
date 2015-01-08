@@ -8,7 +8,7 @@ def parse_file(filename):
     pickle_parser(filename, parser)
 
 def pickle_parser(filename, parser):
-    output_file = open("temp/parsed/" + filename.replace("/", "_"))
+    output_file = open("temp/parsed/" + filename.replace("/", "_"), "wb")
     dump(parser, output_file)
     output_file.close()
 
