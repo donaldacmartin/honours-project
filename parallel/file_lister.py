@@ -14,6 +14,8 @@ def list_files():
     for year in range(1997, 2014):
         dumps += files.get_year_end_files(year)
 
+    output(dumps)
+
 def output(files):
     mkdir("temp")
     output_file = open("temp/dumps", "w+")
