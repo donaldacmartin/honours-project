@@ -42,7 +42,7 @@ class Parser(object):
             self._add_asys_connection(prev, curr)
 
     def _convert_ip_block_to_base_and_size(self, ip_block):
-        if search("[a-zA-Z]+", ip_block) is not None:
+        if search("[a-zA-Z]+", ip_block) is not None or ":" in ip_block:
             return (None, 0)
 
         if "/" in ip_block:
