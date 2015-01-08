@@ -13,3 +13,6 @@ python $WORKING_DIR/setup_files.py
 echo "Parsing files"
 mkdir $ROOT_DIR/temp/parsed
 parallel --no-notice -a temp/parsing_index "python $WORKING_DIR/parse_file.py"
+
+echo "Merging parsed outputs"
+mkdir 

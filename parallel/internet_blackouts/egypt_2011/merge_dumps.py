@@ -8,7 +8,7 @@ def merge_dumps(files):
 
     if len(files) < 2:
         parser = open_dump(files[0])
-        save_dump(parser)
+        save_dump(name, parser)
 
     final_parser = MergedParser(files.pop(), files.pop())
 

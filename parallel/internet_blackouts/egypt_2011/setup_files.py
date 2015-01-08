@@ -5,13 +5,15 @@ def create_list_of_files():
     database = FileBrowser(root_dir)
     hourly   = []
 
-    for dd in range(28, 32):
+    for dd in range(28, 29):
         files = database.get_files_for_time(2011, 1, dd, 0)
         hourly.append(files)
 
+    """
     for dd in range(1, 4):
         files = database.get_files_for_time(2011, 2, dd, 0)
         hourly.append(files)
+    """
 
     create_index_for_parallel_parsing(hourly)
     create_hours_for_merging(hourly)
