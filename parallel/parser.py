@@ -9,11 +9,11 @@ from utilities.parser.cisco import CiscoParser
 from pickle import dump
 from sys import argv
 
-def dump_data(filename, parser):
+def dump_data(filename, parser_dump):
     output_filename = "temp/" + filename.replace("/", "_")
     output_file     = open(output_filename, "wb")
 
-    dump(parser, output_file)
+    dump(parser_dump, output_file)
     output_file.close()
 
 if __name__ == "__main__":
