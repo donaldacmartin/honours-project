@@ -19,7 +19,7 @@ def save_object(directory, filename, obj):
     dump(obj, file)
     file.close()
 
-def load_object(directory, filename, obj):
+def load_object(directory, filename):
     safe_filename = _create_safe_filename(filename)
     file = open(directory + "/" + safe_filename, "rb")
     obj  = load(file)
