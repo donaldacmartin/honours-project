@@ -19,7 +19,7 @@ def get_date_for_filename(name):
     elif "oix" in name or ("route-views3" in name and "RIBS" not in name):
         return _translate_cisco_filename(name)
     else:
-        return _translate_ribs_name(name)
+        return _translate_ribs_filename(name)
 
 def _translate_cisco_filename(filename):
     try:

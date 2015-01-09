@@ -5,7 +5,7 @@
 # Donald Martin (1101795)
 
 from os import walk
-from file_name import get_date_for_filename
+from utilities.file_name import get_date_for_filename
 
 """
 FileBrowser
@@ -90,7 +90,7 @@ class FileBrowser(object):
         for filename in files:
             date_stamp = get_date_for_filename(filename)
 
-            if not all(date_stamp):
+            if all(i is not None for i in date_stamp):
                 continue
 
             if "oix" in filename:
