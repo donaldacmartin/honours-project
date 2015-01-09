@@ -12,7 +12,7 @@ rm -rf temp
 echo "Setting up directories"
 mkdir temp
 mkdir temp/parsed
-MKDIR temp/merged
+mkdir temp/merged
 
 echo "Locating available BGP files to parse"
 python $GENERIC/list_year_end_files.py
