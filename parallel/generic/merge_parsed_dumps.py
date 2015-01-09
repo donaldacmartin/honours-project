@@ -20,8 +20,9 @@ def merge_dumps(files):
     name  = files[0]
 
     if len(files) < 2:
-        parser = open_dump(files[0])
+        parser = load_object("temp/parsed", files[0])
         save_dump(name, parser)
+        return
 
     parser1 = load_object("temp/parsed", files.pop())
     parser2 = load_object("temp/parsed", files.pop())

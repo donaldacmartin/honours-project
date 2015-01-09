@@ -16,7 +16,7 @@ out by GNU Parallel.
 def save_object(directory, filename, obj):
     safe_filename = _create_safe_filename(filename)
     file = open(directory + "/" + safe_filename, "wb")
-    dump(file, obj)
+    dump(obj, file)
     file.close()
 
 def load_object(directory, filename, obj):
