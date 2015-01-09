@@ -21,7 +21,7 @@ def merge_dumps(files):
 
     if len(files) < 2:
         parser = load_object("temp/parsed", files[0])
-        save_object(name, parser)
+        save_object("temp/merged", name, parser)
         return
 
     parser1 = load_object("temp/parsed", files.pop())
