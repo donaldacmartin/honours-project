@@ -7,9 +7,9 @@
 from parser import Parser
 
 """
-BGPParser
+MRTParser
 
-An object that takes the file path to a compressed BGP dump file (with the .bz2
+An object that takes the file path to a compressed MRT dump file (with the .bz2
 extension) and converts the contents into data structures defined in the parent
 Parser object.
 
@@ -17,7 +17,7 @@ In order to preserve data consistency, this object will block until the file has
 been completely parsed.
 """
 
-class BGPParser(Parser):
+class MRTParser(Parser):
     def __init__(self, file_path):
         super(BGPParser, self).__init__(file_path)
         lines = self._convert_cmd_to_lines("bgpdump -m " + file_path)

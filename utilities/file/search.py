@@ -5,12 +5,19 @@
 # Donald Martin (1101795)
 
 from os import walk
-from utilities.file_name import get_date_for_filename
+from utilities.file.name import get_date_for_filename
 
 """
 FileBrowser
 
-An object that parses a directory for routing dumps and can present them in
+An object that parses a directory for router dumps and presents them in
+dictionaries for each router. Where possible, the router locations have been
+specified in the comments below:
+
+- OIX                   Unknown     Unknown     Unknown
+- ISC                   Ashburn     Virginia    USA
+- ISC                   Palo Alto   California  USA
+- RV1, RV3 & RV4        Eugene      Oregon      USA
 """
 
 class FileBrowser(object):
