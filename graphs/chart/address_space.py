@@ -9,7 +9,7 @@ use("Agg")
 from matplotlib.pyplot import plot, savefig
 
 def create_yearly_address_space(bgp_dumps):
-    yearly_data = _organise_dumps_into_yearly_data
+    yearly_data = _organise_dumps_into_yearly_data(bgp_dumps)
 
     x_values = [data[0] for data in yearly_data]
     y_values = [data[1] for data in yearly_data]
