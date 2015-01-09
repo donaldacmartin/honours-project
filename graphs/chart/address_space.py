@@ -22,7 +22,7 @@ def _organise_dumps_into_yearly_data(dumps):
 
     for dump in dumps:
         year  = dump.date_time_stamp[0]
-        space = dump.visible_address_space
+        space = dump.visible_address_space / 4294967296
         yearly_data.append((year, space))
 
     return yearly_data
