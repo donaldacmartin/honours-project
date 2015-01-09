@@ -17,7 +17,7 @@ def create_yearly_address_space(bgp_dumps):
     plot(x_values, y_values)
     savefig("yearly-address-space.png")
 
-def _organise_dumps_into_yearly_data(bgp_dumps):
+def _organise_dumps_into_yearly_data(dumps):
     yearly_data = []
 
     for dump in dumps:
