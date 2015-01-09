@@ -19,8 +19,9 @@ is the same for the number of allocated blocks in CIDR notation.
 
 class MergedParser(Parser):
     def __init__(self, parser1, parser2):
-        super(MergedParser, self).__init__()
+        super(MergedParser, self).__init__("UPDATES")
 
+        self.date_time_stamp = parser1.date_time_stamp
         self._merge_as_connections(parser1, parser2)
         self._merge_as_to_ip_addresses(parser1, parser2)
         self._merge_alloc_sizes(parser1, parser2)

@@ -20,7 +20,7 @@ been completely parsed.
 
 class CiscoParser(Parser):
     def __init__(self, file_path):
-        super(CiscoParser, self).__init__()
+        super(CiscoParser, self).__init__(file_path)
         lines = self._convert_cmd_to_lines("bzip2 -d -c " + file_path)
 
         for line in lines:

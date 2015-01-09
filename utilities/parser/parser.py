@@ -7,7 +7,7 @@
 from commands import getoutput
 from re import search
 from math import log
-
+from utilities.file_name import get_date_for_filename
 """
 Parser
 
@@ -20,7 +20,8 @@ instantiated directly: use one of the two subclasses BGPParser or CiscoParser.
 """
 
 class Parser(object):
-    def __init__(self):
+    def __init__(self, filename):
+        self.date_time_stamp       = get_date_for_filename(filename)
         self.as_connections        = set()
         self.as_to_ip_address      = {}
         self.as_alloc_size         = {}
@@ -57,7 +58,7 @@ class Parser(object):
     # --------------------------------------------------------------------------
     # Data Structure Manipulation
     # --------------------------------------------------------------------------
-
+    
     def _add_asys_connection(self, asys1, asys2):
         connection = (min(asys1, asys2), max(asys1, asys2))
         self.as_connections.add(connection)
