@@ -27,3 +27,6 @@ def load_bgp_dumps(files):
         dumps.append(dump)
 
     return dumps
+
+if __name__ == "__main__":
+    draw_chart()
