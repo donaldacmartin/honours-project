@@ -52,5 +52,4 @@ class MergedParser(Parser):
     def _merge_visible_address_space(self, parser1, parser2):
         space1 = parser1.visible_address_space
         space2 = parser2.visible_address_space
-        print(str(space1) + "|" + str(space2))
         self.visible_address_space = max(space1, space2)
