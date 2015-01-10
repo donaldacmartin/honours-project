@@ -33,7 +33,7 @@ class MRTParser(Parser):
             return
 
         tokens              = line.split("|")
-        ip_addr, alloc_size = self._convert_mrt_block_to_base_and_size(tokens[5])
+        ip_addr, alloc_size = self._convert_block_to_base_and_size(tokens[5])
         asys                = self._add_asys_path_and_get_dest_asys(tokens)
 
         if ip_addr is not None and ip_addr not in visited_ips:
