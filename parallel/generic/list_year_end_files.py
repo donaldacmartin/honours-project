@@ -18,6 +18,7 @@ def create_list_of_files():
     for year in range(1997, 2015):
         years.append(database.get_year_end_files(year))
 
+    years = [year for year in years if year is not None]
     write_index_for_parallel_parsing(years)
     write_index_for_merging(years)
 

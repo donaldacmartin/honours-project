@@ -19,7 +19,7 @@ been completely parsed.
 
 class MRTParser(Parser):
     def __init__(self, file_path):
-        super(BGPParser, self).__init__(file_path)
+        super(MRTParser, self).__init__(file_path)
         lines = self._convert_cmd_to_lines("bgpdump -m " + file_path)
         visited_ips = set()
 

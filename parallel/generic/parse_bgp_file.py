@@ -17,7 +17,7 @@ temporary directory.
 """
 
 def parse_file(filename):
-    parser = BGPParser(filename) if "rib" in filename else CiscoParser(filename)
+    parser = MRTParser(filename) if "rib" in filename else CiscoParser(filename)
     save_object("temp/parsed", filename, parser)
 
 if __name__ == "__main__":
