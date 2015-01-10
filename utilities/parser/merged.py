@@ -29,18 +29,18 @@ class MergedParser(Parser):
         self._merge_visible_address_space(parser1, parser2)
 
     def _merge_as_connections(self, parser1, parser2):
-        connections1        = parser1.as_connections
-        connections2        = parser2.as_connections
+        connections1 = parser1.as_connections
+        connections2 = parser2.as_connections
         self.as_connections = connections1.union(connections2)
 
     def _merge_as_to_ip_addresses(self, parser1, parser2):
-        ips1                  = parser1.as_to_ip_address
-        ips2                  = parser2.as_to_ip_address
+        ips1 = parser1.as_to_ip_address
+        ips2 = parser2.as_to_ip_address
         self.as_to_ip_address = dict(list(ips1.items()) + list(ips2.items()))
 
     def _merge_alloc_sizes(self, parser1, parser2):
-        allocs1            = parser1.as_alloc_size
-        allocs2            = parser2.as_alloc_size
+        allocs1 = parser1.as_alloc_size
+        allocs2 = parser2.as_alloc_size
         self.as_alloc_size = dict(list(allocs1.items()) + list(allocs2.items()))
 
     def _merge_alloc_blocks(self, parser1, parser2):
@@ -50,6 +50,6 @@ class MergedParser(Parser):
             self.alloc_blocks[i] = max(allocs1, allocs2)
 
     def _merge_visible_address_space(self, parser1, parser2):
-        space1                     = parser1.visible_address_space
-        space2                     = parser2.visible_address_space
+        space1 = parser1.visible_address_space
+        space2 = parser2.visible_address_space
         self.visible_address_space = max(space1, space2)
