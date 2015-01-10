@@ -3,7 +3,7 @@ echo ""
 echo ""
 
 echo "Setting Up"
-export PYTHONPATH=:$HOME/honours-project
+export PYTHONPATH=$HOME/honours-project
 export GENERIC=$PYTHONPATH/parallel/generic
 rm -rf temp
 rm -rf logs
