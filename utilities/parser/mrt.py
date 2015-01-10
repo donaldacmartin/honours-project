@@ -26,6 +26,8 @@ class MRTParser(Parser):
         for line in lines:
             self._parse_line(line, visited_ips)
 
+        self._update_size()
+
     def _parse_line(self, line, visited_ips):
         if line == "" or line == " " or "[info] logging to syslog" in line:
             return

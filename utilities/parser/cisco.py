@@ -26,6 +26,8 @@ class CiscoParser(Parser):
         for line in lines:
             self._parse_line(line)
 
+        self._update_size()
+
     def _parse_line(self, line):
         if not line.startswith("*"):
             return
