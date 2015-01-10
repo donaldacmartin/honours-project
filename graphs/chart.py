@@ -77,6 +77,7 @@ def _mean_block_size(dump):
     total  = 0
 
     for i in range(0, 32):
+        print(blocks[i])
         total += blocks[i] * (i+1)
 
     return int(total / 32)
