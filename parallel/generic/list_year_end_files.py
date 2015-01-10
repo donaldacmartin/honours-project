@@ -15,7 +15,7 @@ def create_list_of_files():
     database = FileBrowser(root_dir)
     years    = []
 
-    for year in range(1997, 2015):
+    for year in range(2002, 2003):
         years.append(database.get_year_end_files(year))
 
     years = [year for year in years if year is not None]
