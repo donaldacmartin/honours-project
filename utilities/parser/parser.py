@@ -42,6 +42,17 @@ class Parser(object):
             curr = asys_path[i]
             self._add_asys_connection(prev, curr)
 
+    def _convert_mrt_block_to_base_and_size(self, ip_block):
+        if search("[a-zA-Z]+", ip_block) is not None or ":" in ip_block:
+            return (None, 0)
+
+        if "/" in ip_block:
+            ip_addr, cidr = ip_block.split("/")
+            alloc_size    = self._convert_cidr_to_size(cidr)
+            return ip_addr, alloc_size
+        else:
+            return ip_addr, 1
+
     def _convert_ip_block_to_base_and_size(self, ip_block):
         if search("[a-zA-Z]+", ip_block) is not None or ":" in ip_block:
             return (None, 0)
@@ -58,7 +69,7 @@ class Parser(object):
     # --------------------------------------------------------------------------
     # Data Structure Manipulation
     # --------------------------------------------------------------------------
-    
+
     def _add_asys_connection(self, asys1, asys2):
         connection = (min(asys1, asys2), max(asys1, asys2))
         self.as_connections.add(connection)
