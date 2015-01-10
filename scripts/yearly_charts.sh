@@ -6,26 +6,25 @@ echo "Setting Up"
 export PYTHONPATH=$HOME/honours-project
 export GENERIC=$HOME/honours-project/parallel/generic
 rm -rf temp
-rm -rf logs
 
 echo "Setting up directories"
-mkdir logs
 mkdir temp
 mkdir temp/parsed
 mkdir temp/merged
 
 echo "Locating available BGP files to parse"
-python $GENERIC/list_year_end_files.py > logs/listing_files.log
+python $GENERIC/list_year_end_files.py > log
 
 echo "Parsing files"
-parallel --no-notice -a temp/files_to_parse "python $GENERIC/parse_bgp_file.py" > logs/parsing_files.log
+parallel --no-notice -a temp/files_to_parse "python $GENERIC/parse_bgp_file.py" > log
 
 echo "Merging parsed router data"
-parallel --no-notice -a temp/files_to_merge "python $GENERIC/merge_parsed_dumps.py" > logs/merging_files.log
+parallel --no-notice -a temp/files_to_merge "python $GENERIC/merge_parsed_dumps.py" > log
 
 echo "Generating chart"
-python $PYTHONPATH/parallel/draw_yearly_address_space.py > logs/drawing_chart.log
+python $PYTHONPATH/parallel/yearly_charts.py > log
 
 echo "Cleaning Up"
 unset PYTHONPATH
 unset GENERIC
+rm -rf temp

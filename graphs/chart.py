@@ -6,7 +6,7 @@
 
 from matplotlib import use
 use("Agg")
-from matplotlib.pyplot import plot, savefig
+from matplotlib.pyplot import plot, savefig, xlabel, ylabel, title, clf
 
 """
 Chart
@@ -21,7 +21,7 @@ IPV4_ADDRESSABLE_SPACE = 4294967296.0
 IPV4_PUBLIC_SPACE      = IPV4_ADDRESSABLE_SPACE - IPV4_RESERVED_SPACE
 
 class Chart(object):
-    def __init__(self, *bgp_dumps):
+    def __init__(self, bgp_dumps):
         self.bgp_dumps = bgp_dumps
 
     def _plot_yearly_data(self, statistic, filename):
@@ -30,16 +30,26 @@ class Chart(object):
         x_values = [data[0] for data in yearly_data]
         y_values = [data[1] for data in yearly_data]
 
+        xlabel("Year")
         plot(x_values, y_values)
         savefig(filename)
 
     def draw_yearly_address_space(self, filename):
+        clf()
+        ylabel("IPv4 Address Space Usage")
+        title("Yearly IPv4 Address Space Usage")
         self._plot_yearly_data(_visible_address_space, filename)
 
     def draw_yearly_mode_allocated_block_size(self, filename):
+        clf()
+        ylabel("Block Size")
+        title("Yearly Most Commonly Allocated Block Size")
         self._plot_yearly_data(_mode_block_size, filename)
 
     def draw_yearly_mean_allocated_block_size(self, filename):
+        clf()
+        ylabel("Block Size")
+        title("Yearly Mean Allocated Block Size")
         self._plot_yearly_data(_mean_block_size, filename)
 
 # ------------------------------------------------------------------------------
@@ -62,7 +72,7 @@ def _visible_address_space(dump):
 def _mode_block_size(dump):
     return dump.alloc_blocks.index(max(dump.alloc_blocks)) + 1
 
-def _mean_block_size(dump)
+def _mean_block_size(dump):
     blocks = dump.alloc_blocks
     total  = 0
 

@@ -25,38 +25,38 @@ class RingGraph(Graph):
     def __init__(self, width, bgp_dump):
         super(RingGraph, self).__init__(width, width)
         self.geoip = GeoIPLookup()
-        
+
         self.asys_coords = {}
         self.fast_reject = set()
-        
+
         for (asys, ip_address) in bgp_dump.as_to_ip_address.items():
             self._map_as_ip_to_circumference_pos(asys, ip_address)
-        
+
         for (start, end) in bgp_dump.as_connections:
             self._draw_connection(start, end)
-        
+
     def _map_as_ip_to_circumference_pos(self, as_num, ip_addr):
         try:
             if as_num in self.asys_coords or as_num in self.fast_reject:
                 return
-                
+
             lat,lon = self.geoip.get_latlon_for_ip(ip_address)
             width, height = self.image.size
-            
+
             radius = (width - 10) / 2
             centre = (width / 2, height / 2)
-            
+
             x = centre[0] + (radius * sin(lon))
             y = centre[1] - (radius * cos(lon))
 
             self.asys_coords[as_num] = (x,y)
         except:
             self.fast_reject.add(as_num)
-            
+
     def _draw_connection(self, start, end):
         if coord_missing(start, end, self.asys_coords):
             return
-            
+
         start = self.asys_coords[start]
         end   = self.asys_coords[end]
 
@@ -64,28 +64,3 @@ class RingGraph(Graph):
 
 def coord_missing(start, end, coords):
     return not all(asys in coords for asys in [start,end])
-    
-"""
-class LayeredRingGraph(RingGraph):
-    def __calculate_asys_coordinates(self):
-        angle_delta   = 360.0 / len(self.asys_connections)
-        width, height = self.image.size
-        
-        centre = (width / 2, height / 2)
-        
-        most_cxns   = max([len(cxns) for cxns in self.asys_connections.values()])
-        std_radius  = (width - 10) / 2
-        radius_step = std_radius / most_cxns
-        
-        angle = 0
-        
-        for (asys, connections) in self.asys_connections.items():
-            radius = std_radius - (len(connections) * radius_step)
-            x = centre[0] - (radius * sin(angle))
-            y = centre[1] - (radius * cos(angle))
-            
-            self.asys_coordinates[asys] = (x,y)
-            angle += angle_delta
-        
-        super(LayeredRingGraph, self).draw()
-"""
