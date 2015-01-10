@@ -32,7 +32,7 @@ def merge_dumps(files):
         parser = load_object("temp/parsed", files.pop())
         final_parser = MergedParser(final_parser, parser)
 
-    save_object("temp/merged", name, parser)
+    save_object("temp/merged", name, final_parser)
 
 if __name__ == "__main__":
     merge_dumps(argv[1])

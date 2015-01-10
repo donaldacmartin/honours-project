@@ -1,10 +1,14 @@
 from utilities.file.io import load_object
-from graphs.chart.address_space import create_yearly_address_space
+from graphs.chart import Chart
 
 def draw_chart():
-    filenames = get_filenames()
-    dumps     = load_bgp_dumps(filenames)
-    create_yearly_address_space(dumps)
+    files = get_filenames()
+    dumps = [load_object("temp/merged", file) for file in files]
+    chart = Chart(dumps)
+
+    chart.draw_yearly_address_space("address-space.png")
+    chart.draw_yearly_mode_allocated_block_size("mode-block-size.png")
+    chart.draw_yearly_mean_allocated_block_size("mean-block-size.png")
 
 def get_filenames():
     file  = open("temp/files_to_merge", "rb")
@@ -18,15 +22,6 @@ def get_filenames():
 
     file.close()
     return names
-
-def load_bgp_dumps(files):
-    dumps = []
-
-    for file in files:
-        dump = load_object("temp/merged", file)
-        dumps.append(dump)
-
-    return dumps
 
 if __name__ == "__main__":
     draw_chart()

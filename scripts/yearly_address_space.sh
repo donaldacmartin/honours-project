@@ -3,9 +3,7 @@ echo ""
 echo ""
 
 echo "Setting Up"
-export WORKING_DIR=$HOME/honours-project/parallel
 export GENERIC=$WORKING_DIR/generic
-
 export PYTHONPATH=:$HOME/honours-project
 rm -rf temp
 
@@ -25,7 +23,8 @@ echo "Merging parsed router data"
 parallel --no-notice -a temp/files_to_merge "python $GENERIC/merge_parsed_dumps.py" > logs/merging_files.log
 
 echo "Generating chart"
-python $WORKING_DIR/draw_yearly_address_space.py > logs/drawing_chart.log
+python $PYTHONPATH/parallel/draw_yearly_address_space.py > logs/drawing_chart.log
 
 echo "Cleaning Up"
 unset PYTHONPATH
+unset GENERIC
