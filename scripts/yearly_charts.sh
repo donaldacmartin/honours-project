@@ -13,16 +13,16 @@ mkdir temp/parsed
 mkdir temp/merged
 
 echo "Locating available BGP files to parse"
-python $GENERIC/list_year_end_files.py > log
+python $GENERIC/list_year_end_files.py
 
 echo "Parsing files"
-parallel --no-notice -a temp/files_to_parse "python $GENERIC/parse_bgp_file.py" > log
+parallel --no-notice -a temp/files_to_parse "python $GENERIC/parse_bgp_file.py"
 
 echo "Merging parsed router data"
-parallel --no-notice -a temp/files_to_merge "python $GENERIC/merge_parsed_dumps.py" > log
+parallel --no-notice -a temp/files_to_merge "python $GENERIC/merge_parsed_dumps.py"
 
 echo "Generating chart"
-python $PYTHONPATH/parallel/yearly_charts.py > log
+python $PYTHONPATH/parallel/yearly_charts.py
 
 echo "Cleaning Up"
 unset PYTHONPATH
