@@ -9,6 +9,7 @@ from utilities.geoip import GeoIPLookup
 from utilities.population import get_global_population_database
 from utilities.shapefile import Reader
 from atlas_map import GLOBAL, map_lon_to_x_coord, map_lat_to_y_coord
+from ImageDraw import Draw
 
 """
 HeatMap
@@ -77,7 +78,8 @@ class HeatMap(Graph):
         reader = Reader("utilities/data/country_outlines/countries")
         cursor = Draw(self.image)
 
-        ((x1, y1), (x2, y2)) = self._convert_region_to_coords(region)
+        img_width, img_height = self.image.size
+        ((x1, y1), (x2, y2))  = self._convert_region_to_coords(region)
 
         x_anchor = min(x1, x2)
         y_anchor = min(y1, y2)
@@ -92,8 +94,8 @@ class HeatMap(Graph):
             colour  = (shades[country], 0, 0)
 
             for (lon, lat) in points:
-                x = (map_lon_to_x_coord(lon, self.image.size[0]) - x_anchor) * x_scale
-                y = (map_lat_to_y_coord(lat, self.image.size[1]) - y_anchor) * y_scale
+                x = (map_lon_to_x_coord(lon, img_width) - x_anchor) * x_scale
+                y = (map_lat_to_y_coord(lat, img_height) - y_anchor) * y_scale
 
             cursor.polygon(outline, fill=colour)
 
