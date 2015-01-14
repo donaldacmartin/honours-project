@@ -58,6 +58,6 @@ def _parse_record_years(record):
     for year in range(2001, 2015):
         pop = record[column_pos].replace("\"", "")
         yearly_pop[year] = int(pop) if pop != "" else None
-        column_position += 1
+        column_pos += 1
 
     return yearly_pop
