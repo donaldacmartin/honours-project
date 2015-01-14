@@ -101,6 +101,7 @@ class HeatMap(Graph):
             for (lon, lat) in points:
                 x = (map_lon_to_x_coord(lon, img_width) - x_anchor) * x_scale
                 y = (map_lat_to_y_coord(lat, img_height) - y_anchor) * y_scale
+                outline.append((x,y))
 
             cursor.polygon(outline, fill=colour)
 
