@@ -91,6 +91,10 @@ class HeatMap(Graph):
             points  = record.shape.points
             country = record.record[23]
             outline = []
+
+            if country not in shades:
+                continue
+                
             colour  = (shades[country], 0, 0)
 
             for (lon, lat) in points:
