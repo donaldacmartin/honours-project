@@ -54,8 +54,11 @@ class HeatMap(Graph):
         per_capita = {}
 
         for country, alloc_size in allocations.iteritems():
-            population = populations[country][year]
-            per_capita[country] = alloc_size / float(population)
+            try:
+                population = populations[country][year]
+                per_capita[country] = alloc_size / float(population)
+            except:
+                continue
 
         return per_capita
 
