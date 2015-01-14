@@ -38,7 +38,7 @@ class HeatMap(Graph):
         geoip = GeoIPLookup()
         national_total_alloc = {}
 
-        for (asys, alloc_size) in bgp_dump.as_alloc_size:
+        for asys, alloc_size in bgp_dump.as_alloc_size.iteritems():
             try:
                 ip_addr = bgp_dump.as_to_ip_address[asys]
                 country = geoip.get_country_for_ip[ip_addr]
@@ -52,7 +52,7 @@ class HeatMap(Graph):
     def _get_alloc_size_per_capita(self, allocations, populations, year):
         per_capita = {}
 
-        for (country, alloc_size) in allocations:
+        for country, alloc_size in allocations.iteritems():
             population = populations[country][year]
             per_capita[country] = alloc_size / float(population)
 
@@ -64,7 +64,7 @@ class HeatMap(Graph):
         scale          = 255.0 / (max_per_capita - min_per_capita)
         shades         = {}
 
-        for (country, value) in per_capita:
+        for country, value in per_capita.iteritems():
             shades[country] = (value - min_per_capita) * scale
 
         return shades
