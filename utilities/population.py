@@ -50,6 +50,7 @@ def _parse_record(record, iso_lookup):
     record = record.split(",")
 
     country_code = iso_lookup[record[1].replace("\"", "")]
+    print(country_code)
     yearly_pop   = _parse_record_years(record)
 
     return country_code, yearly_pop
