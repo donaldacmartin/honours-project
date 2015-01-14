@@ -20,6 +20,7 @@ class GeoIPLookup(object):
     def __init__(self):
         self.geo_data  = read_into_table("utilities/data/locations.csv", location_parser)
         self.ip_blocks = read_into_table("utilities/data/blocks.csv", block_parser)
+        self.iso_2to3  = _load_iso_mappings()
 
         self.block_start_ip = sorted(self.ip_blocks.keys())
 
@@ -34,7 +35,7 @@ class GeoIPLookup(object):
     def get_country_for_ip(self, ip_address):
         try:
             data = self._get_ip_data(ip_address)
-            return data["country"].replace("\"", "")
+            return self.iso_2to3[data["country"].replace("\"", "")]
         except NameError:
             logging.error("GeoIP: no country for " + ip_address)
             raise
@@ -113,3 +114,24 @@ def block_parser(line):
     lookup_table["location"] = int(values[2])
 
     return start_ip, lookup_table
+
+def _load_iso_mappings():
+    csv_file = open("utilities/data/fips2iso.txt")
+    record   = csv_file.readline()
+    iso2to3  = {}
+
+        while record != "":
+            if not record.startswith("#"):
+                iso2to3 = _parse_iso_mapping(record, iso2to3)
+
+            record = csv_file.readline()
+
+    csv_file.close()
+    return iso2to3
+
+def _parse_iso_mapping(record, iso2to3):
+    iso2 = record.split(",")[1]
+    iso3 = record.split(",")[2]
+
+    iso2to3[iso2] = iso3
+    return iso2to3
