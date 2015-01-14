@@ -7,6 +7,7 @@
 from graphs.graph import Graph
 from utilities.geoip import GeoIPLookup
 from utilities.population import get_global_population_database
+from utilities.shapefile import Reader
 from atlas_map import GLOBAL, map_lon_to_x_coord, map_lat_to_y_coord
 
 """
@@ -31,7 +32,6 @@ class HeatMap(Graph):
         pops       = get_global_population_database()
         per_capita = self._get_alloc_size_per_capita(allocs, pops, year)
         shades     = self._convert_figures_to_shades(per_capita)
-        print("Got shades")
 
         self._draw(region, shades)
 
