@@ -20,7 +20,7 @@ IPV4_RESERVED_SPACE    =  592708864.0
 IPV4_ADDRESSABLE_SPACE = 4294967296.0
 IPV4_PUBLIC_SPACE      = IPV4_ADDRESSABLE_SPACE - IPV4_RESERVED_SPACE
 
-class Chart(object):
+class YearlyChart(object):
     def __init__(self, bgp_dumps):
         self.bgp_dumps = bgp_dumps
 
@@ -34,19 +34,19 @@ class Chart(object):
         plot(x_values, y_values)
         savefig(filename)
 
-    def draw_yearly_address_space(self, filename):
+    def draw_address_space(self, filename):
         clf()
         ylabel("IPv4 Address Space Usage")
         title("Yearly IPv4 Address Space Usage")
         self._plot_yearly_data(_visible_address_space, filename)
 
-    def draw_yearly_mode_allocated_block_size(self, filename):
+    def draw_mode_allocated_block_size(self, filename):
         clf()
         ylabel("Block Size")
         title("Yearly Most Commonly Allocated Block Size")
         self._plot_yearly_data(_mode_block_size, filename)
 
-    def draw_yearly_mean_allocated_block_size(self, filename):
+    def draw_mean_allocated_block_size(self, filename):
         clf()
         ylabel("Block Size")
         title("Yearly Mean Allocated Block Size")

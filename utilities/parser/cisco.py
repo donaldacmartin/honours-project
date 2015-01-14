@@ -5,6 +5,7 @@
 # Donald Martin (1101795)
 
 from parser import Parser
+from error import ParserError
 from re import sub, compile
 
 """
@@ -40,7 +41,7 @@ class CiscoParser(Parser):
             if ip_addr is not None:
                 self._record_ip_alloc_size(ip_addr, alloc_size, asys)
         except:
-            print("Unable to parse line: " + line)
+            raise ParserError("Unable to parse line: " + line)
 
     def _tokenise(self, line):
         line   = sub("[*>d]", "", line)
