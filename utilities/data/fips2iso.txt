@@ -10,7 +10,7 @@
 # Inclusive in Country
 #
 #FIPS 10-4, ISO 3166-1 A2, ISO 3166-1 A3, ISO 3166-1 N3, Country Inclusive
-AF,AF,AFB,004,
+AF,AF,AFG,004,
 AX,,,,GB
 AL,AL,ALB,008,
 AG,DZ,DZA,012,

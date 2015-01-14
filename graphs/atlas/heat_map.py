@@ -29,8 +29,11 @@ class HeatMap(Graph):
         year       = bgp_dump.date_time_stamp[0]
         allocs     = self._sort_bgp_into_countries(bgp_dump)
         pops       = get_global_population_database()
+        print("Got population")
         per_capita = self._get_alloc_size_per_capita(allocs, pops, year)
+        print("Converted to per-capita figures")
         shades     = self._convert_figures_to_shades(per_capita)
+        print("Got shades")
 
         self._draw(region, shades)
 
