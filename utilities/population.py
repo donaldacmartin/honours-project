@@ -36,9 +36,12 @@ def _read_in_data(iso_lookup):
     lookup   = {}
 
     while record != "":
-        country_code, yearly_pop = _parse_record(record, iso_lookup)
-        lookup[country_code] = yearly_pop
-        record = csv_file.readline()
+        try:
+            country_code, yearly_pop = _parse_record(record, iso_lookup)
+            lookup[country_code] = yearly_pop
+            record = csv_file.readline()
+        except:
+            continue
 
     csv_file.close()
     return lookup
