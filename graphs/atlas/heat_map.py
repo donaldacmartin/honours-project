@@ -44,7 +44,11 @@ class HeatMap(Graph):
             try:
                 ip_addr = bgp_dump.as_to_ip_address[asys]
                 country = geoip.get_country_for_ip(ip_addr)
-                national_total_alloc[country] = alloc_size
+
+                if country not in national_total_alloc:
+                    national_total_alloc[country] = 0
+                    
+                national_total_alloc[country] += alloc_size
             except:
                 print("No country data for IP address " + ip_addr)
                 continue
