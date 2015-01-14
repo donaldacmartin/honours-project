@@ -41,6 +41,7 @@ def _read_in_data(iso_lookup):
             lookup[country_code] = yearly_pop
             record = csv_file.readline()
         except:
+            record = csv_file.readline()
             continue
 
     csv_file.close()
