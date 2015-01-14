@@ -70,7 +70,8 @@ class HeatMap(Graph):
         shades         = {}
 
         for country, value in per_capita.iteritems():
-            shades[country] = (value - min_per_capita) * scale
+            shade = int((value - min_per_capita) * scale)
+            shades[country] = shade if shade > 0 else 1
 
         return shades
 
@@ -94,7 +95,7 @@ class HeatMap(Graph):
 
             if country not in shades:
                 continue
-                
+
             colour  = (shades[country], 0, 0)
 
             for (lon, lat) in points:
