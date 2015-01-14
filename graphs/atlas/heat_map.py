@@ -94,7 +94,7 @@ class HeatMap(Graph):
 
         for record in reader.shapeRecords():
             points  = record.shape.points
-            country = record.record[23]
+            country = record.record[9]
             outline = []
 
             if country not in shades:

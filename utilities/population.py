@@ -5,53 +5,30 @@
 # Donald Martin (1101795)
 
 def get_global_population_database():
-    iso3to2 = _load_iso_mappings()
-    pop_database = _read_in_data(iso3to2)
+    pop_database = _read_in_data()
     return pop_database
 
-def _load_iso_mappings():
-    csv_file = open("utilities/data/fips2iso.txt")
-    record   = csv_file.readline()
-    iso3to2  = {}
-
-    while record != "":
-        if not record.startswith("#"):
-            iso3to2 = _parse_iso_mapping(record, iso3to2)
-
-        record = csv_file.readline()
-
-    csv_file.close()
-    return iso3to2
-
-def _parse_iso_mapping(record, iso3to2):
-    iso2 = record.split(",")[1]
-    iso3 = record.split(",")[2]
-
-    iso3to2[iso3] = iso2
-    return iso3to2
-
-def _read_in_data(iso_lookup):
+def _read_in_data():
     csv_file = open("utilities/data/population.csv")
     record   = csv_file.readline()
     lookup   = {}
 
     while record != "":
         try:
-            country_code, yearly_pop = _parse_record(record, iso_lookup)
+            country_code, yearly_pop = _parse_record(record)
             lookup[country_code] = yearly_pop
         except:
             pass
-            
+
         record = csv_file.readline()
 
     csv_file.close()
     return lookup
 
-def _parse_record(record, iso_lookup):
+def _parse_record(record):
     record = record.split(",")
 
-    country_code = iso_lookup[record[1].replace("\"", "")]
-    print(country_code)
+    country_code = record[1].replace("\"", "")
     yearly_pop   = _parse_record_years(record)
 
     return country_code, yearly_pop
