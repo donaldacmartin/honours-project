@@ -47,7 +47,7 @@ class HeatMap(Graph):
 
                 if country not in national_total_alloc:
                     national_total_alloc[country] = 0
-                    
+
                 national_total_alloc[country] += alloc_size
             except:
                 print("No country data for IP address " + ip_addr)
@@ -75,7 +75,7 @@ class HeatMap(Graph):
 
         for country, value in per_capita.iteritems():
             shade = int((value - min_per_capita) * scale)
-            shades[country] = shade if shade > 0 else 1
+            shades[country] = (255, 255-shade, 255-shade)
 
         return shades
 
@@ -98,16 +98,15 @@ class HeatMap(Graph):
             outline = []
 
             if country not in shades:
+                print("Country not in shades: " + country)
                 continue
-
-            colour  = (shades[country], 0, 0)
 
             for (lon, lat) in points:
                 x = (map_lon_to_x_coord(lon, img_width) - x_anchor) * x_scale
                 y = (map_lat_to_y_coord(lat, img_height) - y_anchor) * y_scale
                 outline.append((x,y))
 
-            cursor.polygon(outline, fill=colour)
+            cursor.polygon(outline, fill=shades[country])
 
     def _convert_region_to_coords(self, region):
         x1 = map_lon_to_x_coord(region[0][1], self.image.size[0])
