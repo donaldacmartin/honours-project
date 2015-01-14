@@ -29,9 +29,7 @@ class HeatMap(Graph):
         year       = bgp_dump.date_time_stamp[0]
         allocs     = self._sort_bgp_into_countries(bgp_dump)
         pops       = get_global_population_database()
-        print("Got population")
         per_capita = self._get_alloc_size_per_capita(allocs, pops, year)
-        print("Converted to per-capita figures")
         shades     = self._convert_figures_to_shades(per_capita)
         print("Got shades")
 
@@ -44,7 +42,7 @@ class HeatMap(Graph):
         for asys, alloc_size in bgp_dump.as_alloc_size.iteritems():
             try:
                 ip_addr = bgp_dump.as_to_ip_address[asys]
-                country = geoip.get_country_for_ip[ip_addr]
+                country = geoip.get_country_for_ip(ip_addr)
                 national_total_alloc[country] = alloc_size
             except:
                 print("No country data for IP address " + ip_addr)

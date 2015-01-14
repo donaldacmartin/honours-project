@@ -33,8 +33,8 @@ class GeoIPLookup(object):
 
     def get_country_for_ip(self, ip_address):
         try:
-            data = self._get_ip_data(ip_address) 
-            return data["country"]
+            data = self._get_ip_data(ip_address)
+            return data["country"].replace("\"", "")
         except NameError:
             logging.error("GeoIP: no country for " + ip_address)
             raise
