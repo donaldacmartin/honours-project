@@ -23,8 +23,7 @@ class MergedParser(Parser):
 
         self._merge_date_stamps(parser1, parser2)
         self._merge_asys_connections(parser1, parser2)
-        self._merge_asys_ip_addresses(parser1, parser2)
-
+        
         self.asys_ip_address = parser2.asys_ip_address
         self.asys_size       = parser2.asys_size
         self.visible_blocks  = parser2.visible_blocks
