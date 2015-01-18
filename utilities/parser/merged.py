@@ -27,14 +27,14 @@ class MergedParser(Parser):
 
         self.asys_ip_address = parser2.asys_ip_address
         self.asys_size       = parser2.asys_size
-        self.visible_
+        self.visible_blocks  = parser2.visible_blocks
 
     def _merge_date_stamps(self, parser1, parser2):
         datetime1 = parser1.date_time_stamp
         datetime2 = parser2.date_time_stamp
         self.date_time_stamp = max(datetime1, datetime2)
 
-    def _merge_asys_connections(self):
+    def _merge_asys_connections(self, parser1, parser2):
         cxns1 = parser1.asys_connections
         cxns2 = parser2.asys_connections
         self.asys_connections = cxns1.union(cxns2)
