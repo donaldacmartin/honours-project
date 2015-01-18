@@ -5,8 +5,8 @@
 # Donald Martin (1101795)
 
 from parser import Parser
-from error import ParserError
 from re import sub, compile
+from ip_utils import parse_ipv4_block
 
 """
 CiscoParser
@@ -27,32 +27,32 @@ class CiscoParser(Parser):
         for line in lines:
             self._parse_line(line)
 
-        self._update_size()
-
     def _parse_line(self, line):
         if not line.startswith("*"):
             return
 
-        try:
-            tokens              = self._tokenise(line)
-            ip_addr, alloc_size = self._get_allocated_base_ip_and_size(tokens)
-            asys                = self._add_asys_path_and_get_dest_asys(tokens)
+        tokens = self._tokenise(line)
 
-            if ip_addr is not None:
-                self._record_ip_alloc_size(ip_addr, alloc_size, asys)
+        try:
+            ip_address, prefix_size = self._get_ip_and_size(tokens)
+            asys = self._add_asys_path_and_get_dest_asys(tokens)
+
+                if ip_address is not None:
+                    self._record_information(ip_address, prefix_size, asys)
         except:
-            raise ParserError("Unable to parse line: " + line)
+            print(e)
+            return
 
     def _tokenise(self, line):
         line   = sub("[*>d]", "", line)
         tokens = line.split(" ")
         return [token for token in tokens if token != ""]
 
-    def _get_allocated_base_ip_and_size(self, tokens):
+    def _get_ip_and_size(self, tokens):
         if not self._contains_two_ip_addrs(tokens):
             return (None, None)
 
-        return self._convert_ip_block_to_base_and_size(tokens[0])
+        return parse_ipv4_block(tokens[0])
 
     def _add_asys_path_and_get_dest_asys(self, tokens):
         path_weight = tokens.index("0")

@@ -5,9 +5,9 @@
 # Donald Martin (1101795)
 
 from commands import getoutput
-from re import search
-from math import log
-from utilities.file_name import get_date_for_filename
+from utilities.file.name import get_date_for_filename
+from ip_utils import ip_to_int, cidr_to_int
+
 """
 Parser
 
@@ -21,12 +21,11 @@ instantiated directly: use one of the two subclasses BGPParser or CiscoParser.
 
 class Parser(object):
     def __init__(self, filename):
-        self.date_time_stamp       = get_date_for_filename(filename)
-        self.as_connections        = set()
-        self.as_to_ip_address      = {}
-        self.as_alloc_size         = {}
-        self.alloc_blocks          = [0 for _ in range(32)]
-        self.visible_address_space = 0
+        self.date_time_stamp  = get_date_for_filename(filename)
+        self.as_connections   = set()
+        self.as_to_ip_address = {}
+        self.as_alloc_size    = {}
+        self.visible_blocks   = []
 
     # --------------------------------------------------------------------------
     # Higher Order Functions
@@ -42,18 +41,12 @@ class Parser(object):
             curr = asys_path[i]
             self._add_asys_connection(prev, curr)
 
-    def _convert_ip_block_to_base_and_size(self, ip_block):
-        if search("[a-zA-Z]+", ip_block) is not None or ":" in ip_block:
-            return (None, 0)
+    def _record_information(self, ip_address, prefix_size, asys):
+        self._record_asys_ip(asys, ip_address)
 
-        if "/" in ip_block:
-            ip_addr, cidr = ip_block.split("/")
-            alloc_size    = self._convert_cidr_to_size(cidr)
-        else:
-            ip_addr       = ip_block
-            alloc_size    = self._convert_sig_figs_to_size(ip_block)
-
-        return ip_addr, alloc_size
+        if not self._ip_already_visited(ip_addr, prefix_size):
+            self._mark_alloc_block_visible(ip_address, prefix_size)
+            self._record_asys_size(asys, prefix_size)
 
     # --------------------------------------------------------------------------
     # Data Structure Manipulation
@@ -63,43 +56,33 @@ class Parser(object):
         connection = (min(asys1, asys2), max(asys1, asys2))
         self.as_connections.add(connection)
 
-    def _record_ip_alloc_size(self, ip_addr, alloc_size, asys):
-        self.as_to_ip_address[asys] = ip_addr
+    def _mark_alloc_block_visible(self, ip_address, prefix_size):
+        ip_block = (ip_to_int(ip_address), prefix_size)
+        self.visible_blocks.append(ip_block)
+        self.visible_blocks = sorted(self.visible_blocks)
 
-        if asys not in self.as_alloc_size:
-            self.as_alloc_size[asys] = 0
+    def _record_asys_ip(self, asys, ip_address):
+        if asys not in self.asys_ip_address:
+            self.asys_ip_address[asys] = set()
 
-        self.as_alloc_size[asys] += int(alloc_size)
-        cidr_block = self._convert_size_to_cidr(alloc_size) - 1
-        self.alloc_blocks[cidr_block] += 1
-        self.visible_address_space += alloc_size
+        self.asys_ip_address[asys].add(ip_address)
 
-    def _update_size(self):
-        self.visible_address_space = 0
+    def _record_asys_size(self, asys, prefix_size):
+        if asys not in self.asys_size:
+            self.asys_size[asys] = 0
 
-        for i in range(0, 32):
-            host = 31 - i
-            size = 2 ** host
-            self.visible_address_space += self.alloc_blocks[i] * size
+        self.asys_size[asys] += cidr_to_int(prefix_size)
 
-    # --------------------------------------------------------------------------
-    # Network Notation Conversions
-    # --------------------------------------------------------------------------
+    def _ip_already_visited(self, ip_address, prefix_size):
+        ip_int = ip_to_int(ip_address)
+        entry  = (ip_int, prefix_size)
+        prev_ip_index = bisect_left(self.visible_blocks, entry) - 1
 
-    def _convert_cidr_to_size(self, cidr):
-        cidr = int(cidr)
-        host = 32 - cidr
-        return 2 ** host
+        if prev_ip_index < 0:
+            return False
 
-    def _convert_size_to_cidr(self, size):
-        bits = int(log(size, 2))
-        return 32 - bits
+        prev_ip_block = self.visible_blocks[prev_ip_index]
+        prev_ip       = prev_ip_block[0]
+        prev_size     = cidr_to_int(prev_ip_block[1])
 
-    def _convert_sig_figs_to_size(self, ip_addr):
-        ip_addr = [int(bits) for bits in ip_addr.split(".")]
-
-        for i in range(3, -1, -1):
-            if ip_addr[i] > 0:
-                break
-
-        return 255 ** (3 - i)
+        return prev_ip <= ip_int <= (prev_ip + prev_size)

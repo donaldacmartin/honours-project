@@ -120,11 +120,11 @@ def _load_iso_mappings():
     record   = csv_file.readline()
     iso2to3  = {}
 
-        while record != "":
-            if not record.startswith("#"):
-                iso2to3 = _parse_iso_mapping(record, iso2to3)
+    while record != "":
+        if not record.startswith("#"):
+            iso2to3 = _parse_iso_mapping(record, iso2to3)
 
-            record = csv_file.readline()
+        record = csv_file.readline()
 
     csv_file.close()
     return iso2to3
