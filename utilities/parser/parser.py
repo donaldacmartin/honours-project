@@ -44,7 +44,7 @@ class Parser(object):
     def _record_information(self, ip_address, prefix_size, asys):
         self._record_asys_ip(asys, ip_address)
 
-        if not self._ip_already_visited(ip_addr, prefix_size):
+        if not self._ip_already_visited(ip_address, prefix_size):
             self._mark_alloc_block_visible(ip_address, prefix_size)
             self._record_asys_size(asys, prefix_size)
 
