@@ -6,9 +6,7 @@
 
 from commands import getoutput
 from utilities.file.name import get_date_for_filename
-from ip_utils import ip_to_int, cidr_to_int, int_to_ip
-from bisect import bisect_left
-from collections import OrderedDict
+from ip_utils import ip_to_int, cidr_to_int
 
 """
 Parser
@@ -58,9 +56,6 @@ class Parser(object):
         if not self._already_visited(ip_address):
             self._mark_alloc_block_visible(ip_address, prefix_size)
             self._record_asys_size(asys, prefix_size)
-        else:
-            print("Rejecting " + ip_address)
-            print("Previous is " + int_to_ip(self.highest_ip))
 
     # --------------------------------------------------------------------------
     # Data Structure Manipulation

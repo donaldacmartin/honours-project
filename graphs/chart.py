@@ -67,7 +67,7 @@ def _get_yearly_data(statistic, dumps):
     return yearly_data
 
 def _visible_address_space(dump):
-    return (dump.visible_address_space / IPV4_PUBLIC_SPACE) * 100
+    return (dump.get_visible_space_size() / IPV4_PUBLIC_SPACE) * 100
 
 def _mode_block_size(dump):
     return dump.alloc_blocks.index(max(dump.alloc_blocks)) + 1
