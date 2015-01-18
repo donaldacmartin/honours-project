@@ -37,8 +37,8 @@ class CiscoParser(Parser):
             ip_address, prefix_size = self._get_ip_and_size(tokens)
             asys = self._add_asys_path_and_get_dest_asys(tokens)
 
-                if ip_address is not None:
-                    self._record_information(ip_address, prefix_size, asys)
+            if ip_address is not None:
+                self._record_information(ip_address, prefix_size, asys)
         except:
             print(e)
             return
