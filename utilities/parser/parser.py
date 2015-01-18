@@ -22,9 +22,9 @@ instantiated directly: use one of the two subclasses BGPParser or CiscoParser.
 class Parser(object):
     def __init__(self, filename):
         self.date_time_stamp  = get_date_for_filename(filename)
-        self.as_connections   = set()
-        self.as_to_ip_address = {}
-        self.as_alloc_size    = {}
+        self.asys_connections = set()
+        self.asys_ip_address  = {}
+        self.asys_size        = {}
         self.visible_blocks   = []
 
     # --------------------------------------------------------------------------
@@ -54,7 +54,7 @@ class Parser(object):
 
     def _add_asys_connection(self, asys1, asys2):
         connection = (min(asys1, asys2), max(asys1, asys2))
-        self.as_connections.add(connection)
+        self.asys_connections.add(connection)
 
     def _mark_alloc_block_visible(self, ip_address, prefix_size):
         ip_block = (ip_to_int(ip_address), prefix_size)
