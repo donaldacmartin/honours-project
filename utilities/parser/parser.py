@@ -8,6 +8,7 @@ from commands import getoutput
 from utilities.file.name import get_date_for_filename
 from ip_utils import ip_to_int, cidr_to_int
 from bisect import bisect_left
+from collections import OrderedDict
 
 """
 Parser
@@ -27,6 +28,15 @@ class Parser(object):
         self.asys_ip_address  = {}
         self.asys_size        = {}
         self.visible_blocks   = []
+        self.highest_ip       = 0
+
+    # --------------------------------------------------------------------------
+    # Public Functions
+    # --------------------------------------------------------------------------
+
+    def get_visible_space_size(self):
+        blocks = [cidr_to_int(i) for (_, i) in self.visible_blocks]
+        return sum(blocks)
 
     # --------------------------------------------------------------------------
     # Higher Order Functions
@@ -45,7 +55,7 @@ class Parser(object):
     def _record_information(self, ip_address, prefix_size, asys):
         self._record_asys_ip(asys, ip_address)
 
-        if not self._ip_already_visited(ip_address, prefix_size):
+        if not self._already_visited(ip_address):
             self._mark_alloc_block_visible(ip_address, prefix_size)
             self._record_asys_size(asys, prefix_size)
 
@@ -60,7 +70,7 @@ class Parser(object):
     def _mark_alloc_block_visible(self, ip_address, prefix_size):
         ip_block = (ip_to_int(ip_address), prefix_size)
         self.visible_blocks.append(ip_block)
-        self.visible_blocks = sorted(self.visible_blocks)
+        self.highest_ip = ip_to_int(ip_address) + cidr_to_int(prefix_size)
 
     def _record_asys_ip(self, asys, ip_address):
         if asys not in self.asys_ip_address:
@@ -74,16 +84,5 @@ class Parser(object):
 
         self.asys_size[asys] += cidr_to_int(prefix_size)
 
-    def _ip_already_visited(self, ip_address, prefix_size):
-        ip_int = ip_to_int(ip_address)
-        entry  = (ip_int, prefix_size)
-        prev_ip_index = bisect_left(self.visible_blocks, entry) - 1
-
-        if prev_ip_index < 0:
-            return False
-
-        prev_ip_block = self.visible_blocks[prev_ip_index]
-        prev_ip       = prev_ip_block[0]
-        prev_size     = cidr_to_int(prev_ip_block[1])
-
-        return prev_ip <= ip_int <= (prev_ip + prev_size)
+    def _already_visited(self, ip_address):
+        return ip_to_int(ip_address) <= self.highest_ip

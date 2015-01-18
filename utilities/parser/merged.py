@@ -21,35 +21,20 @@ class MergedParser(Parser):
     def __init__(self, parser1, parser2):
         super(MergedParser, self).__init__("UPDATES")
 
-        self.date_time_stamp = parser1.date_time_stamp
-        self._merge_as_connections(parser1, parser2)
-        self._merge_as_to_ip_addresses(parser1, parser2)
-        self._merge_alloc_sizes(parser1, parser2)
-        self._merge_alloc_blocks(parser1, parser2)
-        self._merge_visible_address_space(parser1, parser2)
+        self._merge_date_stamps(parser1, parser2)
+        self._merge_asys_connections(parser1, parser2)
+        self._merge_asys_ip_addresses(parser1, parser2)
 
-    def _merge_as_connections(self, parser1, parser2):
-        connections1 = parser1.as_connections
-        connections2 = parser2.as_connections
-        self.as_connections = connections1.union(connections2)
+        self.asys_ip_address = parser2.asys_ip_address
+        self.asys_size       = parser2.asys_size
+        self.visible_
 
-    def _merge_as_to_ip_addresses(self, parser1, parser2):
-        ips1 = parser1.as_to_ip_address
-        ips2 = parser2.as_to_ip_address
-        self.as_to_ip_address = dict(list(ips1.items()) + list(ips2.items()))
+    def _merge_date_stamps(self, parser1, parser2):
+        datetime1 = parser1.date_time_stamp
+        datetime2 = parser2.date_time_stamp
+        self.date_time_stamp = max(datetime1, datetime2)
 
-    def _merge_alloc_sizes(self, parser1, parser2):
-        allocs1 = parser1.as_alloc_size
-        allocs2 = parser2.as_alloc_size
-        self.as_alloc_size = dict(list(allocs1.items()) + list(allocs2.items()))
-
-    def _merge_alloc_blocks(self, parser1, parser2):
-        for i in range(32):
-            allocs1 = parser1.alloc_blocks[i]
-            allocs2 = parser2.alloc_blocks[i]
-            self.alloc_blocks[i] = max(allocs1, allocs2)
-
-    def _merge_visible_address_space(self, parser1, parser2):
-        space1 = parser1.visible_address_space
-        space2 = parser2.visible_address_space
-        self.visible_address_space = max(space1, space2)
+    def _merge_asys_connections(self):
+        cxns1 = parser1.asys_connections
+        cxns2 = parser2.asys_connections
+        self.asys_connections = cxns1.union(cxns2)
