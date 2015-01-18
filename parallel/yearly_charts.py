@@ -1,10 +1,10 @@
 from utilities.file.io import load_object
-from graphs.chart import Chart
+from graphs.chart import YearlyChart
 
 def draw_chart():
     files = get_filenames()
     dumps = [load_object("temp/merged", file) for file in files]
-    chart = Chart(dumps)
+    chart = YearlyChart(dumps)
 
     chart.draw_yearly_address_space("address-space.png")
     #chart.draw_yearly_mode_allocated_block_size("mode-block-size.png")
