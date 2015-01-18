@@ -7,6 +7,7 @@
 from commands import getoutput
 from utilities.file.name import get_date_for_filename
 from ip_utils import ip_to_int, cidr_to_int
+from bisect import bisect_left
 
 """
 Parser
