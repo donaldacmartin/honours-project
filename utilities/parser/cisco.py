@@ -39,7 +39,7 @@ class CiscoParser(Parser):
 
             if ip_address is not None:
                 self._record_information(ip_address, prefix_size, asys)
-        except:
+        except Exception as e:
             print(e)
             return
 
