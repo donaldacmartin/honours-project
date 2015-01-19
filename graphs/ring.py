@@ -36,11 +36,7 @@ class RingGraph(Graph):
 
     def _map_as_ip_to_circumference_pos(self, as_num, ip_addresses):
         try:
-            if len(ip_addresses) == 0:
-                self.fast_reject.add(as_num)
-                return
-
-            if as_num in self.asys_coords or as_num in self.fast_reject:
+            if as_num in self.fast_reject:
                 return
 
             ip_address = ip_addresses.pop()
@@ -52,11 +48,14 @@ class RingGraph(Graph):
             x = centre + radius * cos(lon)
             y = centre - radius * sin(lon)
 
-            print(str(x) + "," + str(y))
             self.asys_coords[as_num] = (x,y)
+            self.fast_reject.add(as_num)
         except:
             try:
-                self._map_as_ip_to_circumference_pos(as_num, ip_addresses)
+                if len(ip_addresses) > 0:
+                    self._map_as_ip_to_circumference_pos(as_num, ip_addresses)
+                else:
+                    self.fast_reject.add(as_num)
             except:
                 self.fast_reject.add(as_num)
 
