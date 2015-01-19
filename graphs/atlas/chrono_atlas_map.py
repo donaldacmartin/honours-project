@@ -15,11 +15,11 @@ class ChronoAtlasMap(AtlasMap):
     def __init__(self, width, height, old_bgp, new_bgp, region=GLOBAL):
         super(ChronoAtlasMap, self).__init__(width, height, old_bgp, region, LIGHT_GREY)
 
-        for (asys, ip_addr) in new_bgp.as_to_ip_address.items():
-            super(ChronoAtlasMap, self)._map_as_ip_to_coordinates(asys, ip_addr)
-            
-        removed_cxns = old_bgp.as_connections.difference(new_bgp.as_connections)
-        new_cxns     = new_bgp.as_connections.difference(old_bgp.as_connections)
+        for (asys, ip_addresses) in new_bgp.asys_ip_address.items():
+            self._map_as_ip_to_coordinates(asys, ip_addresses)
+
+        removed_cxns = old_bgp.asys_connections.difference(new_bgp.asys_connections)
+        new_cxns     = new_bgp.asys_connections.difference(old_bgp.asys_connections)
 
         self._setup_and_draw(removed_cxns, DARK_RED)
         self._setup_and_draw(new_cxns, LIGHT_GREEN)

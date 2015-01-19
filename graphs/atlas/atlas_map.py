@@ -29,22 +29,30 @@ class AtlasMap(Graph):
 
         self._draw_borders()
 
-        for (asys, ip_address) in bgp.as_to_ip_address.items():
-            self._map_as_ip_to_coordinates(asys, ip_address)
+        for (asys, ip_addresses) in bgp.asys_ip_address.items():
+            self._map_as_ip_to_coordinates(asys, ip_addresses)
 
-        for (start, end) in bgp.as_connections:
+        for (start, end) in bgp.asys_connections:
             self._draw_line(start, end, line_colour)
 
-    def _map_as_ip_to_coordinates(self, as_num, ip_address):
+    def _map_as_ip_to_coordinates(self, as_num, ip_addresses):
         try:
+            if len(ip_addresses) == 0:
+                self.fast_reject.add(as_num)
+                return
+
             if as_num in self.asys_coords or as_num in self.fast_reject:
                 return
 
-            latlon   = self.geoip.get_latlon_for_ip(ip_address)
-            xy_coord = scale_coords(latlon, self.region, self.image)
+            ip_address = ip_addresses.pop()
+            latlon     = self.geoip.get_latlon_for_ip(ip_address)
+            xy_coord   = scale_coords(latlon, self.region, self.image)
             self.asys_coords[as_num] = xy_coord
         except:
-            self.fast_reject.add(as_num)
+            try:
+                self._map_as_ip_to_coordinates(as_num, ip_addresses)
+            except:
+                self.fast_reject.add(as_num)
 
     def _draw_line(self, start, end, colour):
         if coord_missing(start, end, self.asys_coords):

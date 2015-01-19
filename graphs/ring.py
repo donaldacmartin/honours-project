@@ -25,7 +25,6 @@ class RingGraph(Graph):
     def __init__(self, width, bgp_dump):
         super(RingGraph, self).__init__(width, width)
         self.geoip = GeoIPLookup()
-
         self.asys_coords = {}
         self.fast_reject = set()
 
