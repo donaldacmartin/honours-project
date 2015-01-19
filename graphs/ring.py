@@ -5,7 +5,7 @@
 # University of Glasgow
 
 from math import sin, cos
-from graphs.graph import Graph
+from graphs.graph import Graph, DARK_RED
 from utilities.geoip import GeoIPLookup
 
 """
@@ -67,4 +67,4 @@ class RingGraph(Graph):
         start = self.asys_coords[start]
         end   = self.asys_coords[end]
 
-        self.draw_line(start, end)
+        self.draw_line(start, end, DARK_RED)
