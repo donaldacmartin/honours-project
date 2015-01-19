@@ -28,29 +28,36 @@ class RingGraph(Graph):
         self.asys_coords = {}
         self.fast_reject = set()
 
-        for (asys, ip_address) in bgp_dump.as_to_ip_address.items():
-            self._map_as_ip_to_circumference_pos(asys, ip_address)
+        for (asys, ip_addresses) in bgp_dump.asys_ip_address.items():
+            self._map_as_ip_to_circumference_pos(asys, ip_addresses)
 
-        for (start, end) in bgp_dump.as_connections:
+        for (start, end) in bgp_dump.asys_connections:
             self._draw_connection(start, end)
 
-    def _map_as_ip_to_circumference_pos(self, as_num, ip_addr):
+    def _map_as_ip_to_circumference_pos(self, as_num, ip_addresses):
         try:
+            if len(ip_addresses):
+                self.fast_reject.add(as_num)
+                return
+
             if as_num in self.asys_coords or as_num in self.fast_reject:
                 return
 
-            lat,lon = self.geoip.get_latlon_for_ip(ip_address)
-            width, height = self.image.size
+            ip_address = ip_addresses.pop()
+            lon        = self.geoip.get_latlon_for_ip(ip_address)[0] + 180
+            width      = self.image.size[0]
+            radius     = (width - 10) / 2
+            centre     = width / 2
 
-            radius = (width - 10) / 2
-            centre = (width / 2, height / 2)
-
-            x = centre[0] + (radius * sin(lon))
-            y = centre[1] - (radius * cos(lon))
+            x = centre + radius * cos(lon)
+            y = centre - radius * sin(lon)
 
             self.asys_coords[as_num] = (x,y)
         except:
-            self.fast_reject.add(as_num)
+            try:
+                self._map_as_ip_to_circumference_pos(as_num, ip_addresses)
+            except:
+                self.fast_reject.add(as_num)
 
     def _draw_connection(self, start, end):
         if coord_missing(start, end, self.asys_coords):
