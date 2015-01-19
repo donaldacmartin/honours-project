@@ -44,7 +44,7 @@ class RingGraph(Graph):
                 return
 
             ip_address = ip_addresses.pop()
-            lon        = self.geoip.get_latlon_for_ip(ip_address)[0] + 180
+            lon        = self.geoip.get_latlon_for_ip(ip_address)[1] + 180
             width      = self.image.size[0]
             radius     = (width - 10) / 2
             centre     = width / 2
