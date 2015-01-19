@@ -6,7 +6,8 @@
 
 from matplotlib import use
 use("Agg")
-from matplotlib.pyplot import plot, savefig, xlabel, ylabel, title, clf
+from matplotlib.pyplot import plot, savefig, xlabel, ylabel, ylim, title, clf
+from collections import Counter
 
 """
 Chart
@@ -24,7 +25,7 @@ class YearlyChart(object):
     def __init__(self, bgp_dumps):
         self.bgp_dumps = bgp_dumps
 
-    def _plot_yearly_data(self, statistic, filename):
+    def _plot_yearly_data(self, statistic):
         yearly_data = _get_yearly_data(statistic, self.bgp_dumps)
 
         x_values = [data[0] for data in yearly_data]
@@ -32,25 +33,22 @@ class YearlyChart(object):
 
         xlabel("Year")
         plot(x_values, y_values)
-        savefig(filename)
 
     def draw_address_space(self, filename):
         clf()
-        ylabel("IPv4 Address Space Usage")
-        title("Yearly IPv4 Address Space Usage")
-        self._plot_yearly_data(_visible_address_space, filename)
+        ylabel("%% IPv4 Space")
+        title("Yearly %% IPv4 Space Visible to Routers")
+        self._plot_yearly_data(_visible_address_space)
+        ylim(0, 100)
+        savefig(filename)
 
-    def draw_mode_allocated_block_size(self, filename):
+    def draw_most_common_block_size(self, filename):
         clf()
-        ylabel("Block Size")
-        title("Yearly Most Commonly Allocated Block Size")
-        self._plot_yearly_data(_mode_block_size, filename)
-
-    def draw_mean_allocated_block_size(self, filename):
-        clf()
-        ylabel("Block Size")
-        title("Yearly Mean Allocated Block Size")
-        self._plot_yearly_data(_mean_block_size, filename)
+        ylabel("Prefix Size")
+        title("Yearly Most Commonly Allocated Prefix Size")
+        self._plot_yearly_data(_most_common_block_size)
+        ylim(0,32)
+        savefig(filename)
 
 # ------------------------------------------------------------------------------
 # Helper Functions
@@ -69,14 +67,10 @@ def _get_yearly_data(statistic, dumps):
 def _visible_address_space(dump):
     return (dump.get_visible_space_size() / IPV4_PUBLIC_SPACE) * 100
 
-def _mode_block_size(dump):
-    return dump.alloc_blocks.index(max(dump.alloc_blocks)) + 1
+def _most_common_block_size(dump):
+    counter = Counter()
 
-def _mean_block_size(dump):
-    blocks = dump.alloc_blocks
-    total  = 0
+    for (_, cidr) in dump.visible_blocks:
+        counter[cidr] += 1
 
-    for i in range(32):
-        total += blocks[i] * (i+1)
-
-    return int(total / 32)
+    return counter.most_common(1)[0][0]
