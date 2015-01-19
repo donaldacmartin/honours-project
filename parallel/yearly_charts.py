@@ -6,7 +6,7 @@ def draw_chart():
     dumps = [load_object("temp/merged", file) for file in files]
     chart = YearlyChart(dumps)
 
-    chart.draw_yearly_address_space("address-space.png")
+    chart.draw_address_space("address-space.png")
     #chart.draw_yearly_mode_allocated_block_size("mode-block-size.png")
     #chart.draw_yearly_mean_allocated_block_size("mean-block-size.png")
 
