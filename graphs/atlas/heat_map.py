@@ -32,6 +32,9 @@ class HeatMap(Graph):
         year        = self.bgp.date_time_stamp[0]
         countries   = self._break_bgp_into_countries()
         populations = get_global_population_database()
+        per_capita  = self._per_capita(countries, populations, year)
+        shades      = self._shade_countries(per_capita)
+        self._draw_map(shades)
 
     def _break_bgp_into_countries(self):
         countries = {}
@@ -56,3 +59,41 @@ class HeatMap(Graph):
                 break
 
         return country
+
+    def _per_capita(self, countries, populations, year):
+        per_capita = {}
+
+        for (country, address_space) in countries.items():
+            if country in populations and year in populations[country]:
+                population          = populations[country][year]
+                per_capita[country] = float(address_space) / population
+
+        return per_capita
+
+    def _shade_countries(self, per_capita):
+        max_per_capita = max(per_capita.values())
+        shades         = {}
+
+        for (country, value) in per_capita.items():
+            shade           = (1 - (float(value) / max_per_capita)) * 255
+            shades[country] = (255, shade, shade)
+
+        return shades
+
+    def _draw_map(self, shades):
+        reader = Reader("utilities/data/country_outlines/countries")
+        draw = Draw(self.image)
+
+        for record in reader.shapeRecords():
+            country = record.record[9]
+            points  = record.shape.points
+            outline = []
+
+            if country not in shades:
+                continue
+
+            for (lon, lat) in points:
+                x, y = scale_coords((lat, lon), self.region, self.image)
+                outline.append((x,y))
+
+            draw.polygon(outline, fill=shades[country])
