@@ -4,7 +4,8 @@
 # Honours Project: Map of the Internet (2014/15)
 # University of Glasgow
 
-from graphs.graph import Graph, GLOBAL
+from graphs.graph import Graph
+from graphs.atlas.atlas_map import GLOBAL
 from utilities.geoip import GeoIPLookup
 from utilities.population import get_global_population_database
 
