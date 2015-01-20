@@ -9,6 +9,7 @@ from graphs.atlas.atlas_map import GLOBAL
 from utilities.geoip import GeoIPLookup
 from utilities.population import get_global_population_database
 from utilities.shapefile import Reader
+from ImageDraw import Draw
 
 """
 HeatMap
