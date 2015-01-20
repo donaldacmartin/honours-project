@@ -33,7 +33,7 @@ class HeatMap(Graph):
         countries   = self._break_bgp_into_countries()
         populations = get_global_population_database()
 
-    def _break_bgp_into_countries():
+    def _break_bgp_into_countries(self):
         countries = []
 
         for (asys, size) in self.bgp.asys_size.items():
@@ -46,7 +46,7 @@ class HeatMap(Graph):
 
         return countries
 
-    def _get_country_for_asys(asys):
+    def _get_country_for_asys(self, asys):
         ip_addresses = self.bgp.asys_ip_address[asys]
 
         for ip_address in ip_addresses:
