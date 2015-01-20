@@ -5,7 +5,7 @@
 # University of Glasgow
 
 from graphs.graph import Graph
-from graphs.atlas.atlas_map import GLOBAL
+from graphs.atlas.atlas_map import GLOBAL, scale_coords
 from utilities.geoip import GeoIPLookup
 from utilities.population import get_global_population_database
 from utilities.shapefile import Reader
@@ -28,8 +28,9 @@ class HeatMap(Graph):
     def __init__(self, bgp_dump, region=GLOBAL, width=1920, height=1080):
         super(HeatMap, self).__init__(width, height)
 
-        self.geoip = GeoIPLookup()
-        self.bgp   = bgp_dump
+        self.geoip  = GeoIPLookup()
+        self.bgp    = bgp_dump
+        self.region = region
 
         year        = self.bgp.date_time_stamp[0]
         countries   = self._break_bgp_into_countries()
