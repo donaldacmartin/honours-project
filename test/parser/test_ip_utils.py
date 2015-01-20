@@ -55,11 +55,11 @@ class IPUtilsTest(TestCase):
     # --------------------------------------------------------------------------
     def test_cidr_to_int_lower_limit(self):
         size = cidr_to_int(1)
-        self.assertEqual(0, size, "Largest prefix failed")
+        self.assertEqual(2147483648, size, "Smallest prefix failed")
 
     def test_cidr_to_int_upper_limit(self):
         size = cidr_to_int(32)
-        self.assertEqual(1, size, "Smallest prefix failed")
+        self.assertEqual(1, size, "Largest prefix failed")
 
     def test_cidr_to_int_negative(self):
         size = cidr_to_int(-1)
@@ -84,13 +84,13 @@ class IPUtilsTest(TestCase):
     # Overall Parsing
     # --------------------------------------------------------------------------
     def test_parse_ipv4_block_with_cidr(self):
-        ip_addr, cidr = parse_ipv4_block("0.0.0.0/8")
-        self.assertEqual("0.0.0.0", ip_addr, "Wrong IP address returned")
+        ip_addr, cidr = parse_ipv4_block("1.0.0.0/8")
+        self.assertEqual("1.0.0.0", ip_addr, "Wrong IP address returned")
         self.assertEqual(8, cidr, "Wrong CIDR prefix size returned")
 
     def test_parse_ipv4_block_without_cidr(self):
-        ip_addr, cidr = parse_ipv4_block("0.0.0.0")
-        self.assertEqual("0.0.0.0", ip_addr, "Wrong IP address returned")
+        ip_addr, cidr = parse_ipv4_block("1.0.0.0")
+        self.assertEqual("1.0.0.0", ip_addr, "Wrong IP address returned")
         self.assertEqual(8, cidr, "Wrong CIDR prefix size returned")
 
     def test_rejection_of_ipv6(self):

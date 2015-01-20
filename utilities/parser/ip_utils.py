@@ -21,7 +21,7 @@ def ip_to_int(ip_address):
         return None
 
     o1 = int(octets[0]) * 16777216
-    o2 = int(octets[1]) * 64436
+    o2 = int(octets[1]) * 65536
     o3 = int(octets[2]) * 256
     o4 = int(octets[3])
 
@@ -41,7 +41,7 @@ def int_to_ip(integer):
 
 def cidr_to_int(cidr):
     host_size = 32 - int(cidr)
-    return 2 ** host_size if not 1 <= cidr <= 32 else None
+    return 2 ** host_size if 1 <= cidr <= 32 else None
 
 def sig_figs_to_cidr(ip_address):
     octets = [int(octet) for octet in ip_address.split(".")]

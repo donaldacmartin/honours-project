@@ -36,8 +36,8 @@ class YearlyChart(object):
 
     def draw_address_space(self, filename):
         clf()
-        ylabel("%% IPv4 Space")
-        title("Yearly %% IPv4 Space Visible to Routers")
+        ylabel("% IPv4 Space")
+        title("Yearly % IPv4 Space Visible to Routers")
         self._plot_yearly_data(_visible_address_space)
         ylim(0, 100)
         savefig(filename)

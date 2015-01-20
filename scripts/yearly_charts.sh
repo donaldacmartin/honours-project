@@ -27,3 +27,4 @@ python $PYTHONPATH/parallel/yearly_charts.py
 echo "Cleaning Up"
 unset PYTHONPATH
 unset GENERIC
+rm -rf temp

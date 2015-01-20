@@ -7,8 +7,7 @@ def draw_chart():
     chart = YearlyChart(dumps)
 
     chart.draw_address_space("address-space.png")
-    #chart.draw_yearly_mode_allocated_block_size("mode-block-size.png")
-    #chart.draw_yearly_mean_allocated_block_size("mean-block-size.png")
+    chart.draw_most_common_block_size("most-common-block-size.png")
 
 def get_filenames():
     file  = open("temp/files_to_merge", "rb")

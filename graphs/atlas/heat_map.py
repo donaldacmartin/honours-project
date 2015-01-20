@@ -22,3 +22,5 @@ Goals
 class HeatMap(Graph):
     def __init__(self, bgp_dump, region=GLOBAL, width=1920, height=1080):
         super(HeatMap, self).__init__(width, height)
+
+    
