@@ -36,9 +36,8 @@ class GeoIPLookup(object):
         try:
             data = self._get_ip_data(ip_address)
             return self.iso_2to3[data["country"].replace("\"", "")]
-        except NameError:
-            logging.error("GeoIP: no country for " + ip_address)
-            raise
+        except:
+            return None
 
     def _locate_block(self, ip_int):
         i = bisect_left(self.block_start_ip, ip_int)
