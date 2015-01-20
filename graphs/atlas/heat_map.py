@@ -5,6 +5,8 @@
 # University of Glasgow
 
 from graphs.graph import Graph
+from utilities.geoip import GeoIPLookup
+from utilities.population import get_global_population_database
 
 """
 HeatMap
@@ -26,7 +28,9 @@ class HeatMap(Graph):
         self.geoip = GeoIPLookup()
         self.bgp   = bgp_dump
 
-        countries  = self._break_bgp_into_countries()
+        year        = self.bgp.date_time_stamp[0]
+        countries   = self._break_bgp_into_countries()
+        populations = get_global_population_database()
 
     def _break_bgp_into_countries():
         countries = []
