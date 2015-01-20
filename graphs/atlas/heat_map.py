@@ -37,7 +37,6 @@ class HeatMap(Graph):
         populations = get_global_population_database()
         per_capita  = self._per_capita(countries, populations, year)
         shades      = self._shade_countries(per_capita)
-        shades      = self._scale_shades(shades)
         self._draw_map(shades)
 
     def _break_bgp_into_countries(self):
@@ -76,21 +75,15 @@ class HeatMap(Graph):
 
     def _shade_countries(self, per_capita):
         max_per_capita = max(per_capita.values())
+        min_per_capita = min(per_capita.values())
+        dif_per_capita = max_per_capita - min_per_capita
+
         shades         = {}
 
         for (country, value) in per_capita.items():
-            shade           = int((1 - (float(value) / max_per_capita)) * 255)
+            value = 1 - ((value - min_per_capita) / dif_per_capita)
+            shade = int(value * 255)
             shades[country] = (255, shade, shade)
-
-        return shades
-
-    def _scale_shades(self, shades):
-        max_shade = max(shades.values())
-        min_shade = min(shades.values())
-
-        for (country, shade) in shades.items():
-            shade = int(((shade - min_shade) / (max_shade - min_shade)) * 255)
-            shades[country] = shade
 
         return shades
 
