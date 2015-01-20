@@ -34,7 +34,7 @@ class HeatMap(Graph):
         populations = get_global_population_database()
 
     def _break_bgp_into_countries(self):
-        countries = []
+        countries = {}
 
         for (asys, size) in self.bgp.asys_size.items():
             country = self._get_country_for_asys(asys)
