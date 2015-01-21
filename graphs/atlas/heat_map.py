@@ -4,6 +4,7 @@
 # Honours Project: Map of the Internet (2014/15)
 # University of Glasgow
 
+from __future__ import Division
 from graphs.graph import Graph
 from graphs.atlas.atlas_map import GLOBAL, scale_coords
 from utilities.geoip import GeoIPLookup
@@ -68,8 +69,11 @@ class HeatMap(Graph):
 
         for (country, address_space) in countries.items():
             if country in populations and year in populations[country]:
-                population          = populations[country][year]
-                per_capita[country] = float(address_space) / population
+                population           = populations[country][year]
+                addresses_per_capita = address_space / population
+
+                if addresses_per_capita > 0.001:
+                    per_capita[country] = addresses_per_capita
 
         return per_capita
 
@@ -83,9 +87,7 @@ class HeatMap(Graph):
         for (country, value) in per_capita.items():
             value = 1 - ((value - min_per_capita) / dif_per_capita)
             shade = int(value * 255)
-
-            if shade > 0:
-                shades[country] = (255, shade, shade)
+            shades[country] = (255, shade, shade)
 
         return shades
 
