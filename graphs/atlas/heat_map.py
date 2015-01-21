@@ -71,9 +71,7 @@ class HeatMap(Graph):
             if country in populations and year in populations[country]:
                 population           = populations[country][year]
                 addresses_per_capita = address_space / population
-
-                if addresses_per_capita > 0.001:
-                    per_capita[country] = addresses_per_capita
+                per_capita[country]  = addresses_per_capita
 
         return per_capita
 
@@ -87,6 +85,7 @@ class HeatMap(Graph):
         for (country, value) in per_capita.items():
             value = 1 - ((value - min_per_capita) / dif_per_capita)
             shade = int(value * 255)
+            print("Country " + country + " | Shade " + str(shade))
             shades[country] = (255, shade, shade)
 
         return shades
