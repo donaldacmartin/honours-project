@@ -4,7 +4,7 @@
 # Honours Project: Map of the Internet (2014/15)
 # University of Glasgow
 
-from __future__ import Division
+from __future__ import division
 from graphs.graph import Graph
 from graphs.atlas.atlas_map import GLOBAL, scale_coords
 from utilities.geoip import GeoIPLookup
