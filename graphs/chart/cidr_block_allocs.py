@@ -20,7 +20,7 @@ class CIDRBlockAllocs(BaseChart):
             self.draw_row(blocks, row_pos)
             row_pos += row_delta
 
-    def draw_row(self, blocks, row_pos)
+    def draw_row(self, blocks, row_pos):
         for (ip, cidr) in blocks:
             start = self.ip_to_x_coord(ip)
             end   = self.ip_to_x_coord((ip + cidr_to_int(cidr))
