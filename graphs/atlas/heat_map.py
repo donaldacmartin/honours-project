@@ -85,7 +85,6 @@ class HeatMap(Graph):
         for (country, value) in per_capita.items():
             value = 1 - ((value - min_per_capita) / dif_per_capita)
             shade = int(value * 255)
-            print("Country " + country + " | Shade " + str(shade))
             shades[country] = (255, shade, shade)
 
         return shades
