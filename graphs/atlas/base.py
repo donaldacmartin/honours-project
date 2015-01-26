@@ -59,7 +59,7 @@ class BaseAtlas(BaseGraph):
     # Draw Connections Between Autonomous Systems
     # --------------------------------------------------------------------------
 
-    def draw_connections(self, connections, colour):
+    def draw_connections(self, connections, colour=DARK_RED):
         for (start, end) in connections:
             if any(asys not in self.asys_coords for asys in [start, end]):
                 continue
