@@ -25,11 +25,10 @@ Goals
  - Draw and shade
 """
 
-class HeatMap(Graph):
-    def __init__(self, bgp_dump, region=GLOBAL, width=1920, height=1080):
-        super(HeatMap, self).__init__(width, height)
+class HeatMap(BaseAtlas):
+    def __init__(self, bgp_dump, width, height, region=GLOBAL):
+        super(HeatMap, self).__init__(width, height, region)
 
-        self.geoip  = GeoIPLookup()
         self.bgp    = bgp_dump
         self.region = region
 

@@ -8,7 +8,12 @@ from base import BaseAtlas, GLOBAL
 from graphs.base_graph import LIGHT_GREY, LIGHT_GREEN, DARK_RED
 
 """
-ChronoAtlasMap
+Chronological Atlas
+
+The aim of this atlas is to show the difference in connections available between
+two BGP dumps (ideally from different time periods). Connections that have
+persisted between the two dumps are shown in grey, connections that are no
+longer available are in red, and new connections are in green.
 """
 
 class ChronologicalAtlas(BaseAtlas):

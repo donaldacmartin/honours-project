@@ -5,7 +5,7 @@
 # Donald Martin (1101795)
 
 from __future__ import division
-from graphs.base_graph import BaseGraph, DARK_RED
+from graphs.base import BaseGraph, DARK_RED
 from utilities.geoip import GeoIPLookup
 from utilities.shapefile import Reader
 
@@ -104,7 +104,7 @@ class BaseAtlas(BaseGraph):
     def draw_international_boundaries(self):
         reader = Reader("utilities/data/country_outlines/countries")
 
-        for point in reader.shapeRecords():
+        for record in reader.shapeRecords():
             points  = record.shape.points
             outline = [self.latlon_to_coords(lat, lon) for (lon, lat) in points]
 
