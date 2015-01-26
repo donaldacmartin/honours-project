@@ -5,6 +5,7 @@
 # University of Glasgow
 
 from graphs.atlas.atlas_map import AtlasMap, GLOBAL
+from base_atlas import BaseAtlas, GLOBAL
 from graphs.graph import LIGHT_GREY, LIGHT_GREEN, DARK_RED
 
 """
@@ -19,13 +20,14 @@ class ChronologicalAtlas(BaseAtlas):
         self.resolve_bgp_to_asys_coords(new_bgp)
 
         old_cxns = old_bgp.asys_connections
+        new_cxns = new_bgp.asys_connections
 
-        removed_cxns = old_bgp.asys_connections.difference(new_bgp.asys_connections)
-        new_cxns     = new_bgp.asys_connections.difference(old_bgp.asys_connections)
+        unchanged = old_cxns.intersection(new_cxns)
+        removed   = old_cxns.difference(new_cxns)
+        added     = new_cxns.difference(old_cxns)
 
-        self._setup_and_draw(removed_cxns, DARK_RED)
-        self._setup_and_draw(new_cxns, LIGHT_GREEN)
+        self.draw_international_boundaries()
 
-    def _setup_and_draw(self, connections, colour):
-        for (start, end) in connections:
-            super(ChronoAtlasMap, self)._draw_line(start, end, colour)
+        self.draw_connections(unchanged, LIGHT_GREY)
+        self.draw_connections(removed, DARK_RED)
+        self.draw_connections(added, LIGHT_GREEN)

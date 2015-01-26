@@ -1,6 +1,7 @@
 from __future__ import division
 from graphs.base_graph import BaseGraph, DARK_RED
 from utilities.geoip import GeoIPLookup
+from utilities.shapefile import Reader
 
 GLOBAL        = ((90, 180), (-90,-180))
 AFRICA        = ((36.08, -21.62), (-38.50, 50.45))
