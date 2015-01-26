@@ -35,7 +35,7 @@ class BaseAtlas(BaseGraph):
 
         if any(coord is None for coord in [lat,lon]):
             return self.ip_addresses_to_coord(ip_addresses)
-        else
+        else:
             return self.latlon_to_coords(lat,lon)
 
     # --------------------------------------------------------------------------
