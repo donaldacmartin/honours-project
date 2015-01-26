@@ -11,7 +11,7 @@ class YearlyAllocatedBlocks(BaseChart):
 
         self.base     = ip_to_int(bounds[0])
         self.limit    = ip_to_int(bounds[1])
-        self.ip_range = self.limit / self.base
+        self.ip_range = self.limit - self.base
         row_delta     = self.image.size[1] / len(bgp_dumps)
         row_pos       = self.image.size[1] * 0.1
 
