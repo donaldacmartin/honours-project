@@ -1,5 +1,6 @@
 from __future__ import division
 from base import BaseChart
+from utilities.parser.ip_utils import ip_to_int, cidr_to_int
 
 DEFAULT = ("0.0.0.0", "255.255.255.255")
 TESTING = ("4.0.0.0", "4.255.255.255")

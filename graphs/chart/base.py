@@ -1,5 +1,11 @@
 from graphs.base import BaseGraph
 
+"""
+Base Chart
+
+A chart class that allows some basic operations common to all
+"""
+
 class BaseChart(BaseGraph):
     def __init__(self, width, height):
         super(BaseChart, self).__init__(width, height)
