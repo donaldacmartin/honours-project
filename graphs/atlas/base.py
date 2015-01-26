@@ -1,7 +1,22 @@
+#!/usr/bin/env python
+
+# Level 4 Project
+# Map of the Internet
+# Donald Martin (1101795)
+
 from __future__ import division
 from graphs.base_graph import BaseGraph, DARK_RED
 from utilities.geoip import GeoIPLookup
 from utilities.shapefile import Reader
+
+"""
+Base Atlas
+
+This class is intended to act as the parent class from which all other
+visualisations based on a geographical atlas can be derived. By default, the map
+will default to a global perspective, however, a number of limits have been
+provided below to zoom to a particular continent.
+"""
 
 GLOBAL        = ((90, 180), (-90,-180))
 AFRICA        = ((36.08, -21.62), (-38.50, 50.45))
