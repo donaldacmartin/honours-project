@@ -5,13 +5,13 @@ from utilities.parser.ip_utils import ip_to_int, cidr_to_int
 DEFAULT = ("0.0.0.0", "255.255.255.255")
 TESTING = ("4.0.0.0", "4.255.255.255")
 
-class CIDRBlockAllocs(BaseChart):
+class YearlyAllocatedBlocks(BaseChart):
     def __init__(self, bgp_dumps, bounds=DEFAULT, width=1920, height=1080):
-        super(CIDRBlockAllocs, self).__init__(width, height)
+        super(YearlyAllocatedBlocks, self).__init__(width, height)
 
         self.base     = ip_to_int(bounds[0])
         self.limit    = ip_to_int(bounds[1])
-        self.ip_range = limit / base
+        self.ip_range = self.limit / self.base
         row_delta     = self.image.size[1] / len(bgp_dumps)
         row_pos       = self.image.size[1] * 0.1
 

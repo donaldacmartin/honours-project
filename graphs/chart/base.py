@@ -1,9 +1,16 @@
+#!/usr/bin/env python
+
+# Level 4 Project
+# Map of the Internet
+# Donald Martin (1101795)
+
 from graphs.base import BaseGraph
 
 """
 Base Chart
 
-A chart class that allows some basic operations common to all
+A chart class that allows some basic operations common to all deriving charts
+(eg drawing an axis). Subclass of Base Graph allowing save and line drawing.
 """
 
 class BaseChart(BaseGraph):
