@@ -1,4 +1,4 @@
-from future import __division__
+from __future__ import division
 from base import BaseChart
 
 DEFAULT = ("0.0.0.0", "255.255.255.255")
