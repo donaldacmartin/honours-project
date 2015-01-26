@@ -11,12 +11,14 @@ from graphs.graph import LIGHT_GREY, LIGHT_GREEN, DARK_RED
 ChronoAtlasMap
 """
 
-class ChronoAtlasMap(AtlasMap):
+class ChronologicalAtlas(BaseAtlas):
     def __init__(self, width, height, old_bgp, new_bgp, region=GLOBAL):
-        super(ChronoAtlasMap, self).__init__(width, height, old_bgp, region, LIGHT_GREY)
+        super(ChronologicalAtlas, self).__init__(width, height, region)
 
-        for (asys, ip_addresses) in new_bgp.asys_ip_address.items():
-            self._map_as_ip_to_coordinates(asys, ip_addresses)
+        self.resolve_bgp_to_asys_coords(old_bgp)
+        self.resolve_bgp_to_asys_coords(new_bgp)
+
+        old_cxns = old_bgp.asys_connections
 
         removed_cxns = old_bgp.asys_connections.difference(new_bgp.asys_connections)
         new_cxns     = new_bgp.asys_connections.difference(old_bgp.asys_connections)
