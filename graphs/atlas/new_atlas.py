@@ -1,8 +1,9 @@
-from base_atlas import BaseAtlas
+from base_atlas import BaseAtlas, GLOBAL
 
 class StandardAtlas(BaseAtlas):
-    def __init__(self, bgp_dump, width, height, region):
-        super(StandardAtlas).__init__(width, height, region)
+    def __init__(self, bgp_dump, width, height, region=GLOBAL):
+        super(StandardAtlas, self).__init__(width, height, region)
 
         self.resolve_bgp_to_asys_coords(bgp_dump)
+        self.draw_international_boundaries()
         self.draw_connections(bgp_dump.asys_connections)
