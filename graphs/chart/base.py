@@ -24,5 +24,5 @@ class BaseChart(BaseGraph):
         x_axis_end = (img_width * 0.1, img_height * 0.1)
         y_axis_end = (img_width * 0.9, img_height * 0.9)
 
-        self.draw_line(origin, x_axis_end, width=2)
-        self.draw_line(origin, y_axis_end, width=2)
+        self.draw_line(origin, x_axis_end, width=10)
+        self.draw_line(origin, y_axis_end, width=10)

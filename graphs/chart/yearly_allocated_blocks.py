@@ -20,10 +20,15 @@ class YearlyAllocatedBlocks(BaseChart):
         for bgp_dump in bgp_dumps:
             blocks = bgp_dump.visible_blocks
             blocks = [(ip, cidr) for (ip,cidr) in blocks if base <= ip <= limit]
+            print(str(len(blocks)) + " are within the limit")
 
             for (ip, cidr) in blocks:
-                start = (ip - base) * ip_range
-                end   = ((ip + cidr_to_int(cidr)) - base) * ip_range
+                start = self.c(ip, base, ip_range)
+                end   = self.c(ip + cidr_to_int(cidr), base, ip_range)
                 self.draw_line((start, row_pos), (end, row_pos), width=10)
 
             row_pos += row_delta
+
+    def c(self, ip, base, ip_range):
+        pos = ((ip - base) / ip_range) * (self.image.size[0] * 0.9)
+        return pos + (self.image.size[0] * 0.1)
