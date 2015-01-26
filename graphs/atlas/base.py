@@ -88,7 +88,6 @@ class BaseAtlas(BaseGraph):
 
     def draw_international_boundaries(self):
         reader = Reader("utilities/data/country_outlines/countries")
-        cursor = Draw(self.image)
 
         for point in reader.shapeRecords():
             points  = record.shape.points

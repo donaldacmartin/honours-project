@@ -4,9 +4,8 @@
 # Honours Project: Map of the Internet (2014/15)
 # University of Glasgow
 
-from graphs.atlas.atlas_map import AtlasMap, GLOBAL
-from base_atlas import BaseAtlas, GLOBAL
-from graphs.graph import LIGHT_GREY, LIGHT_GREEN, DARK_RED
+from base import BaseAtlas, GLOBAL
+from graphs.base_graph import LIGHT_GREY, LIGHT_GREEN, DARK_RED
 
 """
 ChronoAtlasMap

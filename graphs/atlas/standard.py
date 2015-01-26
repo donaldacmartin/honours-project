@@ -1,4 +1,4 @@
-from base_atlas import BaseAtlas, GLOBAL
+from base import BaseAtlas, GLOBAL
 
 class StandardAtlas(BaseAtlas):
     def __init__(self, bgp_dump, width, height, region=GLOBAL):
