@@ -18,7 +18,7 @@ class BaseGraph(object):
 
     def draw_line(self, start, end, colour=DARK_RED, width=1):
         cursor = Draw(self.image)
-        cursor.line([start, end], fill=colour, width=1)
+        cursor.line([start, end], fill=colour, width=width)
 
     def draw_circle(self, (x,y), r, colour=DARK_RED):
         cursor = Draw(self.image)
