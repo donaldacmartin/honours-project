@@ -1,5 +1,5 @@
 from __future__ import division
-from graphs.base_graph import BaseGraph
+from graphs.base_graph import BaseGraph, DARK_RED
 
 GLOBAL        = ((90, 180), (-90,-180))
 AFRICA        = ((36.08, -21.62), (-38.50, 50.45))
@@ -42,7 +42,7 @@ class BaseAtlas(BaseGraph):
     # Draw Connections Between Autonomous Systems
     # --------------------------------------------------------------------------
 
-    def draw_connections(self, connections, colour=DARK_RED):
+    def draw_connections(self, connections, colour):
         for (start, end) in connections:
             if any(asys not in self.asys_coords for asys in [start, end]):
                 continue
