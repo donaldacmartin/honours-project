@@ -1,5 +1,5 @@
-from graphs.base_graph import BaseGraph
 from __future__ import division
+from graphs.base_graph import BaseGraph
 
 GLOBAL        = ((90, 180), (-90,-180))
 AFRICA        = ((36.08, -21.62), (-38.50, 50.45))
