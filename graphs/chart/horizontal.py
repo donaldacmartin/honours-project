@@ -9,7 +9,7 @@ from utilities.parser.ip_utils import cidr_to_int, ip_to_int
 
 class HorizontalChart(Graph):
     def __init__(self, width, height, bgp_dumps):
-        super(Horizontal).__init__(width, height)
+        super(HorizontalChart).__init__(width, height)
 
         base     = ip_to_int("4.0.0.0")
         limit    = ip_to_int("4.255.255.255")

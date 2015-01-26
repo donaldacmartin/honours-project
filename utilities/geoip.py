@@ -30,7 +30,7 @@ class GeoIPLookup(object):
             return data["latitude"], data["longitude"]
         except NameError:
             logging.error("GeoIP: no latlon coordinates for " + ip_address)
-            raise
+            return None
 
     def get_country_for_ip(self, ip_address):
         try:

@@ -12,22 +12,17 @@ LIGHT_GREY  = (162,162,162)
 LIGHT_GREEN = (59, 255, 134)
 DARK_RED    = (255, 59, 59)
 
-class Graph(object):
+class BaseGraph(object):
     def __init__(self, width, height):
         self.image = new("RGB", (width * 10, height * 10), "white")
 
-    def draw_line(self, start, end, colour):
+    def draw_line(self, start, end, colour=DARK_RED, width=1):
         cursor = Draw(self.image)
         cursor.line([start, end], fill=colour, width=1)
 
-    def draw_circle(self, (x,y), r, colour):
+    def draw_circle(self, (x,y), r, colour=DARK_RED):
         cursor = Draw(self.image)
         cursor.ellipse((x-r, y-r, x+r, y+r), fill=colour)
-
-    def draw_text(self, text):
-        cursor = Draw(self.image)
-        font   = truetype("utilities/fonts/calibri.ttf", 600)
-        cursor.text((50,50), text, fill=(0,0,0), font=font)
 
     def save(self, filename, filetype="PNG"):
         x, y = self.image.size

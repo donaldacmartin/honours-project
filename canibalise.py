@@ -83,33 +83,10 @@ class AtlasMap(BaseGraph):
         super(AtlasMap, self).draw_line(start, (line_1_x, lines_y), colour)
         super(AtlasMap, self).draw_line(end, (line_2_x, lines_y), colour)
 
-    def _draw_borders(self):
-        reader = Reader("utilities/data/country_outlines/countries")
-        draw = Draw(self.image)
-
-        for record in reader.shapeRecords():
-            points  = record.shape.points
-            outline = []
-
-            for (lon, lat) in points:
-                x, y = scale_coords((lat, lon), self.region, self.image)
-                outline.append((x,y))
-
-            for i in range(1, len(outline)):
-                draw.line([outline[i-1], outline[i]], fill="black", width=3)
 
 # ------------------------------------------------------------------------------
 # Helper Maths Functions
 # ------------------------------------------------------------------------------
-def map_lat_to_y_coord(lat_coord, img_height):
-    img_centre     = (img_height - 10) / 2.0
-    pixels_per_deg = (img_height - 10) / 180.0
-    return img_centre - (lat_coord * pixels_per_deg)
-
-def map_lon_to_x_coord(lon_coord, img_width):
-    img_centre     = (img_width - 10) / 2.0
-    pixels_per_deg = (img_width - 10) / 360.0
-    return img_centre + (lon_coord * pixels_per_deg)
 
 def should_wrap_over_pacific(start, end, image):
     start_x   = start[0]
@@ -123,26 +100,3 @@ def coord_missing(start, end, coords):
 
 def start_closer_to_RHS(start_x, img_width):
     return (img_width - start_x) < start_x
-
-def scale_coords((lat,lon), ((lat1, lon1), (lat2, lon2)), img):
-    img_width, img_height = img.size
-
-    x = map_lon_to_x_coord(lon, img_width)
-    y = map_lat_to_y_coord(lat, img_height)
-
-    x1 = map_lon_to_x_coord(lon1, img_width)
-    x2 = map_lon_to_x_coord(lon2, img_width)
-
-    y1 = map_lat_to_y_coord(lat1, img_height)
-    y2 = map_lat_to_y_coord(lat2, img_height)
-
-    x_anchor = min(x1, x2)
-    y_anchor = min(y1, y2)
-
-    x_scale = img_width / abs(x2 - x1)
-    y_scale = img_height / abs(y2 - y1)
-
-    x = (x - x_anchor) * x_scale
-    y = (y - y_anchor) * y_scale
-
-    return (x,y)
