@@ -43,7 +43,7 @@ if __name__ == "__main__":
         years.append(database.get_year_end_files(year))
 
     years   = [year for year in years if year is not None]
-    parsers = [MRTParser(year) for year in years]
+    parsers = [MRTParser(year[0]) for year in years]
 
     y = YearlyAllocatedBlocks(parsers)
     y.save("tried.png")
