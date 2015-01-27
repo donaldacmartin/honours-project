@@ -1,5 +1,6 @@
 from __future__ import division
 from base import BaseChart
+from utilities.parser.mrt import MRTParser
 from utilities.file.search import FileBrowser
 from utilities.parser.ip_utils import ip_to_int, cidr_to_int
 
