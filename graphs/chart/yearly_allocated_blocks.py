@@ -1,5 +1,6 @@
 from __future__ import division
 from base import BaseChart
+from utilities.file.search import FileBrowser
 from utilities.parser.ip_utils import ip_to_int, cidr_to_int
 
 DEFAULT = ("0.0.0.0", "255.255.255.255")
@@ -31,3 +32,17 @@ class YearlyAllocatedBlocks(BaseChart):
     def c(self, ip, base, ip_range):
         pos = ((ip - base) / ip_range) * (self.image.size[0] * 0.9)
         return pos + (self.image.size[0] * 0.1)
+
+if __name__ == "__main__":
+    root_dir = "/nas05/users/csp/routing-data/archive.routeviews.org"
+    database = FileBrowser(root_dir)
+    years    = []
+
+    for year in range(2001, 2014):
+        years.append(database.get_year_end_files(year))
+
+    years   = [year for year in years if year is not None]
+    parsers = [MRTParser(year) for year in years]
+
+    y = YearlyAllocatedBlocks(parsers)
+    y.save("tried.png")
