@@ -12,12 +12,13 @@ class YearlyAllocatedBlocks(BaseChart):
     def __init__(self, bgp_dumps, bounds=DEFAULT, width=1920, height=1080):
         super(YearlyAllocatedBlocks, self).__init__(width, height)
         self.draw_axes()
+        self.draw_markers()
 
         base      = ip_to_int(bounds[0])
         limit     = ip_to_int(bounds[1])
         ip_range  = limit - base
 
-        row_delta = self.image.size[1] / len(bgp_dumps)
+        row_delta = (0.9 * self.image.size[1]) / len(bgp_dumps)
         row_pos   = self.image.size[1] * 0.1
 
         for bgp_dump in bgp_dumps:
@@ -35,12 +36,20 @@ class YearlyAllocatedBlocks(BaseChart):
         pos = ((ip - base) / ip_range) * (self.image.size[0] * 0.9)
         return pos + (self.image.size[0] * 0.1)
 
+    def draw_markers(self):
+        delta  = (self.image.size[0] * 0.9) / 255
+        cursor = self.image.size[0] * 0.1
+
+        for i in range(0, 255):
+            self.draw_line((cursor, self.image.size[1] * 0.9), (cursor, self.image.size[1] * 0.1), width=10)
+            cursor += delta
+
 if __name__ == "__main__":
     root_dir = "/nas05/users/csp/routing-data/archive.routeviews.org"
     database = FileBrowser(root_dir)
     years    = []
 
-    for year in range(2001, 2014):
+    for year in range(2001, 2002):
         years.append(database.get_year_end_files(year))
 
     years   = [year for year in years if year is not None]
