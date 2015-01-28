@@ -44,7 +44,7 @@ if __name__ == "__main__":
         years.append(database.get_year_end_files(year))
 
     years   = [year for year in years if year is not None]
-    parsers = [MRTParser(filename) if "rib" in filename else CiscoParser(filename) for filename in years]
+    parsers = [MRTParser(filename[0]) if "rib" in filename[0] else CiscoParser(filename[0]) for filename in years]
 
     y = YearlyAllocatedBlocks(parsers)
     y.save("tried.png")
