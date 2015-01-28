@@ -18,7 +18,7 @@ class YearlyAllocatedBlocks(BaseChart):
         limit     = ip_to_int(bounds[1])
         ip_range  = limit - base
 
-        row_delta = (0.9 * self.image.size[1]) / len(bgp_dumps)
+        row_delta = (0.8 * self.image.size[1]) / len(bgp_dumps)
         row_pos   = self.image.size[1] * 0.1
 
         for bgp_dump in bgp_dumps:
@@ -33,11 +33,11 @@ class YearlyAllocatedBlocks(BaseChart):
             row_pos += row_delta
 
     def c(self, ip, base, ip_range):
-        pos = ((ip - base) / ip_range) * (self.image.size[0] * 0.9)
+        pos = ((ip - base) / ip_range) * (self.image.size[0] * 0.8)
         return pos + (self.image.size[0] * 0.1)
 
     def draw_markers(self):
-        delta  = (self.image.size[0] * 0.9) / 255
+        delta  = (self.image.size[0] * 0.8) / 255
         cursor = self.image.size[0] * 0.1
 
         for i in range(0, 255):
