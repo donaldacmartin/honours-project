@@ -56,4 +56,4 @@ if __name__ == "__main__":
     parsers = [MRTParser(filename[0]) if "rib" in filename[0] else CiscoParser(filename[0]) for filename in years]
 
     y = YearlyAllocatedBlocks(parsers)
-    y.save("tried.png")
+    y.save("blocks.png")
