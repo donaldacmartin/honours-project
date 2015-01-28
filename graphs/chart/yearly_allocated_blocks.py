@@ -41,7 +41,7 @@ class YearlyAllocatedBlocks(BaseChart):
         cursor = self.image.size[0] * 0.1
 
         for i in range(0, 255):
-            self.draw_line((cursor, self.image.size[1] * 0.9), (cursor, self.image.size[1] * 0.1), width=10)
+            self.draw_line((cursor, self.image.size[1] * 0.9), (cursor, self.image.size[1] * 0.1), width=5)
             cursor += delta
 
 if __name__ == "__main__":
