@@ -16,9 +16,6 @@ class YearlyAllocatedBlocks(BaseChart):
         self.limit_ip = ip_to_int(bounds[1])
         self.ip_range = self.limit_ip - self.base_ip
 
-        self.draw_axes()
-        self.draw_markers()
-
         img_height = self.image.size[1]
         row_diff   = (0.8 * img_height) / len(bgp_dumps)
         row_y      = img_height * 0.1
@@ -30,6 +27,9 @@ class YearlyAllocatedBlocks(BaseChart):
             self.draw_reserved_blocks(row_y)
             self.draw_year_label(bgp_dump.date_time_stamp[0], row_y)
             row_y += row_diff
+
+                self.draw_axes()
+                self.draw_markers()
 
     def block_in_range(self, block):
         ip = block[0]
