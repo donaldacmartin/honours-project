@@ -14,15 +14,21 @@ DARK_RED    = (255, 59, 59)
 
 class BaseGraph(object):
     def __init__(self, width, height):
-        self.image = new("RGB", (width * 10, height * 10), "white")
+        self.image  = new("RGB", (width * 10, height * 10), "white")
+        self.cursor = Draw(self.image)
+
+    def _initialise_text_font(self):
+        font_path     = "utilities/data/font_arial.ttf"
+        self.arial100 = truetype(font_path, 16)
 
     def draw_line(self, start, end, colour=DARK_RED, width=1):
-        cursor = Draw(self.image)
-        cursor.line([start, end], fill=colour, width=width)
+        self.cursor.line([start, end], fill=colour, width=width)
 
     def draw_circle(self, (x,y), r, colour=DARK_RED):
-        cursor = Draw(self.image)
-        cursor.ellipse((x-r, y-r, x+r, y+r), fill=colour)
+        self.cursor.ellipse((x-r, y-r, x+r, y+r), fill=colour)
+
+    def draw_text(self, xy, text, colour=DARK_RED):
+        self.cursor.text(xy, text, font=self.arial100, fill=colour)
 
     def save(self, filename, filetype="PNG"):
         x, y = self.image.size

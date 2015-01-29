@@ -14,27 +14,42 @@ class YearlyAllocatedBlocks(BaseChart):
         self.draw_axes()
         self.draw_markers()
 
-        base      = ip_to_int(bounds[0])
-        limit     = ip_to_int(bounds[1])
-        ip_range  = limit - base
+        self.base_ip  = ip_to_int(bounds[0])
+        self.limit_ip = ip_to_int(bounds[1])
+        self.ip_range = self.limit_ip - self.base_ip
 
-        row_delta = (0.8 * self.image.size[1]) / len(bgp_dumps)
-        row_pos   = self.image.size[1] * 0.1
+        img_height = self.image.size[1]
+        row_diff   = (0.8 * img_height) / len(bgp_dumps)
+        row_y      = img_height * 0.1
 
         for bgp_dump in bgp_dumps:
             blocks = bgp_dump.visible_blocks
-            blocks = [(ip, cidr) for (ip,cidr) in blocks if base <= ip <= limit]
+            blocks = [block for block in blocks if self.block_in_range(block)]
+            self.draw_bar(blocks, row_y)
+            self.draw_year_label(bgp_dump.date_time_stamp[0])
+            row_y += row_diff
 
-            for (ip, cidr) in blocks:
-                start = self.c(ip, base, ip_range)
-                end   = self.c(ip + cidr_to_int(cidr), base, ip_range)
-                self.draw_line((start, row_pos), (end, row_pos), width=100)
+    def block_in_range(self, block):
+        ip = block[0]
+        return self.base_ip <= ip <= self.limit_ip
 
-            row_pos += row_delta
+    def draw_bar(self, blocks, row_y):
+        for (ip, cidr) in blocks:
+            start_x = self.scale_ip_to_length(ip)
+            end_x   = self.scale_ip_to_length(ip + cidr_to_int(cidr))
+            self.draw_line((start_x, row_y), (end_x, row_y), width=100)
 
-    def c(self, ip, base, ip_range):
-        pos = ((ip - base) / ip_range) * (self.image.size[0] * 0.8)
-        return pos + (self.image.size[0] * 0.1)
+    def draw_year_label(self, year, row_y):
+        img_width = self.image.size[0]
+        pos       = (0.05 * image_width, row_y)
+        text      = str(year)
+        self.draw_text(pos, text)
+
+    def scale_ip_to_length(self, ip):
+        img_width  = self.image.size[0]
+        x_pos      = (ip - self.base_ip) / self.ip_range
+        scaled_pos = (x_pos * (img_width * 0.8)) + (img_width * 0.1)
+        return scaled_pos
 
     def draw_markers(self):
         delta  = (self.image.size[0] * 0.8) / 255
@@ -49,7 +64,7 @@ if __name__ == "__main__":
     database = FileBrowser(root_dir)
     years    = []
 
-    for year in range(1997, 2014):
+    for year in range(1997, 1998):
         years.append(database.get_year_end_files(year))
 
     years   = [year for year in years if year is not None]
