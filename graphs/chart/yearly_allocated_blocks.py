@@ -41,7 +41,7 @@ class YearlyAllocatedBlocks(BaseChart):
 
     def draw_year_label(self, year, row_y):
         img_width = self.image.size[0]
-        pos       = (0.05 * image_width, row_y)
+        pos       = (0.05 * img_width, row_y)
         text      = str(year)
         self.draw_text(pos, text)
 
