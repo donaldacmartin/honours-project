@@ -55,10 +55,12 @@ class YearlyAllocatedBlocks(BaseChart):
         img_width, img_height = self.image.size
         x_diff = (img_width * 0.8) / 255
         x_pos  = img_width * 0.1
+        y_min  = img_height * 0.1
+        y_max  = img_height * 0.9
 
         for i in range(0, 255):
-            self.draw_line((cursor, self.image.size[1] * 0.9), (cursor, self.image.size[1] * 0.1), width=5)
-            cursor += delta
+            self.draw_line((x_pos, y_min), (x_pos, y_max), width=5)
+            x_pos += x_diff
 
 if __name__ == "__main__":
     root_dir = "/nas05/users/csp/routing-data/archive.routeviews.org"
