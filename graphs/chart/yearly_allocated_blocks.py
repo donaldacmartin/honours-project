@@ -12,13 +12,13 @@ TESTING = ("4.0.0.0", "4.255.255.255")
 class YearlyAllocatedBlocks(BaseChart):
     def __init__(self, bgp_dumps, bounds=DEFAULT, width=1920, height=1080):
         super(YearlyAllocatedBlocks, self).__init__(width, height)
-        self.draw_axes()
-        self.draw_markers()
-        self.draw_reserved_blocks()
-
         self.base_ip  = ip_to_int(bounds[0])
         self.limit_ip = ip_to_int(bounds[1])
         self.ip_range = self.limit_ip - self.base_ip
+
+        self.draw_axes()
+        self.draw_markers()
+        self.draw_reserved_blocks()
 
         img_height = self.image.size[1]
         row_diff   = (0.8 * img_height) / len(bgp_dumps)
