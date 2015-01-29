@@ -67,7 +67,7 @@ if __name__ == "__main__":
     database = FileBrowser(root_dir)
     years    = []
 
-    for year in range(1997, 1998):
+    for year in range(1997, 2014):
         years.append(database.get_year_end_files(year))
 
     years   = [year for year in years if year is not None]
