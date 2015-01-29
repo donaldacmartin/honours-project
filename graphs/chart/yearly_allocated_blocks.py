@@ -3,7 +3,8 @@ from base import BaseChart
 from utilities.parser.mrt import MRTParser
 from utilities.parser.cisco import CiscoParser
 from utilities.file.search import FileBrowser
-from utilities.parser.ip_utils import ip_to_int, cidr_to_int
+from utilities.parser.ip_utils import ip_to_int, cidr_to_int, get_reserved_blocks
+from graphs.base import DARK_RED, LIGHT_GREY
 
 DEFAULT = ("0.0.0.0", "255.255.255.255")
 TESTING = ("4.0.0.0", "4.255.255.255")
@@ -33,7 +34,7 @@ class YearlyAllocatedBlocks(BaseChart):
         ip = block[0]
         return self.base_ip <= ip <= self.limit_ip
 
-    def draw_bar(self, blocks, row_y):
+    def draw_bar(self, blocks, row_y, colour=DARK_RED):
         for (ip, cidr) in blocks:
             start_x = self.scale_ip_to_length(ip)
             end_x   = self.scale_ip_to_length(ip + cidr_to_int(cidr))
@@ -51,15 +52,25 @@ class YearlyAllocatedBlocks(BaseChart):
         scaled_pos = (x_pos * (img_width * 0.8)) + (img_width * 0.1)
         return scaled_pos
 
+    def draw_reserved_addresses(self):
+        blocks = get_reserved_blocks()
+        blocks = [block for block in blocks if self.block_in_range(block)]
+        self.draw_bar(blocks, row_y, LIGHT_GREY)
+
     def draw_markers(self):
         img_width, img_height = self.image.size
-        x_diff = (img_width * 0.8) / 255
-        x_pos  = img_width * 0.1
-        y_min  = img_height * 0.1
-        y_max  = img_height * 0.9
+        x_diff  = (img_width * 0.8) / 255
+        x_pos   = img_width * 0.1
+        y_min   = img_height * 0.1
+        y_max   = img_height * 0.9
+        y_label = img_height * 0.95
 
         for i in range(0, 255):
-            self.draw_line((x_pos, y_min), (x_pos, y_max), width=5)
+            self.draw_line((x_pos, y_min), (x_pos, y_max), width=2)
+
+            if i % 10 == 0:
+                self.draw_rotated_text((x_pos, y_label), str(i) + ".0.0.0")
+
             x_pos += x_diff
 
 if __name__ == "__main__":
@@ -67,7 +78,7 @@ if __name__ == "__main__":
     database = FileBrowser(root_dir)
     years    = []
 
-    for year in range(1997, 2014):
+    for year in range(1997, 1998):
         years.append(database.get_year_end_files(year))
 
     years   = [year for year in years if year is not None]

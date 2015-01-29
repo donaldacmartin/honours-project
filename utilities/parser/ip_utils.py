@@ -46,3 +46,21 @@ def cidr_to_int(cidr):
 def sig_figs_to_cidr(ip_address):
     octets = [int(octet) for octet in ip_address.split(".")]
     return 32 if 0 not in octets else 8 * octets.index(0)
+
+def get_reserved_blocks():
+    return [(ip_to_int("0.0.0.0"),  8),         # RFC 1700
+            (ip_to_int("10.0.0.0"), 8),         # RFC 1918
+            (ip_to_int("100.64.0.0"), 10),      # RFC 6598
+            (ip_to_int("127.0.0.0"), 8),        # RFC  990
+            (ip_to_int("169.254.0.0"), 16),     # RFC 3927
+            (ip_to_int("172.16.0.0"), 12),      # RFC 1918
+            (ip_to_int("192.0.0.0"), 24),       # RFC 5736
+            (ip_to_int("192.88.99.0"), 24),     # RFC 3068
+            (ip_to_int("192.168.0.0"), 16),     # RFC 1918
+            (ip_to_int("198.18.0.0"), 15),      # RFC 2544
+            (ip_to_int("198.51.100.0"), 24),    # RFC 5737
+            (ip_to_int("203.0.113.0"), 24),     # RFC 5737
+            (ip_to_int("224.0.0.0"), 4),        # RFC 5771
+            (ip_to_int("240.0.0.0"), 4),        # RFC 6890
+            (ip_to_int("255.255.255.255"), 32)  # RFC 6890
+            ]
