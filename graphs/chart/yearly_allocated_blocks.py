@@ -18,7 +18,6 @@ class YearlyAllocatedBlocks(BaseChart):
 
         self.draw_axes()
         self.draw_markers()
-        self.draw_reserved_blocks()
 
         img_height = self.image.size[1]
         row_diff   = (0.8 * img_height) / len(bgp_dumps)
@@ -28,6 +27,7 @@ class YearlyAllocatedBlocks(BaseChart):
             blocks = bgp_dump.visible_blocks
             blocks = [block for block in blocks if self.block_in_range(block)]
             self.draw_bar(blocks, row_y)
+            self.draw_reserved_blocks(row_y)
             self.draw_year_label(bgp_dump.date_time_stamp[0], row_y)
             row_y += row_diff
 
@@ -53,7 +53,7 @@ class YearlyAllocatedBlocks(BaseChart):
         scaled_pos = (x_pos * (img_width * 0.8)) + (img_width * 0.1)
         return scaled_pos
 
-    def draw_reserved_blocks(self):
+    def draw_reserved_blocks(self, row_y):
         blocks = get_reserved_blocks()
         blocks = [block for block in blocks if self.block_in_range(block)]
         self.draw_bar(blocks, row_y, LIGHT_GREY)
