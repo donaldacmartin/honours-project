@@ -39,7 +39,7 @@ class YearlyAllocatedBlocks(BaseChart):
         for (ip, cidr) in blocks:
             start_x = self.scale_ip_to_length(ip)
             end_x   = self.scale_ip_to_length(ip + cidr_to_int(cidr))
-            self.draw_line((start_x, row_y), (end_x, row_y), width=100)
+            self.draw_line((start_x, row_y), (end_x, row_y), colour, width=100)
 
     def draw_year_label(self, year, row_y):
         img_width = self.image.size[0]
