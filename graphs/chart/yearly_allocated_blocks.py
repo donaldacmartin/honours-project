@@ -28,8 +28,8 @@ class YearlyAllocatedBlocks(BaseChart):
             self.draw_year_label(bgp_dump.date_time_stamp[0], row_y)
             row_y += row_diff
 
-                self.draw_axes()
-                self.draw_markers()
+        self.draw_axes()
+        self.draw_markers()
 
     def block_in_range(self, block):
         ip = block[0]
