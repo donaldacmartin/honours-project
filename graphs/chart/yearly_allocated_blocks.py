@@ -52,8 +52,9 @@ class YearlyAllocatedBlocks(BaseChart):
         return scaled_pos
 
     def draw_markers(self):
-        delta  = (self.image.size[0] * 0.8) / 255
-        cursor = self.image.size[0] * 0.1
+        img_width, img_height = self.image.size
+        x_diff = (img_width * 0.8) / 255
+        x_pos  = img_width * 0.1
 
         for i in range(0, 255):
             self.draw_line((cursor, self.image.size[1] * 0.9), (cursor, self.image.size[1] * 0.1), width=5)
