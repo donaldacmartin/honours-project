@@ -32,11 +32,11 @@ class BaseGraph(object):
         self.cursor.text(xy, text, font=self.arial100, fill=colour)
 
     def draw_rotated_text(self, xy, text, colour=DARK_RED, rotation=90):
-        temp_img = new("RGB", self.arial100.getsize(text))
+        temp_img = new("RGBA", self.arial100.getsize(text))
         draw_txt = Draw(temp_img)
         draw_txt.text((0,0), text, font=self.arial100, fill=colour)
-        rotated_txt = temp_img.rotate(rotation,  expand=1)
-        self.image.paste(xy, rotated_txt)
+        rotated_txt = temp_img.rotate(rotation, expand=1)
+        self.image.paste(rotated_txt, xy, rotated_txt)
 
     def save(self, filename, filetype="PNG"):
         x, y = self.image.size
