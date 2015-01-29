@@ -20,7 +20,7 @@ class BaseGraph(object):
 
     def _initialise_text_font(self):
         font_path     = "utilities/data/font_arial.ttf"
-        self.arial100 = truetype(font_path, 16)
+        self.arial100 = truetype(font_path, 100)
 
     def draw_line(self, start, end, colour=DARK_RED, width=1):
         self.cursor.line([start, end], fill=colour, width=width)
