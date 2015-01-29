@@ -14,6 +14,7 @@ class YearlyAllocatedBlocks(BaseChart):
         super(YearlyAllocatedBlocks, self).__init__(width, height)
         self.draw_axes()
         self.draw_markers()
+        self.draw_reserved_blocks()
 
         self.base_ip  = ip_to_int(bounds[0])
         self.limit_ip = ip_to_int(bounds[1])
@@ -52,7 +53,7 @@ class YearlyAllocatedBlocks(BaseChart):
         scaled_pos = (x_pos * (img_width * 0.8)) + (img_width * 0.1)
         return scaled_pos
 
-    def draw_reserved_addresses(self):
+    def draw_reserved_blocks(self):
         blocks = get_reserved_blocks()
         blocks = [block for block in blocks if self.block_in_range(block)]
         self.draw_bar(blocks, row_y, LIGHT_GREY)
@@ -63,7 +64,7 @@ class YearlyAllocatedBlocks(BaseChart):
         x_pos   = img_width * 0.1
         y_min   = img_height * 0.1
         y_max   = img_height * 0.9
-        y_label = img_height * 0.95
+        y_label = img_height * 0.92
 
         for i in range(0, 255):
             self.draw_line((x_pos, y_min), (x_pos, y_max), width=2)
