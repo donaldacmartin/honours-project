@@ -23,6 +23,7 @@ class CiscoParser(Parser):
     def __init__(self, file_path):
         super(CiscoParser, self).__init__(file_path)
         lines = self._convert_cmd_to_lines("bzip2 -d -c " + file_path)
+        self.file_path = file_path
 
         for line in lines:
             self._parse_line(line)
@@ -40,6 +41,7 @@ class CiscoParser(Parser):
             if ip_address is not None:
                 self._record_information(ip_address, prefix_size, asys)
         except Exception as e:
+            print("File: " + self.file_path)
             print(e)
             return
 

@@ -22,6 +22,7 @@ class MRTParser(Parser):
     def __init__(self, file_path):
         super(MRTParser, self).__init__(file_path)
         lines = self._convert_cmd_to_lines("bgpdump -m " + file_path)
+        self.file_path = file_path
 
         for line in lines:
             self._parse_line(line)
@@ -35,6 +36,7 @@ class MRTParser(Parser):
         try:
             ip_address, prefix_size = parse_ipv4_block(tokens[5])
         except Exception as e:
+            print("File: " + self.file_path)
             print(e)
             return
 
