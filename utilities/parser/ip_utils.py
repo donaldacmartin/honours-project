@@ -1,5 +1,9 @@
 from re import search
 
+IPV4_RESERVED_SPACE    =  592708864.0
+IPV4_ADDRESSABLE_SPACE = 4294967296.0
+IPV4_PUBLIC_SPACE      = IPV4_ADDRESSABLE_SPACE - IPV4_RESERVED_SPACE
+
 def parse_ipv4_block(ip_block):
     if search("[a-zA-Z]+", ip_block) is not None or ":" in ip_block:
         raise Exception("IPv6 Address Encountered: " + ip_block)

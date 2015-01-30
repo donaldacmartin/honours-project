@@ -8,6 +8,7 @@ from matplotlib import use
 use("Agg")
 from matplotlib.pyplot import plot, savefig, xlabel, ylabel, ylim, title, clf
 from collections import Counter
+from utilities.parser.ip_utils import IPV4_PUBLIC_SPACE
 
 """
 Chart
@@ -16,10 +17,6 @@ Given one or more BGP dump files, draw a number of charts. These are stored as
 one object, as PyPlot creates a plot as a global variable, meaing that more than
 one cannot be in the interpreter at the same time.
 """
-
-IPV4_RESERVED_SPACE    =  592708864.0
-IPV4_ADDRESSABLE_SPACE = 4294967296.0
-IPV4_PUBLIC_SPACE      = IPV4_ADDRESSABLE_SPACE - IPV4_RESERVED_SPACE
 
 class YearlyChart(object):
     def __init__(self, bgp_dumps):
