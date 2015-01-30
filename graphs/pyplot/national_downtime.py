@@ -17,7 +17,7 @@ class NationalDownTimeChart(object):
         (yy, mm, dd, hh) = date
         return str(hh) + ":00, " + str(dd) + "/" + str(mm) + "/" + str(yy)
 
-    def draw_and_save(self, title, axis_name, dates, metric, filename):
+    def draw(self, title, axis_name, dates, metric, filename):
         clf()
 
         title(title)
