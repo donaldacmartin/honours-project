@@ -1,5 +1,5 @@
 from utilities.file.io import load_object
-from graphs.chart import YearlyChart
+from graphs.pyplot_chart import YearlyChart
 from graphs.chart.yearly_allocated_blocks import YearlyAllocatedBlocks
 from graphs.atlas.standard import StandardAtlas
 
