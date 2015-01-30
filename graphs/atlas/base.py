@@ -90,7 +90,7 @@ class BaseAtlas(BaseGraph):
         dx = x2 - x1
         dy = y2 - y1
 
-        x3 = img_width if (img_width - x1) > x1 else 0
+        x3 = img_width if (img_width - x1) < x1 else 0
         x4 = img_width - x3
         y3 = y4 = x1 - (((x3 - x1) / dx) * dy)
 

@@ -1,5 +1,6 @@
 from utilities.file.io import load_object
 from graphs.pyplot_chart import YearlyChart
+from graphs.ring import RingGraph
 from graphs.chart.yearly_allocated_blocks import YearlyAllocatedBlocks
 from graphs.atlas.standard import StandardAtlas
 
