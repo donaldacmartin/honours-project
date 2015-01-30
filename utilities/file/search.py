@@ -49,7 +49,7 @@ class FileBrowser(object):
             if dump is not None:
                 files.append(dump)
 
-            if len(files) == !:
+            if len(files) == 1:
                 break
 
         return files
