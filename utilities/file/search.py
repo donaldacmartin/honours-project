@@ -49,6 +49,9 @@ class FileBrowser(object):
             if dump is not None:
                 files.append(dump)
 
+            if len(files) == !:
+                break
+
         return files
 
     def get_year_end_files(self, year):

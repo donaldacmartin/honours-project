@@ -15,7 +15,7 @@ approximate locations of the autonomous systems.
 """
 
 class StandardAtlas(BaseAtlas):
-    def __init__(self, bgp_dump, width, height, region=GLOBAL):
+    def __init__(self, bgp_dump, width=1920, height=1080, region=GLOBAL):
         super(StandardAtlas, self).__init__(width, height, region)
 
         self.resolve_bgp_to_asys_coords(bgp_dump)

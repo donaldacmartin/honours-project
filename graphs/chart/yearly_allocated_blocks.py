@@ -73,17 +73,3 @@ class YearlyAllocatedBlocks(BaseChart):
                 self.draw_rotated_text((x_pos, y_label), str(i) + ".0.0.0")
 
             x_pos += x_diff
-
-if __name__ == "__main__":
-    root_dir = "/nas05/users/csp/routing-data/archive.routeviews.org"
-    database = FileBrowser(root_dir)
-    years    = []
-
-    for year in range(1997, 2014):
-        years.append(database.get_year_end_files(year))
-
-    years   = [year for year in years if year is not None]
-    parsers = [MRTParser(filename[0]) if "rib" in filename[0] else CiscoParser(filename[0]) for filename in years]
-
-    y = YearlyAllocatedBlocks(parsers)
-    y.save("blocks.png")
