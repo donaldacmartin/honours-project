@@ -67,7 +67,7 @@ class Parser(object):
         else:
             if asys not in self.previous_ip_asys:
                 if ip_address not in self.multicast_ip_blocks:
-                    self.multicase_ip_blocks[ip_address] = set(self.previous_ip_asys)
+                    self.multicast_ip_blocks[ip_address] = set(self.previous_ip_asys)
 
                 self.multicast_ip_blocks[ip_address].add(asys)
 
