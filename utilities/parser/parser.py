@@ -63,9 +63,12 @@ class Parser(object):
         if not self._already_visited(ip_address):
             self._mark_alloc_block_visible(ip_address, prefix_size)
             self._record_asys_size(asys, prefix_size)
-            self.previous_ip_asys = []
+            self.previous_ip_asys = set(asys)
         else:
             if asys not in self.previous_ip_asys:
+                if ip_address not in self.multicast_ip_blocks:
+                    self.multicase_ip_blocks[ip_address] = set(self.previous_ip_asys)
+
                 self.multicast_ip_blocks[ip_address].add(asys)
 
     # --------------------------------------------------------------------------
