@@ -4,6 +4,8 @@
 # Map of the Internet
 # Donald Martin (1101795)
 
+from datetime import datetime
+
 """
 FileName
 
@@ -15,16 +17,16 @@ useful comparisons.
 
 def get_date_for_filename(name):
     if "UPDATES" in name:
-        return (None, None, None, None)
+        raise Exception("Updates file detected")
     elif "oix" in name or ("route-views3" in name and "RIBS" not in name):
-        return _translate_cisco_filename(name)
+        return translate_cisco_filename(name)
     else:
-        return _translate_ribs_filename(name)
+        return translate_ribs_filename(name)
 
-def _translate_cisco_filename(filename):
+def translate_cisco_filename(filename):
     try:
         if "latest.dat.bz2" in filename:
-            return (None, None, None, None)
+            raise Exception("Unable to parse Cisco style filename: " + filename)
 
         tokens = filename.split("-")
 
@@ -33,12 +35,11 @@ def _translate_cisco_filename(filename):
         dd = int(tokens[-2])
         hh = int(tokens[-1].split(".")[0][0:2])
 
-        return (yy, mm, dd, hh)
+        return datetime(yy, mm, dd, hh)
     except:
-        print("Unable to parse Cisco style filename: " + filename)
-        return (None, None, None, None)
+        raise Exception("Unable to parse Cisco style filename: " + filename)
 
-def _translate_ribs_filename(filename):
+def translate_ribs_filename(filename):
     try:
         tokens = filename.split(".")
 
@@ -47,7 +48,6 @@ def _translate_ribs_filename(filename):
         dd = int(tokens[-3][6:8])
         hh = int(tokens[-2][0:2])
 
-        return (yy, mm, dd, hh)
+        return datetime(yy, mm, dd, hh)
     except:
-        print("Unable to parse RIBS style filename: " + filename)
-        return (None, None, None, None)
+        raise Exception("Unable to parse RIBS style filename: " + filename)
