@@ -37,17 +37,17 @@ class GeoIPLookup(object):
     def get_country_for_ip(self, ip_address):
         try:
             data = self._get_ip_data(ip_address)
-            return self.iso_2to3[data["country"].replace("\"", "")]
+            return self.iso_2to3[data["country"]]
         except:
             return None
 
     def get_ip_ranges_for_country(self, country_code):
-        relevant_location_ids = []
+        relevant_location_ids = set()
         ip_address_ranges     = []
 
         for (location_id, geo_entry) in self.geo_data.items():
             if geo_entry["country"] == country_code:
-                relevant_location_ids.append(location_id)
+                relevant_location_ids.add(location_id)
 
         for (start_ip, block) in self.ip_blocks.items():
             if block["location"] in relevant_location_ids:
@@ -109,7 +109,7 @@ def location_parser(line):
 
     # CSV format: locId,country,region,city,postcode,lat,lon,metroCode,areaCode
 
-    lookup_table["country"]   = values[1]
+    lookup_table["country"]   = values[1].replace("\"", "")
     lookup_table["region"]    = values[2]
     lookup_table["city"]      = values[3]
     lookup_table["latitude"]  = float(values[5])
