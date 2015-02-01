@@ -16,12 +16,14 @@ data from MaxMind @ dev.maxmind.com/geoip/legacy/. Recommend to only generate
 one of these instances for entires program, as setup is computationally intense.
 """
 
+LOCATION_FILE = "utilities/data/locations.csv"
+BLOCK_FILE    = "utilities/data/blocks.csv"
+
 class GeoIPLookup(object):
     def __init__(self):
-        self.geo_data  = read_into_table("utilities/data/locations.csv", location_parser)
-        self.ip_blocks = read_into_table("utilities/data/blocks.csv", block_parser)
-        self.iso_2to3  = _load_iso_mappings()
-
+        self.geo_data       = read_into_table(LOCATION_FILE, location_parser)
+        self.ip_blocks      = read_into_table(BLOCK_FILE, block_parser)
+        self.iso_2to3       = load_iso_mappings()
         self.block_start_ip = sorted(self.ip_blocks.keys())
 
     def get_latlon_for_ip(self, ip_address):
@@ -38,6 +40,20 @@ class GeoIPLookup(object):
             return self.iso_2to3[data["country"].replace("\"", "")]
         except:
             return None
+
+    def get_ip_ranges_for_country(self, country_code):
+        relevant_location_ids = []
+        ip_address_ranges     = []
+
+        for (location_id, geo_entry) in self.geo_data.items():
+            if geo_entry["country"] == country_code:
+                relevant_location_ids.append(location_id)
+
+        for (start_ip, block) in self.ip_blocks.items():
+            if block["location"] in relevant_location_ids:
+                ip_address_ranges.append((start_ip, block["end_ip"]))
+
+        return ip_address_ranges
 
     def _locate_block(self, ip_int):
         i = bisect_left(self.block_start_ip, ip_int)
@@ -114,21 +130,21 @@ def block_parser(line):
 
     return start_ip, lookup_table
 
-def _load_iso_mappings():
+def load_iso_mappings():
     csv_file = open("utilities/data/fips2iso.txt")
     record   = csv_file.readline()
     iso2to3  = {}
 
     while record != "":
         if not record.startswith("#"):
-            iso2to3 = _parse_iso_mapping(record, iso2to3)
+            iso2to3 = parse_iso_mapping(record, iso2to3)
 
         record = csv_file.readline()
 
     csv_file.close()
     return iso2to3
 
-def _parse_iso_mapping(record, iso2to3):
+def parse_iso_mapping(record, iso2to3):
     iso2 = record.split(",")[1]
     iso3 = record.split(",")[2]
 
