@@ -2,6 +2,7 @@ from matplotlib import use
 use("Agg")
 from matplotlib.pyplot import plot, savefig, xlabel, ylabel, title, clf
 from utilities.geoip import GeoIPLookup
+from ip_utils import int_to_ip, cidr_to_int
 
 class NationalDownTimeChart(object):
     def __init__(self, bgp_dumps, country_iso):
@@ -21,7 +22,7 @@ class NationalDownTimeChart(object):
         return [(ip,_) for (ip,_) in blocks if self.in_country(ip, country_iso)]
 
     def in_country(self, ip_addr, country_iso):
-        return self.geo.get_country_for_ip(ip_addr) == country_iso
+        return self.geo.get_country_for_ip(int_to_ip(ip_addr)) == country_iso
 
     def total_space(self, blocks):
         blocks = [cidr_to_int(i) for (_, i) in blocks]
