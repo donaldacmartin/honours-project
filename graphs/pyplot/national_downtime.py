@@ -5,7 +5,7 @@ from utilities.geoip import GeoIPLookup
 
 class NationalDownTimeChart(object):
     def __init__(self, bgp_dumps, country_iso):
-        self.geo = GeoIPLookup("EG")
+        self.geo = GeoIPLookup()
 
         dates          = [bgp_dump.datetime for bgp_dump in bgp_dumps]
         vis_blocks     = [bgp.visible_blocks for bgp in bgp_dumps]
