@@ -41,20 +41,6 @@ class GeoIPLookup(object):
         except:
             return None
 
-    def get_ip_ranges_for_country(self, country_code):
-        relevant_location_ids = set()
-        ip_address_ranges     = []
-
-        for (location_id, geo_entry) in self.geo_data.items():
-            if geo_entry["country"] == country_code:
-                relevant_location_ids.add(location_id)
-
-        for (start_ip, block) in self.ip_blocks.items():
-            if block["location"] in relevant_location_ids:
-                ip_address_ranges.append((start_ip, block["end_ip"]))
-
-        return ip_address_ranges
-
     def _locate_block(self, ip_int):
         i = bisect_left(self.block_start_ip, ip_int)
 
