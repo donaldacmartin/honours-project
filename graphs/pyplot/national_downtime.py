@@ -1,6 +1,6 @@
 from matplotlib import use
 use("Agg")
-from matplotlib.pyplot import plot, savefig, xlabel, ylabel, title, clf
+from matplotlib.pyplot import plot, savefig, xlabel, ylabel, title, clf, ylim
 from utilities.geoip import GeoIPLookup
 from utilities.parser.ip_utils import int_to_ip, cidr_to_int
 
@@ -35,5 +35,6 @@ class NationalDownTimeChart(object):
         ylabel(axis_name)
         xlabel("Date & Time")
 
+        ylim(0, max(metric))
         plot(dates, metric)
         savefig(filename)
