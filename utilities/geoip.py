@@ -39,7 +39,8 @@ class GeoIPLookup(object):
             print("IP address: " + str(ip_address))
             data = self._get_ip_data(ip_address)
             print("Data returned: " + str(data))
-            print("Country translated: " + str(self.iso_2to3[data["country"]))
+            cont = self.iso_2to3[data["country"]
+            print("Country translated: " + str(cont))
             return self.iso_2to3[data["country"]]
         except:
             return None
