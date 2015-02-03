@@ -36,13 +36,17 @@ class GeoIPLookup(object):
 
     def get_country_for_ip(self, ip_address):
         try:
+            print("IP address: " + str(ip_address))
             data = self._get_ip_data(ip_address)
+            print("Data returned: " + str(data))
+            print("Country translated: " + str(self.iso_2to3[data["country"]))
             return self.iso_2to3[data["country"]]
         except:
             return None
 
     def _locate_block(self, ip_int):
         i = bisect_left(self.block_start_ip, ip_int)
+        print("Found start block: " + str(self.block_start_ip[i-1]))
 
         if i:
             return self.block_start_ip[i-1]
@@ -52,11 +56,14 @@ class GeoIPLookup(object):
     def _get_ip_data(self, ip_address):
         block    = self._get_ip_block(ip_address)
         location = block["location"]
+        print("Location: " + str(location))
         return self.geo_data[location]
 
     def _get_ip_block(self, ip_address):
         ip_int = ip_to_int(ip_address)
+        print("IP as Integer: " + str(ip_int))
         block  = self._locate_block(ip_int)
+        print("Block data: " + str(self.ip_blocks[block]))
         return self.ip_blocks[block]
 
 # ------------------------------------------------------------------------------
