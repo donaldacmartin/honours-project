@@ -6,6 +6,7 @@
 
 import logging
 from bisect import bisect_left
+from utilities.parser.ip_utils import ip_to_int
 
 """
 GeoIPLookup
@@ -85,16 +86,6 @@ def read_into_table(filename, line_parser):
 
     f.close()
     return database
-
-def ip_to_int(ip_address):
-    o = ip_address.split(".")
-
-    o1 = 16777216 * int(o[0])
-    o2 = 64436 * int(o[1])
-    o3 = 256 * int(o[2])
-    o4 = int(o[3])
-
-    return o1 + o2 + o3 + o4
 
 def location_parser(line):
     values       = line.split(",")
