@@ -15,7 +15,7 @@ def parse_ipv4_block(ip_block):
         prefix_size = sig_figs_to_cidr(ip_block)
         return (ip_block, prefix_size)
 
-def ip_to_int(ip_address, is_host = False):
+def ip_to_int(ip_address):
     if ":" in ip_address:
         return None
 
@@ -27,7 +27,7 @@ def ip_to_int(ip_address, is_host = False):
     o1 = int(octets[0]) * 16777216
     o2 = int(octets[1]) * 65536
     o3 = int(octets[2]) * 256
-    o4 = int(octets[3]) if not is_host or int(octets[3]) > 0 else 1
+    o4 = int(octets[3])
 
     return o1 + o2 + o3 + o4
 
