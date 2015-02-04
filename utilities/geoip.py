@@ -56,7 +56,7 @@ class GeoIPLookup(object):
         return self.geo_data[location]
 
     def _get_ip_block(self, ip_address):
-        ip_int = ip_to_int(ip_address)
+        ip_int = ip_to_int(ip_address, True)
         block  = self._locate_block(ip_int)
         return self.ip_blocks[block]
 
