@@ -27,7 +27,7 @@ def ip_to_int(ip_address):
     o1 = int(octets[0]) * 16777216
     o2 = int(octets[1]) * 65536
     o3 = int(octets[2]) * 256
-    o4 = int(octets[3])
+    o4 = int(octets[3]) if int(octets[3]) > 0 else 1
 
     return o1 + o2 + o3 + o4
 
