@@ -45,7 +45,7 @@ def int_to_ip(integer):
 
 def cidr_to_int(cidr):
     host_size = 32 - int(cidr)
-    return 2 ** host_size if 1 <= cidr <= 32 else None
+    return 2 ** host_size if 0 <= cidr <= 32 else None
 
 def sig_figs_to_cidr(ip_address):
     octets = [int(octet) for octet in ip_address.split(".")]
