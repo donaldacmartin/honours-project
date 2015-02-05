@@ -100,7 +100,7 @@ class FileBrowser(object):
         for filename in files:
             date_stamp = get_date_for_filename(filename)
 
-            if any(i is None for i in date_stamp):
+            if date_stamp is None:
                 continue
 
             if "oix" in filename:
