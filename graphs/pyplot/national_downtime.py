@@ -5,7 +5,7 @@ from utilities.geoip import GeoIPLookup
 from utilities.parser.ip_utils import int_to_ip, cidr_to_int
 
 class NationalDownTimeChart(object):
-    def __init__(self, bgp_dumps, country_iso):
+    def __init__(self, bgp_dumps, country_iso, filename):
         self.geo = GeoIPLookup()
 
         dates          = [bgp_dump.datetime for bgp_dump in bgp_dumps]
@@ -15,7 +15,7 @@ class NationalDownTimeChart(object):
 
         # num_cxns = [len(bgp_dump.asys_connections) for bgp_dump in bgp_dumps]
 
-        self.draw("Visible IP Address Space", "Visible Addresses", dates, ip_space, "ip_space.png")
+        self.draw("Visible IP Address Space", "Visible Addresses", dates, ip_space, filename)
         # self.draw("Number of Connections between Autonomous Systems", "Visible Connections", dates, num_cxns, "asys_cxns.png")
 
     def national(self, blocks, country_iso):
