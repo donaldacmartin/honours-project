@@ -98,9 +98,9 @@ class FileBrowser(object):
 
     def _organise_into_dates(self, files):
         for filename in files:
-            date_stamp = get_date_for_filename(filename)
-
-            if date_stamp is None:
+            try:
+                date_stamp = get_date_for_filename(filename)
+            except:
                 continue
 
             if "oix" in filename:
