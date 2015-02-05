@@ -67,7 +67,7 @@ class YearlyAllocatedBlocks(BaseChart):
         y_label = img_height * 0.92
 
         for i in range(0, 255):
-            self.draw_line((x_pos, y_min), (x_pos, y_max), width=2)
+            self.draw_line((x_pos, y_min), (x_pos, y_max), DARK_GREY, width=2)
 
             if i % 10 == 0:
                 self.draw_rotated_text((x_pos, y_label), str(i) + ".0.0.0")

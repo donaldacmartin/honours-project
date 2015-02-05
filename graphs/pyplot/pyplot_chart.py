@@ -6,7 +6,7 @@
 
 from matplotlib import use
 use("Agg")
-from matplotlib.pyplot import plot, savefig, xlabel, ylabel, ylim, title, clf
+from matplotlib.pyplot import plot, savefig, xlabel, ylabel, ylim, title, clf, subplots
 from collections import Counter
 from utilities.parser.ip_utils import IPV4_PUBLIC_SPACE
 
@@ -45,14 +45,17 @@ class YearlyChart(object):
         savefig(filename)
 
     def draw_stacked_allocation_of_blocks(self, filename):
-        all_totals = [0] * 32
+        all_totals = [[]] * 32
 
         for bgp_dump in self.bgp_dumps:
             bgp_totals = bgp_dump.get_block_size_totals()
-            all_totals = [i + j for i,j in zip(all_totals, bgp_totals)]
 
-        self.years
-        fig, ax = plt.subplots()
+            counter = 0
+
+            while counter < 32:
+                all_totals[i].append(bgp_totals[i])
+
+        fig, ax = subplots()
         ax.stackplot(self.years, *all_totals)
         savefig(filename)
 
