@@ -11,6 +11,7 @@ def draw_chart():
     generic_chart = YearlyChart(dumps)
     generic_chart.draw_address_space("address-space.png")
     generic_chart.draw_most_common_block_size("most-common-block-size.png")
+    generic_chart.draw_stacked_allocation_of_blocks("stacked-allocation.png")
 
     y = YearlyAllocatedBlocks(dumps)
     y.save("yearly-blocks.png")

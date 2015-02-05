@@ -44,6 +44,18 @@ class YearlyChart(object):
         self.plot_yearly_data(mmost_common_block_size, chart, label, 0, 32)
         savefig(filename)
 
+    def draw_stacked_allocation_of_blocks(self, filename):
+        all_totals = [0] * 32
+
+        for bgp_dump in self.bgp_dumps:
+            bgp_totals = bgp_dump.get_block_size_totals()
+            all_totals = [i + j for i,j in zip(all_totals, bgp_totals)]
+
+        self.years
+        fig, ax = plt.subplots()
+        ax.stackplot(self.years, *all_totals)
+        savefig(filename)
+
 # ------------------------------------------------------------------------------
 # Helper Functions
 # ------------------------------------------------------------------------------

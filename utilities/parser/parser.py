@@ -43,6 +43,14 @@ class Parser(object):
         blocks = [cidr_to_int(i) for (_, i) in self.visible_blocks]
         return sum(blocks)
 
+    def get_block_size_totals(self):
+        totals = [0] * 32
+
+        for (ip, cidr) in self.visible_blocks:
+            totals[cidr - 1] += 1
+
+        return totals
+
     # --------------------------------------------------------------------------
     # Higher Order Functions
     # --------------------------------------------------------------------------
