@@ -50,10 +50,11 @@ class YearlyChart(object):
         for bgp_dump in self.bgp_dumps:
             bgp_totals = bgp_dump.get_block_size_totals()
 
-            counter = 0
+            i = 0
 
-            while counter < 32:
+            while i < 32:
                 all_totals[i].append(bgp_totals[i])
+                i += 1
 
         fig, ax = subplots()
         ax.stackplot(self.years, *all_totals)
