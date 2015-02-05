@@ -46,7 +46,8 @@ class YearlyChart(object):
         savefig(filename)
 
     def draw_stacked_allocation_of_blocks(self, filename):
-        all_totals = [[]] * 32
+        clf()
+        all_totals = [[] for _ in range(32)]
 
         for bgp_dump in self.bgp_dumps:
             bgp_totals = bgp_dump.get_block_size_totals()
