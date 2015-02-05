@@ -8,6 +8,7 @@ from matplotlib import use
 use("Agg")
 from matplotlib.pyplot import plot, savefig, xlabel, ylabel, ylim, title, clf, subplots
 from collections import Counter
+from numpy import array
 from utilities.parser.ip_utils import IPV4_PUBLIC_SPACE
 
 """
@@ -56,6 +57,7 @@ class YearlyChart(object):
                 all_totals[i].append(bgp_totals[i])
                 i += 1
 
+        all_totals = [array(total) for total in all_totals]
         fig, ax = subplots()
         ax.stackplot(self.years, *all_totals)
         savefig(filename)
