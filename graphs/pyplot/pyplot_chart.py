@@ -61,7 +61,6 @@ class YearlyChart(object):
         all_totals = [array(total) for total in all_totals]
         fig, ax = subplots()
         ax.stackplot(self.years, *all_totals)
-        legend()
         savefig(filename)
 
 # ------------------------------------------------------------------------------
