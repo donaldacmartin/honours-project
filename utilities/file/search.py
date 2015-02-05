@@ -100,6 +100,7 @@ class FileBrowser(object):
         for filename in files:
             try:
                 date_stamp = get_date_for_filename(filename)
+                date_stamp = (date_stamp.year, date_stamp.month, date_stamp.day, date_stamp.hour)
             except:
                 continue
 

@@ -41,7 +41,7 @@ class YearlyChart(object):
     def draw_most_common_block_size(self, filename):
         chart = "Yearly Most Commonly Allocated Prefix Size"
         label = "Prefix Size"
-        self.plot_yearly_data(mmost_common_block_size, chart, label, 0, 32)
+        self.plot_yearly_data(most_common_block_size, chart, label, 0, 32)
         savefig(filename)
 
     def draw_stacked_allocation_of_blocks(self, filename):
