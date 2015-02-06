@@ -33,4 +33,4 @@ print("Parsing files")
 call(PARALLEL_PARSER + files_to_parse)
 
 print("Merging parsed files")
-call(PARALLEL_MERGER + years_to_merge)
+call(PARALLEL_MERGER + files_to_merge)
