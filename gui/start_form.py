@@ -1,4 +1,4 @@
-from npyscreen import Form, FixedText, TitleSelectOne
+from npyscreen import Form, MultiLine, TitleSelectOne
 
 entry_text = ("Welcome to the University of Glasgow's Map of the Internet "
               "application for the year 2014/15. To proceed, please select "
@@ -6,7 +6,7 @@ entry_text = ("Welcome to the University of Glasgow's Map of the Internet "
 
 class StartForm(Form):
     def create(self):
-        self.add(FixedText, value=entry_text)
+        self.add(MultiLine, value=entry_text)
         self.add(TitleSelectOne,
                  name="Visualisation Type: ",
                  values=["Geographical Atlas",
