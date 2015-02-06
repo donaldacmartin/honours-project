@@ -5,7 +5,7 @@ entry_text = """Welcome to the University of Glasgow's Map of the Internet
 
 class StartForm(Form):
     def create(self):
-        self.add(FixedText, value="Hello")
+        self.add(FixedText, value=entry_text)
         self.add(TitleSelectOne, name="GraphType", values=["Map1", "Map2"], scroll_exit=True)
 
     def afterEditing(self):
