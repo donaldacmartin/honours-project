@@ -7,13 +7,16 @@ entry_text = ("Welcome to the University of Glasgow's Map of the Internet "
 class StartForm(Form):
     def create(self):
         self.add(Pager, value=entry_text, max_height=4, editable=False)
-        self.add(TitleSelectOne,
+        self.intro_text = self.add(TitleSelectOne,
                  name="Visualisation Type: ",
                  values=["Geographical Atlas",
                          "Internet Outage Diagram",
                          "Ring Graph",
                          "Yearly Chart"],
                  scroll_exit=True)
+
+    def whileEditing(self):
+        self.intro_text.display()
 
     def afterEditing(self):
         self.parentApp.setNextForm(None)
