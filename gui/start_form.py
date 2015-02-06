@@ -15,7 +15,5 @@ class StartForm(Form):
                          "Yearly Chart"],
                  scroll_exit=True)
 
-    def whileEditing(self):
-
     def afterEditing(self):
         self.parentApp.setNextForm(None)
