@@ -15,6 +15,8 @@ class StartForm(Form):
                          "Yearly Chart"],
                  scroll_exit=True)
 
+        self.intro_text.display()
+
     def whileEditing(self):
         self.intro_text.display()
 
