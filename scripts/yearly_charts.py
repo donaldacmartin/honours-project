@@ -1,5 +1,7 @@
 from utilities.file.search import FileBrowser
 from subprocess import call
+from os.path import exists
+from os import makedirs
 
 PARALLEL   = ["parallel", "--no-notice"]
 PYTHON     = ["python"]
@@ -9,6 +11,10 @@ SEPARATOR  = [":::"]
 
 PARALLEL_PARSER = PARALLEL + PYTHON + BGP_PARSER + SEPARATOR
 PARALLEL_MERGER = PARALLEL + PYTHON + BGP_MERGER + SEPARATOR
+
+def create_directory(directory):
+    if not exists(directory):
+        makedirs(directory)
 
 def get_list_of_files():
     root_dir   = "/nas05/users/csp/routing-data/archive.routeviews.org"
@@ -25,12 +31,13 @@ def organise_to_merge(year):
     return merge_format
 
 all_files = get_list_of_files()
-
 files_to_parse = [bgp_file for year in all_files for bgp_file in year]
 files_to_merge = [organise_to_merge(year) for year in all_files]
 
 print("Parsing files")
+create_directory("temp/parsed")
 call(PARALLEL_PARSER + files_to_parse)
 
 print("Merging parsed files")
+create_directory("temp/merged")
 call(PARALLEL_MERGER + files_to_merge)
