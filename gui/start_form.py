@@ -6,7 +6,7 @@ entry_text = ("Welcome to the University of Glasgow's Map of the Internet "
 
 class StartForm(Form):
     def create(self):
-        self.add(Pager, values=entry_text, max_height=4, max_width=self.parentApp.width)
+        self.add(Pager, values=entry_text, max_height=False)
         self.add(TitleSelectOne,
                  name="Visualisation Type: ",
                  values=["Geographical Atlas",
