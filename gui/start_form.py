@@ -1,4 +1,4 @@
-from npyscreen import Form, Pager, TitleSelectOne
+from npyscreen import Form, MultiLineEdit, TitleSelectOne
 
 entry_text = ("Welcome to the University of Glasgow's Map of the Internet "
               "application for the year 2014/15. To proceed, please select "
@@ -6,7 +6,7 @@ entry_text = ("Welcome to the University of Glasgow's Map of the Internet "
 
 class StartForm(Form):
     def create(self):
-        self.add(Pager, values=entry_text, max_height=4, max_width=50)
+        self.add(MultiLineEdit, values=entry_text, max_height=4)
         self.add(TitleSelectOne,
                  name="Visualisation Type: ",
                  values=["Geographical Atlas",
