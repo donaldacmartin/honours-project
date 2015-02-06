@@ -1,8 +1,8 @@
 from npyscreen import Form, FixedText, TitleSelectOne
 
-entry_text = "Welcome to the University of Glasgow's Map of the Internet "
-             "application for the year 2014/15. To proceed, please select "
-             "of the options below."
+entry_text = ("Welcome to the University of Glasgow's Map of the Internet "
+              "application for the year 2014/15. To proceed, please select "
+              "of the options below.")
 
 class StartForm(Form):
     def create(self):
