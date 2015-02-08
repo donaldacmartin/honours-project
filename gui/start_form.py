@@ -1,3 +1,4 @@
+from textwrap import wrap
 from npyscreen import Form, MultiLineEdit, TitleSelectOne
 
 entry_text = ("Welcome to the University of Glasgow's Map of the Internet "
@@ -6,7 +7,7 @@ entry_text = ("Welcome to the University of Glasgow's Map of the Internet "
 
 class StartForm(Form):
     def create(self):
-        self.add(MultiLineEdit, value=entry_text, max_height=2, editable=False, wrap=True)
+        self.add(MultiLineEdit, value=self.wrap_text(entry_text), editable=False)
         self.add(TitleSelectOne,
                  name="Visualisation Type: ",
                  values=["Geographical Atlas",
@@ -16,6 +17,10 @@ class StartForm(Form):
                  scroll_exit=True)
 
         self.DISPLAY()
+
+    def wrap_text(self, text):
+        wrapped_text = wrap(text, self.width)
+        return "\n".join(wrapped_text)
 
     def afterEditing(self):
         self.parentApp.setNextForm(None)
