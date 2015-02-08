@@ -6,7 +6,7 @@ class YearlyChartForm(BaseForm):
         self.add(TitleDateCombo, name="Start Year: ")
         self.add(TitleDateCombo, name="End Year: ")
 
-        self.add(TitleMultiSelect, name="", values=["IPv4 Address Space Usage",
+        self.add(TitleMultiSelect, name="Charts", values=["IPv4 Address Space Usage",
                                                     "Most Common Prefix Allocation",
                                                     "Stacked Allocation of Prefixes",
                                                     "Prefixes as Horizontal Lines"])
