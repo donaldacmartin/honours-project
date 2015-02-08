@@ -19,8 +19,7 @@ class YearlyChartForm(BaseForm):
                  values=["IPv4 Address Space Usage",
                          "Most Common Prefix Allocation",
                          "Stacked Allocation of Prefixes",
-                         "Prefixes as Horizontal Lines"],
-                 scroll_exit=True)
+                         "Prefixes as Horizontal Lines"])
 
     def afterEditing(self):
         self.parentApp.setNextForm(None)
