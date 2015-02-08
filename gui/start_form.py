@@ -15,7 +15,7 @@ class StartForm(Form):
                          "Yearly Chart"],
                  scroll_exit=True)
 
-        self.txt.display()
+        self.DISPLAY()
 
     def afterEditing(self):
         self.parentApp.setNextForm(None)
