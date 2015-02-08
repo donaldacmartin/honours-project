@@ -1,13 +1,13 @@
-from textwrap import wrap
-from npyscreen import Form, MultiLineEdit, TitleSelectOne
+from base_form import BaseForm
+from npyscreen import TitleSelectOne
 
 entry_text = ("Welcome to the University of Glasgow's Map of the Internet "
               "application for the year 2014/15. To proceed, please select "
               "of the options below.")
 
-class StartForm(Form):
+class StartForm(BaseForm):
     def create(self):
-        self.add(MultiLineEdit, value=self.wrap_text(entry_text), max_height=4, editable=False)
+        self.add_wrapped_text(entry_text)
         self.add(TitleSelectOne,
                  name="Visualisation Type: ",
                  values=["Geographical Atlas",
@@ -15,12 +15,6 @@ class StartForm(Form):
                          "Ring Graph",
                          "Yearly Chart"],
                  scroll_exit=True)
-
-        self.DISPLAY()
-
-    def wrap_text(self, text):
-        wrapped_text = wrap(text, self.columns)
-        return "\n".join(wrapped_text)
 
     def afterEditing(self):
         self.parentApp.setNextForm(None)
