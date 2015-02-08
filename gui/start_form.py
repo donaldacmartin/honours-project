@@ -1,5 +1,6 @@
 from base_form import BaseForm
 from npyscreen import TitleSelectOne
+from yearly_chart_form import YearlyChartForm
 
 entry_text = ("Welcome to the University of Glasgow's Map of the Internet "
               "application for the year 2014/15. To proceed, please select "
@@ -17,4 +18,4 @@ class StartForm(BaseForm):
                  scroll_exit=True)
 
     def afterEditing(self):
-        self.parentApp.setNextForm(None)
+        self.parentApp.setNextForm(YearlyChartForm)
