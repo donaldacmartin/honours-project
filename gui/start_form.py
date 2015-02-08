@@ -19,7 +19,7 @@ class StartForm(Form):
         self.DISPLAY()
 
     def wrap_text(self, text):
-        wrapped_text = wrap(text, self.width)
+        wrapped_text = wrap(text, self.columns)
         return "\n".join(wrapped_text)
 
     def afterEditing(self):
