@@ -7,6 +7,8 @@ info_text = ("This option will produce a graph with years along the X-axis and "
 
 class YearlyChartForm(BaseForm):
     def create(self):
+        self.add_wrapped_text(info_text)
+        self.nextrely += 1
         self.add(TitleText, name="Start Year: ")
         self.nextrely += 1
         self.add(TitleText, name="End Year: ")
