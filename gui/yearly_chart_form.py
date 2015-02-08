@@ -3,8 +3,10 @@ from npyscreen import TitleDateCombo, TitleMultiSelect
 
 class YearlyChartForm(BaseForm):
     def create(self):
-        self.add(TitleDateCombo, name="Start Year: ")
-        self.add(TitleDateCombo, name="End Year: ")
+        self.add(TitleText, name="Start Year: ")
+        self.nextrely += 1
+        self.add(TitleText, name="End Year: ")
+        self.nextrely += 1
 
         self.add(TitleMultiSelect, name="Charts", values=["IPv4 Address Space Usage",
                                                     "Most Common Prefix Allocation",

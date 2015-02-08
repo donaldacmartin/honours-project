@@ -8,6 +8,7 @@ entry_text = ("Welcome to the University of Glasgow's Map of the Internet "
 class StartForm(BaseForm):
     def create(self):
         self.add_wrapped_text(entry_text)
+        self.nextrely += 1
         self.add(TitleSelectOne,
                  name="Visualisation Type: ",
                  values=["Geographical Atlas",
