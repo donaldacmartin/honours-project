@@ -9,9 +9,9 @@ class YearlyChartForm(BaseForm):
     def create(self):
         self.add_wrapped_text(info_text)
         self.nextrely += 1
-        self.add(TitleText, name="Start Year: ", value=1997)
+        self.add(TitleText, name="Start Year: ")
         self.nextrely += 1
-        self.add(TitleText, name="End Year: ", value=2014)
+        self.add(TitleText, name="End Year: ")
         self.nextrely += 1
 
         self.add(TitleMultiSelect,
@@ -19,7 +19,8 @@ class YearlyChartForm(BaseForm):
                  values=["IPv4 Address Space Usage",
                          "Most Common Prefix Allocation",
                          "Stacked Allocation of Prefixes",
-                         "Prefixes as Horizontal Lines"])
+                         "Prefixes as Horizontal Lines"],
+                 scroll_exit=True)
 
     def afterEditing(self):
         self.parentApp.setNextForm(None)
