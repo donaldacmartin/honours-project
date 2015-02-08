@@ -1,5 +1,5 @@
 from base_form import BaseForm
-from npyscreen import TitleDateCombo, TitleMultiSelect
+from npyscreen import TitleText, TitleMultiSelect
 
 class YearlyChartForm(BaseForm):
     def create(self):
