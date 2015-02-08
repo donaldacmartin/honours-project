@@ -23,4 +23,4 @@ class YearlyChartForm(BaseForm):
                  scroll_exit=True)
 
     def afterEditing(self):
-        self.parentApp.setNextForm(None)
+        self.parentApp.setNextForm("RouterChooser")
