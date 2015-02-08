@@ -9,9 +9,9 @@ class YearlyChartForm(BaseForm):
     def create(self):
         self.add_wrapped_text(info_text)
         self.nextrely += 1
-        self.add(TitleText, name="Start Year: ", values=1997)
+        self.add(TitleText, name="Start Year: ", value="1997")
         self.nextrely += 1
-        self.add(TitleText, name="End Year: ", values=2014)
+        self.add(TitleText, name="End Year: ", value="2014")
         self.nextrely += 1
 
         self.add(TitleMultiSelect,
