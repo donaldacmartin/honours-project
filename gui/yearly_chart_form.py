@@ -10,3 +10,6 @@ class YearlyChartForm(BaseForm):
                                                     "Most Common Prefix Allocation",
                                                     "Stacked Allocation of Prefixes",
                                                     "Prefixes as Horizontal Lines"])
+
+    def afterEditing(self):
+        self.parentApp.setNextForm(None)
