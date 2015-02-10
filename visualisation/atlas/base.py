@@ -5,7 +5,7 @@
 # Donald Martin (1101795)
 
 from __future__ import division
-from graphs.base import BaseGraph, DARK_RED
+from visualisation.base import BaseGraph, DARK_RED
 from utilities.geoip import GeoIPLookup
 from utilities.shapefile import Reader
 

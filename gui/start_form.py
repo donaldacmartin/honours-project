@@ -14,7 +14,7 @@ class StartForm(BaseForm):
                  values=["Geographical Atlas",
                          "Internet Outage Diagram",
                          "Ring Graph",
-                         "Yearly Chart"],
+                         "Yearly Chart(s)"],
                  scroll_exit=True)
 
     def afterEditing(self):

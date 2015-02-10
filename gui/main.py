@@ -9,4 +9,4 @@ class Application(NPSAppManaged):
     def onStart(self):
         self.addForm("MAIN", StartForm, name=title)
         self.addForm("YearlyChart", YearlyChartForm, name="Create a Yearly Chart | " + title)
-        self.addForm("RouterChooser", RouterChooserForm, name="Choose Source Router |" + title)
+        self.addForm("RouterChooser", RouterChooserForm, name="Choose Source Router(s) | " + title)

@@ -4,10 +4,10 @@ from os.path import exists
 from os import makedirs
 
 from utilities.file.io import load_object
-from graphs.pyplot.pyplot_chart import YearlyChart
-from graphs.ring import RingGraph
-from graphs.chart.yearly_allocated_blocks import YearlyAllocatedBlocks
-from graphs.atlas.standard import StandardAtlas
+from visualisation.pyplot.pyplot_chart import YearlyChart
+from visualisation.ring import RingGraph
+from visualisation.chart.yearly_allocated_blocks import YearlyAllocatedBlocks
+from visualisation.atlas.standard import StandardAtlas
 
 PARALLEL   = ["parallel", "--no-notice"]
 PYTHON     = ["python"]
