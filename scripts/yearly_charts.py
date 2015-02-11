@@ -56,8 +56,8 @@ def draw_chart(files):
 all_files = get_list_of_files()
 files_to_parse = [bgp_file for year in all_files for bgp_file in year]
 files_to_merge = [organise_to_merge(year) for year in all_files]
-files_to_chart = [files[0] for files in files_to_merge]
-
+files_to_chart = [files[0] for files in all_files]
+"""
 print("Parsing files")
 create_directory("temp/parsed")
 call(PARALLEL_PARSER + files_to_parse)
@@ -65,6 +65,6 @@ call(PARALLEL_PARSER + files_to_parse)
 print("Merging parsed files")
 create_directory("temp/merged")
 call(PARALLEL_MERGER + files_to_merge)
-
+"""
 print("Drawing chart")
 draw_chart(files_to_chart)
