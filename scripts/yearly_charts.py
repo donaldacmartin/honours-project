@@ -21,19 +21,18 @@ PARALLEL_MERGER = PARALLEL + PYTHON + BGP_MERGER + SEPARATOR
 def get_list_of_files():
     root_dir   = "/nas05/users/csp/routing-data/archive.routeviews.org"
     files      = FileBrowser(root_dir)
-    year_files = [files.get_year_end_files(year) for year in range(1997, 1998)]
+    year_files = [files.get_year_end_files(year) for year in range(1997, 1999)]
     return [file for file in year_files if file is not None]
-
-def organise_to_merge(year):
-    merge_format = ""
-
-    for bgp_file in year:
-        merge_format += bgp_file + "|"
-
-    return merge_format
 
 def run_gnu_parallel(command, arguments):
     return check_output(command + arguments)
+
+def read_stdout_into_dumps(parsed_dumps):
+    pickled_dumps = parsed_dumps.split("\r\n")
+
+    for pickled_dump in pickled_dumps:
+        filename = pickled_dump.split("\n")[0]
+        dump     = loads(filename, HIGHEST_PROTOCOL)
 
 def draw_chart(files):
     dumps = [load_object("temp/merged", file) for file in files]
@@ -52,6 +51,7 @@ def draw_chart(files):
     r = RingGraph(dumps[-1])
     r.save("ring-graph.png")
 
+"""
 all_files = get_list_of_files()
 files_to_parse = [bgp_file for year in all_files for bgp_file in year]
 files_to_merge = [organise_to_merge(year) for year in all_files]
@@ -60,7 +60,8 @@ files_to_chart = [files[0] for files in all_files]
 parsed_dumps = run_gnu_parallel(PARALLEL_PARSER, files_to_parse)
 print(parsed_dumps)
 
-"""
+run_gnu_parallel(PARALLEL_MERGER, )
+
 print("Parsing files")
 create_directory("temp/parsed")
 call(PARALLEL_PARSER + files_to_parse)
@@ -72,3 +73,9 @@ call(PARALLEL_MERGER + files_to_merge)
 print("Drawing chart")
 draw_chart(files_to_chart)
 """
+
+if __name__ == "__main__":
+    all_files      = get_list_of_files()
+    files_to_parse = [bgp_file for year in all_files for bgp_file in year]
+    parsed_dumps   = run_gnu_parallel(PARALLEL_PARSER, files_to_parse)
+    print(parsed_dumps)
