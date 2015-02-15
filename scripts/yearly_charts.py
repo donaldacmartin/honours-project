@@ -21,7 +21,7 @@ PARALLEL_MERGER = PARALLEL + PYTHON + BGP_MERGER + SEPARATOR
 def get_list_of_files():
     root_dir   = "/nas05/users/csp/routing-data/archive.routeviews.org"
     files      = FileBrowser(root_dir)
-    year_files = [files.get_year_end_files(year) for year in range(1997, 2014)]
+    year_files = [files.get_year_end_files(year) for year in range(1997, 1998)]
     return [file for file in year_files if file is not None]
 
 def organise_to_merge(year):
@@ -58,6 +58,7 @@ files_to_merge = [organise_to_merge(year) for year in all_files]
 files_to_chart = [files[0] for files in all_files]
 
 parsed_dumps = run_gnu_parallel(PARALLEL_PARSER, files_to_parse)
+print(parsed_dumps)
 
 """
 print("Parsing files")
@@ -67,6 +68,7 @@ call(PARALLEL_PARSER + files_to_parse)
 print("Merging parsed files")
 create_directory("temp/merged")
 call(PARALLEL_MERGER + files_to_merge)
-"""
+
 print("Drawing chart")
 draw_chart(files_to_chart)
+"""
