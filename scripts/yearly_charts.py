@@ -1,5 +1,5 @@
 from utilities.file.search import FileBrowser
-from subprocess import call
+from subprocess import check_output
 from os.path import exists
 from os import makedirs
 
@@ -9,7 +9,7 @@ from visualisation.ring import RingGraph
 from visualisation.chart.yearly_allocated_blocks import YearlyAllocatedBlocks
 from visualisation.atlas.standard import StandardAtlas
 
-PARALLEL   = ["parallel", "--no-notice"]
+PARALLEL   = ["parallel", "--no-notice", "--group"]
 PYTHON     = ["python"]
 BGP_PARSER = ["parallel/parse_bgp.py"]
 BGP_MERGER = ["parallel/merge_bgp.py"]
@@ -17,10 +17,6 @@ SEPARATOR  = [":::"]
 
 PARALLEL_PARSER = PARALLEL + PYTHON + BGP_PARSER + SEPARATOR
 PARALLEL_MERGER = PARALLEL + PYTHON + BGP_MERGER + SEPARATOR
-
-def create_directory(directory):
-    if not exists(directory):
-        makedirs(directory)
 
 def get_list_of_files():
     root_dir   = "/nas05/users/csp/routing-data/archive.routeviews.org"
@@ -35,6 +31,9 @@ def organise_to_merge(year):
         merge_format += bgp_file + "|"
 
     return merge_format
+
+def run_gnu_parallel(command, arguments):
+    return check_output(command + arguments)
 
 def draw_chart(files):
     dumps = [load_object("temp/merged", file) for file in files]
@@ -57,6 +56,9 @@ all_files = get_list_of_files()
 files_to_parse = [bgp_file for year in all_files for bgp_file in year]
 files_to_merge = [organise_to_merge(year) for year in all_files]
 files_to_chart = [files[0] for files in all_files]
+
+parsed_dumps = run_gnu_parallel(PARALLEL_PARSER, files_to_parse)
+
 """
 print("Parsing files")
 create_directory("temp/parsed")

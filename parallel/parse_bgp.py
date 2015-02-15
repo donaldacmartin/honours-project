@@ -6,19 +6,18 @@
 
 from utilities.parser.mrt import MRTParser
 from utilities.parser.cisco import CiscoParser
-from utilities.file.io import save_object
+from pickle import dumps
 from sys import argv
 
 """
 Parse
 
-Allows GNU Parallel to run parsers in parallel and dumps the contents into a
-temporary directory.
+Allows GNU Parallel to run parsers in parallel and dumps the contents to STDOUT.
 """
 
 def parse_file(filename):
     parser = MRTParser(filename) if "rib" in filename else CiscoParser(filename)
-    save_object("temp/parsed", filename, parser)
+    dumps(parser)
 
 if __name__ == "__main__":
     parse_file(argv[1])
