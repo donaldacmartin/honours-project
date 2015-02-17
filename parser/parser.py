@@ -51,8 +51,7 @@ class Parser(object):
         self.record_asys_connections(asys_path)
 
         if not self.ip_addr_already_recorded(ip_addr):
-            pass
-        #    self.record_ip_addr_asys(ip_addr, asys_path)
+            self.record_ip_addr_asys(ip_addr, asys_path)
         #    self.record_asys_size(asys_path, cidr_size)
         #    self.mark_block_visible(ip_addr, cidr_size)
         #    self.record_asys_path(ip_addr, cidr_size)
