@@ -11,7 +11,7 @@ from ip_utils import parse_ipv4_block
 class MRTParser(Parser):
     def __init__(self, file_path):
         super(MRTParser, self).__init__(file_path)
-        lines = get_lines_from_bgpdump(file_path)
+        lines = self.get_lines_from_bgpdump(file_path)
 
         for line in lines:
             self._parse_line(line)
