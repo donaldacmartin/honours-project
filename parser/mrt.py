@@ -27,12 +27,11 @@ class MRTParser(Parser):
         tokens = line.split("|")
 
         try:
-            ip_address, cidr_size = parse_ipv4_block(tokens[5])
-            asys_path             = self.get_asys_path(tokens)
+            ip_addr, cidr_size = parse_ipv4_block(tokens[5])
+            asys_path          = self.get_asys_path(tokens)
             self.record_line_details(ip_addr, cidr_size, asys_path)
         except Exception as e:
-            print("Line: " + line)
-            print(e)
+            print("Line: " + line + " | Error: " + str(e))
 
     def get_asys_path(self, tokens):
         hops = tokens[6].split(" ")
