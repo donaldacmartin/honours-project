@@ -56,6 +56,13 @@ class Parser(object):
             self.mark_block_visible(ip_addr, cidr_size)
             self.record_asys_path(ip_addr, cidr_size)
 
+    def record_asys_connections(self, asys_path):
+        for counter in range(1, len(asys_path)):
+            prev_asys  = asys_path[counter - 1]
+            curr_asys  = asys_path[counter]
+            connection = (min(prev_asys, curr_asys), max(prev_asys, curr_asys))
+            self.asys_connections.add(connection)
+
     def ip_addr_already_recorded(self, ip_addr):
         ip_as_int = ip_to_int(ip_addr)
         return ip_as_int <= self.highest_ip_encountered
@@ -67,18 +74,16 @@ class Parser(object):
         if dest_asys not in self.asys_to_ip_addr:
             self.asys_to_ip_addr[dest_asys] = set()
 
-        if ip_addr not in self.ip_addr_to_asys:
+        if ip_as_int not in self.ip_addr_to_asys:
             self.ip_addr_to_asys[ip_as_int] = set()
 
         self.asys_to_ip_addr[dest_asys].add(ip_as_int)
         self.ip_addr_to_asys[ip_as_int].add(dest_asys)
 
-    def record_asys_connections(self, asys_path):
-        for counter in range(1, len(asys_path)):
-            prev_asys  = asys_path[counter - 1]
-            curr_asys  = asys_path[counter]
-            connection = (min(prev_asys, curr_asys), max(prev_asys, curr_asys))
-            self.asys_connections.add(connection)
+    def record_asys_size(self, asys_path, cidr_size):
+        asys = asys_path[-1]
+        size = cidr_to_int(cidr_size)
+        self.asys_size[asys] += size if asys in self.asys_size else size
 
     def record_asys_path(self, ip_addr, asys_path):
         ip_as_int = ip_to_int(ip_addr)
@@ -86,12 +91,7 @@ class Parser(object):
         if ip_as_int not in self.ip_block_path:
             self.ip_block_path[ip_as_int] = set()
 
-        self.ip_block_path[ip_as_int] = asys_path
-
-    def record_asys_size(self, asys_path, cidr_size):
-        asys = asys_path[-1]
-        size = cidr_to_int(cidr_size)
-        self.asys_size[asys] += size if asys in self.asys_size else size
+        self.ip_block_path[ip_as_int].add(asys_path)
 
     def mark_block_visible(self, ip_addr, cidr_size):
         ip_as_int = ip_to_int(ip_addr)
