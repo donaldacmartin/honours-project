@@ -89,9 +89,9 @@ class Parser(object):
         ip_as_int = ip_to_int(ip_addr)
 
         if ip_as_int not in self.ip_block_path:
-            self.ip_block_path[ip_as_int] = set()
+            self.ip_block_path[ip_as_int] = []
 
-        self.ip_block_path[ip_as_int].add(asys_path)
+        self.ip_block_path[ip_as_int].append(asys_path)
 
     def mark_block_visible(self, ip_addr, cidr_size):
         ip_as_int = ip_to_int(ip_addr)
