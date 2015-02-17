@@ -83,7 +83,11 @@ class Parser(object):
     def record_asys_size(self, asys_path, cidr_size):
         asys = asys_path[-1]
         size = cidr_to_int(cidr_size)
-        self.asys_size[asys] += size if asys in self.asys_size else size
+
+        if size is None:
+            return
+        else:
+            self.asys_size[asys] += size if asys in self.asys_size else size
 
     def record_asys_path(self, ip_addr, asys_path):
         ip_as_int = ip_to_int(ip_addr)
