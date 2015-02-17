@@ -32,6 +32,7 @@ class MRTParser(Parser):
             self.record_line_details(ip_addr, cidr_size, asys_path)
         except Exception as e:
             print("Line: " + line)
+            print(e)
 
     def get_asys_path(self, tokens):
         hops = tokens[6].split(" ")
