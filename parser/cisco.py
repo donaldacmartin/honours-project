@@ -22,48 +22,44 @@ been completely parsed.
 class CiscoParser(Parser):
     def __init__(self, file_path):
         super(CiscoParser, self).__init__(file_path)
-        lines = self._convert_cmd_to_lines("bzip2 -d -c " + file_path)
-        self.file_path = file_path
+        lines = self.get_lines_from_bzip2(file_path)
 
         for line in lines:
-            self._parse_line(line)
+            self.parse_line(line)
 
-    def _parse_line(self, line):
+    def get_lines_from_bzip2(self, file_path):
+        stdout = getoutput("bzip2 -d -c " + file_path)
+        return stdout.split("\n")
+
+    def parse_line(self, line):
         if not line.startswith("*"):
             return
 
-        tokens = self._tokenise(line)
+        tokens = self.tokenise(line)
 
         try:
-            ip_address, prefix_size = self._get_ip_and_size(tokens)
-            asys = self._add_asys_path_and_get_dest_asys(tokens)
+            if self.contains_two_ip_addrs(tokens):
+                ip_addr, cidr_size = parse_ipv4_block(tokens[0])
+            else:
+                ip_addr, cidr_size = self.previous_alloc
 
-            if ip_address is not None:
-                self._record_information(ip_address, prefix_size, asys)
+            asys_path = self.get_asys_path(tokens)
+            self.record_line_details(ip_addr, cidr_size, asys_path)
+            self.previous_alloc = (ip_addr, cidr_size)
         except Exception as e:
-            print("File: " + self.file_path)
+            print("Line: " + line)
             print(e)
-            return
 
-    def _tokenise(self, line):
+    def tokenise(self, line):
         line   = sub("[*>d]", "", line)
         tokens = line.split(" ")
         return [token for token in tokens if token != ""]
 
-    def _get_ip_and_size(self, tokens):
-        if not self._contains_two_ip_addrs(tokens):
-            return (None, None)
-
-        return parse_ipv4_block(tokens[0])
-
-    def _add_asys_path_and_get_dest_asys(self, tokens):
+    def get_asys_path(self, tokens):
         path_weight = tokens.index("0")
         asys_path   = tokens[path_weight + 1:]
-        asys_path   = [int(asys) for asys in asys_path if asys.isdigit()]
+        return [int(asys) for asys in asys_path if asys.isdigit()]
 
-        self._add_asys_path(asys_path)
-        return asys_path[-1]
-
-    def _contains_two_ip_addrs(self, tokens):
+    def contains_two_ip_addrs(self, tokens):
         ip_addr_regex = compile("\d+\.\d+\.\d+\.\d+")
         return True if ip_addr_regex.match(tokens[1]) is not None else False
