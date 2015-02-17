@@ -37,7 +37,7 @@ class BaseAtlas(BaseGraph):
     # --------------------------------------------------------------------------
 
     def resolve_bgp_to_asys_coords(self, bgp_dump):
-        for (asys, ip_addresses) in bgp_dump.asys_ip_address.items():
+        for (asys, ip_addresses) in bgp_dump.asys_to_ip_addr.items():
             coords = self.ip_addresses_to_coord(ip_addresses)
 
             if coords is not None:
