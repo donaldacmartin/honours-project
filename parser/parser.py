@@ -99,7 +99,7 @@ class Parser(object):
 
     def mark_block_visible(self, ip_addr, cidr_size):
         ip_as_int = ip_to_int(ip_addr)
-        ip_block  = (ip_as_int, prefix_size)
+        ip_block  = (ip_as_int, cidr_size)
         size      = cidr_to_int(cidr_size)
 
         self.visible_blocks.append(ip_block)
