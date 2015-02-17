@@ -14,7 +14,7 @@ class MRTParser(Parser):
         lines = self.get_lines_from_bgpdump(file_path)
 
         for line in lines:
-            self._parse_line(line)
+            self.parse_line(line)
 
     def get_lines_from_bgpdump(self, file_path):
         stdout = getoutput("bgpdump -m " + file_path)
