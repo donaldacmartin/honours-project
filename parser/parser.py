@@ -53,8 +53,8 @@ class Parser(object):
         if not self.ip_addr_already_recorded(ip_addr):
             self.record_ip_addr_asys(ip_addr, asys_path)
             self.record_asys_size(asys_path, cidr_size)
-        #    self.mark_block_visible(ip_addr, cidr_size)
-        #    self.record_asys_path(ip_addr, cidr_size)
+            self.mark_block_visible(ip_addr, cidr_size)
+            self.record_asys_path(ip_addr, cidr_size)
 
     def record_asys_connections(self, asys_path):
         for counter in range(1, len(asys_path)):
