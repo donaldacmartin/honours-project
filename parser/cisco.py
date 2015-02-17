@@ -5,6 +5,7 @@
 # Donald Martin (1101795)
 
 from parser import Parser
+from commands import getoutput
 from re import sub, compile
 from ip_utils import parse_ipv4_block
 
