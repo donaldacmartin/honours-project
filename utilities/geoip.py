@@ -4,9 +4,8 @@
 # Honours Project: Map of the Internet (2014/15)
 # University of Glasgow
 
-import logging
 from bisect import bisect_left
-from utilities.parser.ip_utils import ip_to_int
+from parser.ip_utils import ip_to_int
 
 """
 GeoIPLookup
