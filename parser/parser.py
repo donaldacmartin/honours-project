@@ -4,44 +4,27 @@
 # Map of the Internet
 # Donald Martin (1101795)
 
-from commands import getoutput
 from utilities.file.name import get_date_for_filename
-from ip_utils import ip_to_int, cidr_to_int
-
-"""
-Parser
-
-A generic object to provide data structures that all specialised parsers should
-fill and some generic functions for converting between human readable numbers
-and network formats (eg CIDR notation).
-
-This object is the equivelant of a Java abstract class, and should not be
-instantiated directly: use one of the two subclasses BGPParser or CiscoParser.
-"""
+from ip_utils import ip_to_int, int_to_ip, cidr_to_int
 
 class Parser(object):
     def __init__(self, filename):
-        try:
-            self.datetime = get_date_for_filename(filename)
-        except:
-            self.datetime = None
-
-        self.asys_connections    = set()
-        self.asys_ip_address     = {}
-        self.asys_size           = {}
-        self.visible_blocks      = []
-        self.multicast_ip_blocks = {}
-
-        self.highest_ip          = 0        # Avoid double-counting
-        self.previous_ip_asys    = set()
+        self.datetime               = get_date_for_filename(filename)
+        self.asys_to_ip_addr        = {}
+        self.ip_addr_to_asys        = {}
+        self.asys_connections       = set()
+        self.asys_size              = {}
+        self.visible_blocks         = []
+        self.ip_block_path          = {}
+        self.highest_ip_encountered = 0
 
     # --------------------------------------------------------------------------
     # Public Functions
     # --------------------------------------------------------------------------
 
     def get_visible_space_size(self):
-        blocks = [cidr_to_int(i) for (_, i) in self.visible_blocks]
-        return sum(blocks)
+        block_sizes = [cidr_to_int(cidr) for (_, cidr) in self.visible_blocks]
+        return sum(block_sizes)
 
     def get_block_size_totals(self):
         totals = [0] * 32
@@ -51,58 +34,69 @@ class Parser(object):
 
         return totals
 
-    # --------------------------------------------------------------------------
-    # Higher Order Functions
-    # --------------------------------------------------------------------------
+    def get_multicast_ip_addrs(self):
+        multicasts = []
 
-    def _convert_cmd_to_lines(self, cmd):
-        stdout = getoutput(cmd)
-        return stdout.split("\n")
+        for (ip_addr, asys_group) in self.ip_addr_to_asys.values():
+            if len(asys_group) > 1:
+                multicasts.append(ip_addr)
 
-    def _add_asys_path(self, asys_path):
-        for i in range(1, len(asys_path)):
-            prev = asys_path[i-1]
-            curr = asys_path[i]
-            self._add_asys_connection(prev, curr)
-
-    def _record_information(self, ip_address, prefix_size, asys):
-        self._record_asys_ip(asys, ip_address)
-
-        if not self._already_visited(ip_address):
-            self._mark_alloc_block_visible(ip_address, prefix_size)
-            self._record_asys_size(asys, prefix_size)
-            self.previous_ip_asys = set([asys])
-        else:
-            if asys not in self.previous_ip_asys:
-                if ip_address not in self.multicast_ip_blocks:
-                    self.multicast_ip_blocks[ip_address] = set(self.previous_ip_asys)
-
-                self.multicast_ip_blocks[ip_address].add(asys)
+        return [int_to_ip(ip_addr) for ip_addr in multicasts]
 
     # --------------------------------------------------------------------------
-    # Data Structure Manipulation
+    # Recording data from derived parsers
     # --------------------------------------------------------------------------
 
-    def _add_asys_connection(self, asys1, asys2):
-        connection = (min(asys1, asys2), max(asys1, asys2))
-        self.asys_connections.add(connection)
+    def record_line_details(self, ip_addr, cidr_size, asys_path):
+        self.record_asys_connections(asys_path)
 
-    def _mark_alloc_block_visible(self, ip_address, prefix_size):
-        ip_block = (ip_to_int(ip_address), prefix_size)
+        if not self.ip_addr_already_recorded(ip_addr):
+            self.record_ip_addr_asys(ip_addr, asys_path)
+            self.record_asys_size(asys_path, cidr_size)
+            self.mark_block_visible(ip_addr, cidr_size)
+            self.record_asys_path(ip_addr, cidr_size)
+
+    def ip_addr_already_recorded(self, ip_addr):
+        ip_as_int = ip_to_int(ip_addr)
+        return ip_as_int <= self.highest_ip_encountered
+
+    def record_ip_addr_asys(self, ip_addr, asys_path):
+        ip_as_int = ip_to_int(ip_addr)
+        dest_asys = asys_path[-1]
+
+        if dest_asys not in self.asys_to_ip_addr:
+            self.asys_to_ip_addr[dest_asys] = set()
+
+        if ip_addr not in self.ip_addr_to_asys:
+            self.ip_addr_to_asys[ip_as_int] = set()
+
+        self.asys_to_ip_addr[dest_asys].add(ip_as_int)
+        self.ip_addr_to_asys[ip_as_int].add(dest_asys)
+
+    def record_asys_connections(self, asys_path):
+        for counter in range(1, len(asys_path)):
+            prev_asys  = asys_path[counter - 1]
+            curr_asys  = asys_path[counter]
+            connection = (min(prev_asys, curr_asys), max(prev_asys, curr_asys))
+            self.asys_connections.add(connection)
+
+    def record_asys_path(self, ip_addr, asys_path):
+        ip_as_int = ip_to_int(ip_addr)
+
+        if ip_as_int not in self.ip_block_path:
+            self.ip_block_path[ip_as_int] = set()
+
+        self.ip_block_path[ip_as_int] = asys_path
+
+    def record_asys_size(self, asys_path, cidr_size):
+        asys = asys_path[-1]
+        size = cidr_to_int(cidr_size)
+        self.asys_size[asys] += size if asys in self.asys_size else size
+
+    def mark_block_visible(self, ip_addr, cidr_size):
+        ip_as_int = ip_to_int(ip_addr)
+        ip_block  = (ip_as_int, prefix_size)
+        size      = cidr_to_int(cidr_size)
+
         self.visible_blocks.append(ip_block)
-        self.highest_ip = ip_to_int(ip_address) + cidr_to_int(prefix_size)
-
-    def _record_asys_ip(self, asys, ip_address):
-        if asys not in self.asys_ip_address:
-            self.asys_ip_address[asys] = set()
-
-        self.asys_ip_address[asys].add(ip_address)
-
-    def _record_asys_size(self, asys, prefix_size):
-        if asys not in self.asys_size:
-            self.asys_size[asys] = 0
-
-        self.asys_size[asys] += cidr_to_int(prefix_size)
-
-    def _already_visited(self, ip_address):
-        return ip_to_int(ip_address) <= self.highest_ip
+        self.highest_ip_encountered = ip_as_int + size

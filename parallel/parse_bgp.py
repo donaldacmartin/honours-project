@@ -6,7 +6,7 @@
 
 from utilities.parser.mrt import MRTParser
 from utilities.parser.cisco import CiscoParser
-from pickle import dumps, HIGHEST_PROTOCOL
+from pickle import dumps
 from sys import argv
 
 """
@@ -17,8 +17,9 @@ Allows GNU Parallel to run parsers in parallel and dumps the contents to STDOUT.
 
 def parse_file(filename):
     parser = MRTParser(filename) if "rib" in filename else CiscoParser(filename)
-    binary = dumps(parser, HIGHEST_PROTOCOL)
-    print("\r\n" + filename + "\n" + binary)
+    binary = dumps(parser)
+    return binary
 
 if __name__ == "__main__":
-    parse_file(argv[1])
+    binary = parse_file(argv[1])
+    print("\r\n" + filename + "\n" + binary)

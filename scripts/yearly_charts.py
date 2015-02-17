@@ -1,7 +1,6 @@
 from utilities.file.search import FileBrowser
 from subprocess import check_output
-from os.path import exists
-from os import makedirs
+from pickle import loads
 
 from utilities.file.io import load_object
 from visualisation.pyplot.pyplot_chart import YearlyChart
@@ -9,7 +8,7 @@ from visualisation.ring import RingGraph
 from visualisation.chart.yearly_allocated_blocks import YearlyAllocatedBlocks
 from visualisation.atlas.standard import StandardAtlas
 
-PARALLEL   = ["parallel", "--no-notice", "--group"]
+PARALLEL   = ["parallel", "--no-notice", "--group", "--xapply"]
 PYTHON     = ["python"]
 BGP_PARSER = ["parallel/parse_bgp.py"]
 BGP_MERGER = ["parallel/merge_bgp.py"]
@@ -27,16 +26,34 @@ def get_list_of_files():
 def run_gnu_parallel(command, arguments):
     return check_output(command + arguments)
 
-def read_stdout_into_dumps(parsed_dumps):
+def read_pickled_dumps_from_stdout(parsed_dumps):
     pickled_dumps = parsed_dumps.split("\r\n")
+    lookup_map    = {}
 
     for pickled_dump in pickled_dumps:
-        filename = pickled_dump.split("\n")[0]
-        dump     = loads(filename, HIGHEST_PROTOCOL)
+        filename             = pickled_dump.split("\n")[0]
+        dump_binary          = pickled_dump.split("\n")[1]
+        lookup_map[filename] = dump_binary
+
+    return lookup_map
+
+def organise_dumps_for_merging(all_files, lookup_map):
+    height = len(all_files)
+    width  = max(len(year) for year in all_files)
+    matrix = [[h for h in range(height)] + ":::" for w in range(width)]
+
+    for column in range(width):
+        for year in len(all_files):
+            this_year = all_files[year]
+            matrix[column][year] = lookup_map(this_year[column]) if column < len(this_year) else "-"
+
+    matrix[-1].pop()
+    return matrix
+
+def read_dumps_and_sort():
+    pass
 
 def draw_chart(files):
-    dumps = [load_object("temp/merged", file) for file in files]
-
     generic_chart = YearlyChart(dumps)
     generic_chart.draw_address_space("address-space.png")
     generic_chart.draw_most_common_block_size("most-common-block-size.png")
@@ -51,31 +68,10 @@ def draw_chart(files):
     r = RingGraph(dumps[-1])
     r.save("ring-graph.png")
 
-"""
-all_files = get_list_of_files()
-files_to_parse = [bgp_file for year in all_files for bgp_file in year]
-files_to_merge = [organise_to_merge(year) for year in all_files]
-files_to_chart = [files[0] for files in all_files]
-
-parsed_dumps = run_gnu_parallel(PARALLEL_PARSER, files_to_parse)
-print(parsed_dumps)
-
-run_gnu_parallel(PARALLEL_MERGER, )
-
-print("Parsing files")
-create_directory("temp/parsed")
-call(PARALLEL_PARSER + files_to_parse)
-
-print("Merging parsed files")
-create_directory("temp/merged")
-call(PARALLEL_MERGER + files_to_merge)
-
-print("Drawing chart")
-draw_chart(files_to_chart)
-"""
-
 if __name__ == "__main__":
     all_files      = get_list_of_files()
     files_to_parse = [bgp_file for year in all_files for bgp_file in year]
     parsed_dumps   = run_gnu_parallel(PARALLEL_PARSER, files_to_parse)
-    print(parsed_dumps)
+    pickled_dumps  = read_pickled_dumps_from_stdout(parsed_dumps)
+    dumps_to_merge = organise_dumps_for_merging(pickled_dumps)
+    merged_dumps   = run_gnu_parallel(PARALLEL_MERGER, dumps_to_merge)

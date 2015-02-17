@@ -15,24 +15,21 @@ Allows GNU Parallel to merge the data collected from several routers into one
 BGP dataset for interpretation.
 """
 
-def merge_dumps(files):
-    files = [f for f in files.split("|") if f != ""]
-    name  = files[0]
-
-    if len(files) < 2:
-        parser = load_object("temp/parsed", files[0])
-        save_object("temp/merged", name, parser)
-        return
-
-    parser1 = load_object("temp/parsed", files.pop())
-    parser2 = load_object("temp/parsed", files.pop())
-    final_parser = MergedParser(parser1, parser2)
+def merge_dumps(pickled_dumps):
+    base_dump = loads(pickled_dumps.pop())
 
     while len(files) > 1:
-        parser = load_object("temp/parsed", files.pop())
-        final_parser = MergedParser(final_parser, parser)
+        next_dump = pickled_dumps.pop()
 
-    save_object("temp/merged", name, final_parser)
+        if next_dump == "-":
+            continue
+
+        next_dump = loads(pickled_dumps.pop())
+        base_dump = MergedParser(base_dump, next_dump)
+
+    return dumps(base_dump)
 
 if __name__ == "__main__":
-    merge_dumps(argv[1])
+    argv.pop()
+    merged_dump = merge_dumps(argv)
+    print("\r\n" + merged_dump)
