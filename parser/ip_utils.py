@@ -4,6 +4,14 @@ IPV4_RESERVED_SPACE    =  592708864.0
 IPV4_ADDRESSABLE_SPACE = 4294967296.0
 IPV4_PUBLIC_SPACE      = IPV4_ADDRESSABLE_SPACE - IPV4_RESERVED_SPACE
 
+class AddressBlock(object):
+    def __init__(self, base_ip_address, cidr_size):
+        self.base_address = base_ip_address
+        self.last_address = ip_to_int(base_ip_address) + cidr_to_int(cidr_size)
+        self.cidr_size    = cidr_size
+        self.int_size     = cidr_to_int(cidr_size)
+
+
 def parse_ipv4_block(ip_block):
     if search("[a-zA-Z]+", ip_block) is not None or ":" in ip_block:
         raise Exception("IPv6 Address Encountered: " + ip_block)
@@ -16,6 +24,7 @@ def parse_ipv4_block(ip_block):
         return (ip_block, prefix_size)
 
 def ip_to_int(ip_address, is_host=False):
+    print(ip_address)
     if ":" in ip_address:
         return None
 
