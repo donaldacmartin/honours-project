@@ -8,7 +8,7 @@ from matplotlib.pyplot import savefig
 from utilities.as_lookup import ASLookup
 
 def map_route_to_ip(ip_addr, bgp_dump):
-    graph     = nx.DiGraph()
+    graph     = DiGraph()
     as_lookup = ASLookup()
     paths     = bgp_dump.ip_block_path[ip_addr]
 
