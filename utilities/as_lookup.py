@@ -1,9 +1,9 @@
 class ASLookup(object):
     def __init__(self):
-        table = self.load_file()
+        self.table = self.load_file()
 
     def get_org_for_asys(self, asys):
-        return table[asys]
+        return self.table[asys]
 
     def load_file(self, filename="utilities/data/as_list.txt"):
         table = {}
