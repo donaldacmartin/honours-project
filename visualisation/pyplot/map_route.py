@@ -4,7 +4,7 @@ path.append("lib")
 from matplotlib import use
 use("agg")
 from networkx import draw, DiGraph
-from matplotlib.pyplot import savefig
+from matplotlib.pyplot import savefig, figure
 from utilities.as_lookup import ASLookup
 
 def map_route_to_ip(ip_addr, bgp_dump):
@@ -23,5 +23,6 @@ def map_route_to_ip(ip_addr, bgp_dump):
             this_hop     = as_lookup.get_org_for_asys(this_hop)
             graph.add_edge(previous_hop, this_hop)
 
-    draw(graph)
-    savefig("trial.png")
+    figure(figsize=(8, 8))
+    draw(graph, node_size=60, font_size=8)
+    savefig("trial2.png")
