@@ -41,7 +41,7 @@ class Parser(object):
             if len(asys_group) > 1:
                 multicasts.append(ip_addr)
 
-        return [int_to_ip(ip_addr) for ip_addr in multicasts]
+        return multicasts
 
     # --------------------------------------------------------------------------
     # Recording data from derived parsers
@@ -68,17 +68,16 @@ class Parser(object):
         return ip_as_int <= self.highest_ip_encountered
 
     def record_ip_addr_asys(self, ip_addr, asys_path):
-        ip_as_int = ip_to_int(ip_addr)
         dest_asys = asys_path[-1]
 
         if dest_asys not in self.asys_to_ip_addr:
             self.asys_to_ip_addr[dest_asys] = set()
 
-        if ip_as_int not in self.ip_addr_to_asys:
-            self.ip_addr_to_asys[ip_as_int] = set()
+        if ip_addr not in self.ip_addr_to_asys:
+            self.ip_addr_to_asys[ip_addr] = set()
 
-        self.asys_to_ip_addr[dest_asys].add(ip_as_int)
-        self.ip_addr_to_asys[ip_as_int].add(dest_asys)
+        self.asys_to_ip_addr[dest_asys].add(ip_addr)
+        self.ip_addr_to_asys[ip_addr].add(dest_asys)
 
     def record_asys_size(self, asys_path, cidr_size):
         asys = asys_path[-1]
@@ -90,12 +89,10 @@ class Parser(object):
             self.asys_size[asys] = size
 
     def record_asys_path(self, ip_addr, asys_path):
-        ip_as_int = ip_to_int(ip_addr)
+        if ip_addr not in self.ip_block_path:
+            self.ip_block_path[ip_addr] = []
 
-        if ip_as_int not in self.ip_block_path:
-            self.ip_block_path[ip_as_int] = []
-
-        self.ip_block_path[ip_as_int].append(asys_path)
+        self.ip_block_path[ip_addr].append(asys_path)
 
     def mark_block_visible(self, ip_addr, cidr_size):
         ip_as_int = ip_to_int(ip_addr)
