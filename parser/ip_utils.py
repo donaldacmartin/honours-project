@@ -24,7 +24,6 @@ def parse_ipv4_block(ip_block):
         return (ip_block, prefix_size)
 
 def ip_to_int(ip_address, is_host=False):
-    print(ip_address)
     if ":" in ip_address:
         return None
 
