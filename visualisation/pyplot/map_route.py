@@ -3,7 +3,7 @@ path.append("lib")
 
 from matplotlib import use
 use("agg")
-import networkx as draw, DiGraph
+from networkx import draw, DiGraph
 from matplotlib.pyplot import savefig
 from utilities.as_lookup import ASLookup
 
