@@ -5,7 +5,7 @@ class ASLookup(object):
     def get_org_for_asys(self, asys):
         return table[asys]
 
-    def load_file(self, filename="data/as_list.txt"):
+    def load_file(self, filename="utilities/data/as_list.txt"):
         table = {}
         file  = open(filename, "r")
         line  = file.readline()[:-1]
