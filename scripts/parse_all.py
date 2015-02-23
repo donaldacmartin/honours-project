@@ -17,6 +17,6 @@ for year in years:
 
 parser_index.close()
 
-parser_file    = parser_index.name
+parser_file    = [parser_index.name]
 parallel_parse = Popen(parallel_cmd + parser_file, stdout=PIPE)
 stdout, stderr = parallel_parse.communicate()
