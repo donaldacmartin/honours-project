@@ -1,9 +1,9 @@
 #!/usr/bin/env python
-
 # Level 4 Project
 # Map of the Internet
 # Donald Martin (1101795)
 
+from exception import *
 from utilities.file.name import get_date_for_filename
 from ip_utils import ip_to_int, int_to_ip, cidr_to_int, IPv4_ADDRESSABLE_SPACE
 
@@ -97,4 +97,4 @@ class Parser(object):
         visible_space = self.get_visible_space_size()
 
         if visible_space > IPV4_ADDRESSABLE_SPACE:
-            raise IPv4SpaceOverFlowException("Visible space too large")
+            raise ParserError("Visible space too large")

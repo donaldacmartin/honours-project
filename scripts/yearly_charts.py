@@ -10,8 +10,7 @@ from visualisation.atlas.standard import StandardAtlas
 
 PARALLEL   = ["parallel", "--no-notice", "--group", "--xapply"]
 PYTHON     = ["python"]
-BGP_PARSER = ["parallel/parse_bgp.py"]
-BGP_MERGER = ["parallel/merge_bgp.py"]
+BGP_PARSER = ["parallel/parse.py"]
 SEPARATOR  = [":::"]
 
 PARALLEL_PARSER = PARALLEL + PYTHON + BGP_PARSER + SEPARATOR

@@ -15,12 +15,12 @@ class MRTParser(Parser):
         for line in self.get_lines_from_bgpdump(file_path):
             try:
                 self.parse_line(line)
-            except InvalidIPAddressException as e:
+            except InvalidIPAddressError as e:
                 print("Non-fatal IP address error encountered: " + str(e))
-            except CIDRException as e:
+            except CIDRError as e:
                 print("Non-fatal CIDR notation error encountered: " + str(e))
             except Exception as e:
-                raise ParserException(e.value))
+                raise ParserError(e.value))
 
         self.integrity_check()
 
