@@ -7,6 +7,7 @@
 from utilities.parser.mrt import MRTParser
 from utilities.parser.cisco import CiscoParser
 from pickle import dump, HIGHEST_PROTOCOL
+from tempfile import NamedTemporaryFile
 from sys import argv
 
 """
