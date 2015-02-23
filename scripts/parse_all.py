@@ -2,8 +2,8 @@ from utilities.file.search import FileBrowser
 from tempfile import NamedTemporaryFile
 from subprocess import call
 
-parallel_cmd = ["parallel", "--no-notice", "--group", "-a", "file" "python",
-                "parallel/parse.py",]
+parallel_cmd = ["parallel", "--no-notice", "--group" "python",
+                "parallel/parse.py", "::::"]
 
 root_dir     = "/nas05/users/csp/routing-data/archive.routeviews.org"
 files        = FileBrowser(root_dir)
@@ -17,6 +17,6 @@ for year in years:
 
 parser_index.close()
 
-parallel_cmd[4] = parser_index.name
-parallel_parse  = call(parallel_cmd)
+parallel_cmd    += [parser_index.name]
+parallel_parse  =  call(parallel_cmd)
 print(parallel_parse)
