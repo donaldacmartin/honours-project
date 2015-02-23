@@ -5,7 +5,7 @@
 # Donald Martin (1101795)
 
 from utilities.file.name import get_date_for_filename
-from ip_utils import ip_to_int, int_to_ip, cidr_to_int
+from ip_utils import ip_to_int, int_to_ip, cidr_to_int, IPv4_ADDRESSABLE_SPACE
 
 class Parser(object):
     def __init__(self, filename):
@@ -33,15 +33,6 @@ class Parser(object):
             totals[cidr - 1] += 1
 
         return totals
-
-    def get_multicast_ip_addrs(self):
-        multicasts = []
-
-        for (ip_addr, asys_group) in self.ip_addr_to_asys.items():
-            if len(asys_group) > 1:
-                multicasts.append(ip_addr)
-
-        return multicasts
 
     # --------------------------------------------------------------------------
     # Recording data from derived parsers
@@ -101,3 +92,9 @@ class Parser(object):
 
         self.visible_blocks.append(ip_block)
         self.highest_ip_encountered = ip_as_int + size
+
+    def integrity_check(self):
+        visible_space = self.get_visible_space_size()
+
+        if visible_space > IPV4_ADDRESSABLE_SPACE:
+            raise IPv4SpaceOverFlowException("Visible space too large")

@@ -11,10 +11,18 @@ from ip_utils import parse_ipv4_block
 class MRTParser(Parser):
     def __init__(self, file_path):
         super(MRTParser, self).__init__(file_path)
-        lines = self.get_lines_from_bgpdump(file_path)
 
-        for line in lines:
-            self.parse_line(line)
+        for line in self.get_lines_from_bgpdump(file_path):
+            try:
+                self.parse_line(line)
+            except InvalidIPAddressException as e:
+                print("Non-fatal IP address error encountered: " + str(e))
+            except CIDRException as e:
+                print("Non-fatal CIDR notation error encountered: " + str(e))
+            except Exception as e:
+                raise ParserException(e.value))
+
+        self.integrity_check()
 
     def get_lines_from_bgpdump(self, file_path):
         stdout = getoutput("bgpdump -m " + file_path)
@@ -24,15 +32,10 @@ class MRTParser(Parser):
         if line == "" or line == " " or "[info] logging to syslog" in line:
             return
 
-        tokens = line.split("|")
-
-        try:
-            ip_addr, cidr_size = parse_ipv4_block(tokens[5])
-            asys_path          = self.get_asys_path(tokens)
-            self.record_line_details(ip_addr, cidr_size, asys_path)
-        except Exception as e:
-            print("Line: " + line)
-            print(e)
+        tokens             = line.split("|")
+        ip_addr, cidr_size = parse_ipv4_block(tokens[5])
+        asys_path          = self.get_asys_path(tokens)
+        self.record_line_details(ip_addr, cidr_size, asys_path)
 
     def get_asys_path(self, tokens):
         hops = tokens[6].split(" ")

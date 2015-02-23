@@ -4,6 +4,7 @@
 # Map of the Internet
 # Donald Martin (1101795)
 
+from exception import *
 from parser import Parser
 from commands import getoutput
 from re import sub, compile
@@ -23,10 +24,18 @@ been completely parsed.
 class CiscoParser(Parser):
     def __init__(self, file_path):
         super(CiscoParser, self).__init__(file_path)
-        lines = self.get_lines_from_bzip2(file_path)
 
-        for line in lines:
-            self.parse_line(line)
+        for line in self.get_lines_from_bzip2(file_path):
+            try:
+                self.parse_line(line)
+            except InvalidIPAddressException as e:
+                print("Non-fatal IP address error encountered: " + str(e))
+            except CIDRException as e:
+                print("Non-fatal CIDR notation error encountered: " + str(e))
+            except Exception as e:
+                raise ParserException(e.value))
+
+        self.integrity_check()
 
     def get_lines_from_bzip2(self, file_path):
         stdout = getoutput("bzip2 -d -c " + file_path)
@@ -36,20 +45,16 @@ class CiscoParser(Parser):
         if not line.startswith("*"):
             return
 
-        tokens = self.tokenise(line)
+        tokens    = self.tokenise(line)
+        asys_path = self.get_asys_path(tokens)
 
-        try:
-            if self.contains_two_ip_addrs(tokens):
-                ip_addr, cidr_size = parse_ipv4_block(tokens[0])
-            else:
-                ip_addr, cidr_size = self.previous_alloc
+        if self.contains_two_ip_addrs(tokens):
+            ip_addr, cidr_size = parse_ipv4_block(tokens[0])
+        else:
+            ip_addr, cidr_size = self.previous_alloc
 
-            asys_path = self.get_asys_path(tokens)
-            self.record_line_details(ip_addr, cidr_size, asys_path)
-            self.previous_alloc = (ip_addr, cidr_size)
-        except Exception as e:
-            print("Line: " + line)
-            print(e)
+        self.record_line_details(ip_addr, cidr_size, asys_path)
+        self.previous_alloc = (ip_addr, cidr_size)
 
     def tokenise(self, line):
         line   = sub("[*>d]", "", line)

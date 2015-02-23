@@ -1,20 +1,13 @@
+from exception import *
 from re import search
 
 IPV4_RESERVED_SPACE    =  592708864.0
 IPV4_ADDRESSABLE_SPACE = 4294967296.0
 IPV4_PUBLIC_SPACE      = IPV4_ADDRESSABLE_SPACE - IPV4_RESERVED_SPACE
 
-class AddressBlock(object):
-    def __init__(self, base_ip_address, cidr_size):
-        self.base_address = base_ip_address
-        self.last_address = ip_to_int(base_ip_address) + cidr_to_int(cidr_size)
-        self.cidr_size    = cidr_size
-        self.int_size     = cidr_to_int(cidr_size)
-
-
 def parse_ipv4_block(ip_block):
     if search("[a-zA-Z]+", ip_block) is not None or ":" in ip_block:
-        raise Exception("IPv6 Address Encountered: " + ip_block)
+        raise InvalidIPAddressException("IPv6 address encountered")
 
     if "/" in ip_block:
         ip_address, prefix_size = ip_block.split("/")
@@ -25,12 +18,15 @@ def parse_ipv4_block(ip_block):
 
 def ip_to_int(ip_address, is_host=False):
     if ":" in ip_address:
-        return None
+        raise InvalidIPAddressException("IPv6 address encountered")
 
     octets = ip_address.split(".")
 
     if len(octets) != 4 or not all([0 <= int(o) <= 255 for o in octets]):
-        return None
+        raise InvalidIPAddressException("IPv4 addresses must have 4 octets")
+
+    if not all([0 <= int(o) <= 255 for o in octets]):
+        raise InvalidIPAddressException("All IPv4 octets must be 0 <= x <= 255")
 
     o1 = int(octets[0]) * 16777216
     o2 = int(octets[1]) * 65536
@@ -41,7 +37,7 @@ def ip_to_int(ip_address, is_host=False):
 
 def int_to_ip(integer):
     if not 0 <= integer <= 4294967295:
-        return None
+        raise InvalidIPAddressException("Integer provided was out of range")
 
     o1 = int(integer / 16777216) % 256
     o2 = int(integer /    65536) % 256
@@ -52,8 +48,11 @@ def int_to_ip(integer):
     return ".".join(octets)
 
 def cidr_to_int(cidr):
+    if not 1 <= cidr <= 32:
+        raise CIDRException("CIDR must be between 1 and 32")
+
     host_size = 32 - int(cidr)
-    return 2 ** host_size if 1 <= cidr <= 32 else None
+    return 2 ** host_size
 
 def sig_figs_to_cidr(ip_address):
     octets = [int(octet) for octet in ip_address.split(".")]
