@@ -1,6 +1,6 @@
 from utilities.file.search import FileBrowser
 from tempfile import NamedTemporaryFile
-from subprocess import Popen, PIPE
+from subprocess import call
 
 parallel_cmd = ["parallel", "--no-notice", "--group", "-a", "file" "python",
                 "parallel/parse.py",]
@@ -18,7 +18,5 @@ for year in years:
 parser_index.close()
 
 parallel_cmd[4] = parser_index.name
-parallel_parse  = Popen(parallel_cmd, stdout=PIPE, stderr=PIPE)
-stdout, stderr  = parallel_parse.communicate()
-parallel_parse.wait()
-print(stdout)
+parallel_parse  = call(parallel_cmd)
+print(parallel_parse)
