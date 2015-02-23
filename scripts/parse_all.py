@@ -20,3 +20,5 @@ parser_index.close()
 parallel_cmd[4] = parser_index.name
 parallel_parse  = Popen(parallel_cmd, stdout=PIPE, stderr=PIPE)
 stdout, stderr  = parallel_parse.communicate()
+parallel.wait()
+print(stdout)
