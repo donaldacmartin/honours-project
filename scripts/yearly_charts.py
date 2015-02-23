@@ -8,7 +8,7 @@ from visualisation.ring import RingGraph
 from visualisation.chart.yearly_allocated_blocks import YearlyAllocatedBlocks
 from visualisation.atlas.standard import StandardAtlas
 
-PARALLEL   = ["parallel", "--no-notice", "--group", "--xapply"]
+PARALLEL   = ["parallel", "--no-notice", "--group",]
 PYTHON     = ["python"]
 BGP_PARSER = ["parallel/parse.py"]
 SEPARATOR  = [":::"]

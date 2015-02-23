@@ -24,14 +24,19 @@ def dump_to_file_and_get_filename(parser):
     file.close()
     return file.name
 
+def dump_details_to_stdout(input_filename, output_filename_or_error_message):
+    print(input_filename + "\n" + output_filename_or_error_message + "\n\n")
+
 if __name__ == "__main__":
     input_file  = argv[1]
 
     try:
         parser      = parse_file(input_file)
         output_file = dump_to_file_and_get_filename(output_file, parser)
-        print(input_file + "\n" + output_file + "\n\n")
+        dump_details_to_stdout(input_file, output_file)
     except ParserError as e:
-        print("Fatal parser error encountered " + str(e))
+        error_msg = "Fatal parser error encountered " + str(e)
+        dump_details_to_stdout(input_file, error_msg)
     except IOError as e:
-        print("Fatal I/O error encountered " + str(e))
+        error_msg = "Fatal I/O error encountered " + str(e)
+        dump_details_to_stdout(input_file, error_msg)
