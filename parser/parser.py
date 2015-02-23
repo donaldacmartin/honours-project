@@ -5,7 +5,7 @@
 
 from exception import *
 from utilities.file.name import get_date_for_filename
-from ip_utils import ip_to_int, int_to_ip, cidr_to_int, IPv4_ADDRESSABLE_SPACE
+from ip_utils import ip_to_int, int_to_ip, cidr_to_int, IPV4_ADDRESSABLE_SPACE
 
 class Parser(object):
     def __init__(self, filename):
