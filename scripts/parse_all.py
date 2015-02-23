@@ -2,7 +2,7 @@ from utilities.file.search import FileBrowser
 from tempfile import NamedTemporaryFile
 from subprocess import call
 
-parallel_cmd = ["parallel", "--no-notice", "--group" "python",
+parallel_cmd = ["parallel", "--no-notice", "--group", "python",
                 "parallel/parse.py", "::::"]
 
 root_dir     = "/nas05/users/csp/routing-data/archive.routeviews.org"
