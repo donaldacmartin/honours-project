@@ -4,8 +4,8 @@
 # Map of the Internet
 # Donald Martin (1101795)
 
-from utilities.parser.mrt import MRTParser
-from utilities.parser.cisco import CiscoParser
+from parser.mrt import MRTParser
+from parser.cisco import CiscoParser
 from pickle import dump, HIGHEST_PROTOCOL
 from tempfile import NamedTemporaryFile
 from sys import argv
