@@ -33,7 +33,7 @@ class CiscoParser(Parser):
             except CIDRError as e:
                 print("Non-fatal CIDR notation error encountered: " + str(e))
             except Exception as e:
-                raise ParserError(e.value))
+                raise ParserError(e.value)
 
         self.integrity_check()
 
