@@ -1,22 +1,33 @@
 from utilities.file.search import FileBrowser
 from tempfile import NamedTemporaryFile
 from subprocess import call
+from sys import argv
 
-parallel_cmd = ["parallel", "--no-notice", "--group", "python",
-                "parallel/parse.py", "::::"]
+def get_yearly_files(start_year, end_year):
+    root_dir = "/nas05/users/csp/routing-data/archive.routeviews.org"
+    files    = FileBrowser(root_dir)
+    return [files.get_year_end_files(year) for year in range(start_year, end_year)]
 
-root_dir     = "/nas05/users/csp/routing-data/archive.routeviews.org"
-files        = FileBrowser(root_dir)
-years        = [files.get_year_end_files(year) for year in range(1997, 2014)]
+def get_index_file(yearly_files):
+    parser_index = NamedTemporaryFile(mode="w", delete=False)
 
-parser_index = NamedTemporaryFile(mode="w", delete=False)
+    for year in yearly_files:
+        for file in years:
+            parser_index.write(file[0] + "\n")
 
-for year in years:
-    for file in years:
-        parser_index.write(file[0] + "\n")
+    parser_index.close()
+    return parser_index.name
 
-parser_index.close()
+def run_parallel_parser(index_file_name):
+    parallel_cmd   = ["parallel", "--no-notice", "--group", "python",
+                      "parallel/parse.py", "::::", index_file_name]
+    return call(parallel_cmd)
 
-parallel_cmd    += [parser_index.name]
-parallel_parse  =  call(parallel_cmd)
-print(parallel_parse)
+if __name__ == "__main__":
+    start_year      = argv[1]
+    end_year        = argv[2]
+    output_filename = argv[3]
+
+    yearly_files    = get_yearly_files(start_year, end_year)
+    index_file      = get_index_file(yearly_files)
+    parse_result    = run_parallel_parser(index_file)

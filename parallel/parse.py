@@ -34,7 +34,7 @@ if __name__ == "__main__":
 
     try:
         parser      = parse_file(input_file)
-        output_file = dump_to_file_and_get_filename(output_file, parser)
+        output_file = dump_to_file_and_get_filename(parser)
         dump_details_to_stdout(input_file, output_file)
     except ParserError as e:
         error_msg = "Fatal parser error encountered " + str(e)
