@@ -13,7 +13,7 @@ def get_index_file(yearly_files):
 
     for year in yearly_files:
         for file in year:
-            parser_index.write(file[0] + "\n")
+            parser_index.write(file + "\n")
 
     parser_index.close()
     return parser_index.name
