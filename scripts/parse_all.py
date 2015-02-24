@@ -12,7 +12,7 @@ def get_index_file(yearly_files):
     parser_index = NamedTemporaryFile(mode="w", delete=False)
 
     for year in yearly_files:
-        for file in years:
+        for file in year:
             parser_index.write(file[0] + "\n")
 
     parser_index.close()
