@@ -29,6 +29,6 @@ if __name__ == "__main__":
     # output_filename = argv[3]
 
     yearly_files    = get_yearly_files(start_year, end_year)
-    index_file      = get_index_file(yearly_files
+    index_file      = get_index_file(yearly_files)
     print(index_file)
     parse_result    = run_parallel_parser(index_file)
