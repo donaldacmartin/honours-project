@@ -24,9 +24,9 @@ def run_parallel_parser(index_file_name):
     return call(parallel_cmd)
 
 if __name__ == "__main__":
-    start_year      = argv[1]
-    end_year        = argv[2]
-    output_filename = argv[3]
+    start_year      = int(argv[1])
+    end_year        = int(argv[2])
+    # output_filename = argv[3]
 
     yearly_files    = get_yearly_files(start_year, end_year)
     index_file      = get_index_file(yearly_files)
