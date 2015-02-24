@@ -4,6 +4,7 @@
 # Map of the Internet
 # Donald Martin (1101795)
 
+from exception import *
 from parser import Parser
 from commands import getoutput
 from ip_utils import parse_ipv4_block
