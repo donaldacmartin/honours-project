@@ -20,7 +20,7 @@ class MRTParser(Parser):
             except CIDRError as e:
                 print("Non-fatal CIDR notation error encountered: " + str(e))
             except Exception as e:
-                raise ParserError(e.value)
+                raise ParserError(str(e))
 
         self.integrity_check()
 
