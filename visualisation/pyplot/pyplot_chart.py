@@ -9,7 +9,7 @@ use("Agg")
 from matplotlib.pyplot import plot, savefig, xlabel, ylabel, ylim, title, clf, subplots, legend
 from collections import Counter
 from numpy import array
-from utilities.parser.ip_utils import IPV4_PUBLIC_SPACE
+from parser.ip_utils import IPV4_PUBLIC_SPACE
 
 """
 Chart
