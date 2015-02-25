@@ -43,7 +43,7 @@ def read_in_parsers(parallel_stdout):
     return parsers
 
 def draw_charts(parsers):
-    chart = YearlyChart(dumps)
+    chart = YearlyChart(parsers)
     chart.draw_address_space("address-space.png")
     chart.draw_most_common_block_size("most-common-block-size.png")
     chart.draw_stacked_allocation_of_blocks("stacked-allocation.png")
