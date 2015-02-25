@@ -88,8 +88,8 @@ class BaseAtlas(BaseGraph):
         x2, y2 = end
         img_width, img_height = self.image.size
 
-        dx = x2 - x1
-        dy = y2 - y1
+        dx = abs(x2 - x1)
+        dy = abs(y2 - y1)
 
         x3 = img_width if (img_width - x1) < x1 else 0
         x4 = img_width - x3

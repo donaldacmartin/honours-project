@@ -1,80 +1,48 @@
 from sys import argv
-from datetime import datetime
-from utilities.file.search import FileBrowser
-from tempfile import NamedTemporaryFile
-from subprocess import check_output
-from pickle import load
-from parser.merged import MergedParser
+from parallel.utils import *
 from visualisation.atlas.standard import StandardAtlas
 
-def get_router_files(date):
-    root_dir = "/nas05/users/csp/routing-data/archive.routeviews.org"
-    files    = FileBrowser(root_dir)
-    return files.get_files_for_time(date.year, date.month, date.day, 00)
+def organise_arguments():
+    if len(argv) != 5:
+        print("Incorrect argument usage")
+        print("Use python atlas_map.py REGION DATE RESOLUTION OUTPUT_FILENAME")
+        exit()
 
-def get_index_file(files):
-    parser_index = NamedTemporaryFile(mode="w", delete=False)
+    args = {}
+    args = get_date_from_args(args)
+    args = get_resolution_from_args(args)
 
-    for file in files:
-        parser_index.write(file + "\n")
+    args["region"] = argv[1]
+    args["output"] = argv[4]
 
-    parser_index.close()
-    return parser_index.name
+    return args
 
-def run_parallel_parser(index_file_name):
-    parallel_cmd   = ["parallel", "--no-notice", "--group", "python",
-                      "parallel/parse.py", "::::", index_file_name]
+def get_date_from_args(args):
+    try:
+        day, month, year = argv[2].split("/")
+        args["day"]      = int(day)
+        args["month"]    = int(month)
+        args["year"]     = int(year)
+        return args
+    except:
+        print("Date should be format DD/MM/YYYY")
+        exit()
 
-    return check_output(parallel_cmd)
-
-def read_in_parsers(parallel_stdout):
-    filenames = parallel_stdout.split("\n")
-    parsers   = []
-
-    for filename in filenames:
-        try:
-            file   = open(filename, "r")
-            parser = load(file)
-
-            file.close()
-            parsers.append(parser)
-        except:
-            print("File",filename,"failed to load")
-
-    return parsers
-
-def merge_parsers(parsers):
-    if len(parsers) == 1:
-        return parsers[0]
-
-    merged_parser = MergedParser(parsers[0], parsers[1])
-
-    for i in range(2, len(parsers)):
-        merged_parser = MergedParser(parsers[i], merged_parser)
-
-    return merged_parser
+def get_resolution_from_args(args):
+    try:
+        width, height  = argv[3].split("x")
+        args["width"]  = int(width)
+        args["height"] = int(height)
+        return args
+    except:
+        print("Resolution should be WIDTHxHEIGHT in pixels")
+        exit()
 
 def generate_graph(parser, width, height, region):
     return StandardAtlas(parser, width, height)
 
 if __name__ == "__main__":
-    region          = argv[1]
-    date            = argv[2]
-    resolution      = argv[3]
-    output_filename = argv[4]
-
-    try:
-        width, height = resolution.split("x")
-    except:
-        print("Resolution should be WIDTHxHEIGHT in pixels")
-        exit()
-
-    try:
-        day, month, year = date.split("/")
-        date = datetime(int(year), int(month), int(day))
-    except:
-        print("Date should be format DD/MM/YYYY")
-        exit()
+    args = organise_arguments()
 
     print("Gathering a list of files to parse")
     bgp_files = get_router_files(date)
