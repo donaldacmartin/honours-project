@@ -1,7 +1,7 @@
 from utilities.file.search import FileBrowser
 from tempfile import NamedTemporaryFile
 from subprocess import check_output
-from pickle import load, HIGHEST_PROTOCOL
+from pickle import load
 from visualisation.pyplot.pyplot_chart import YearlyChart
 from sys import argv
 
@@ -33,7 +33,7 @@ def read_in_parsers(parallel_stdout):
     for filename in filenames:
         try:
             file   = open(filename, "r")
-            parser = load(file, HIGHEST_PROTOCOL)
+            parser = load(file)
 
             file.close()
             parsers.append(parser)

@@ -18,6 +18,7 @@ will default to a global perspective, however, a number of limits have been
 provided below to zoom to a particular continent.
 """
 
+REGIONS       = ["GLOBAL", "AFRICA", "EUROPE", "NORTH AMERICA", "SOUTH AMERICA"]
 GLOBAL        = ((90, 180), (-90,-180))
 AFRICA        = ((36.08, -21.62), (-38.50, 50.45))
 EUROPE        = ((61.16, -11.51), (35.63, 33.66))
