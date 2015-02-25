@@ -67,7 +67,8 @@ if __name__ == "__main__":
         exit()
 
     try:
-        date = datetime(date)
+        day, month, year = date.split("/")
+        date = datetime(int(day), int(month), int(year))
     except:
         print("Date should be format DD/MM/YYYY")
         exit()
