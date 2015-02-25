@@ -45,7 +45,7 @@ if __name__ == "__main__":
     args = organise_arguments()
 
     print("Gathering a list of files to parse")
-    bgp_files = get_router_files(args["year"], args["month"], args["date"])
+    bgp_files = get_router_files(args["year"], args["month"], args["day"])
     parallel_index = get_index_file(bgp_files)
 
     print("Parsing BGP files in parallel (" + str(len(bgp_files)) + ")")
