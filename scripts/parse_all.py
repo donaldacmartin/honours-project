@@ -32,7 +32,10 @@ def read_in_parsers(parallel_stdout):
 
     for filename in filenames:
         try:
-            parser = load(filename, HIGHEST_PROTOCOL)
+            file   = open(filename, "r")
+            parser = load(file, HIGHEST_PROTOCOL)
+
+            file.close()
             parsers.append(parser)
         except:
             print("File",filename,"failed to load")
