@@ -74,8 +74,8 @@ if __name__ == "__main__":
         exit()
 
     print("Gathering a list of files to parse")
-    parallel_index = get_index_file(bgp_files)
     bgp_files = get_router_files(date)
+    parallel_index = get_index_file(bgp_files)
 
     print("Parsing BGP files in parallel")
     parsing_stdout = run_parallel_parser(parallel_index)
