@@ -68,7 +68,7 @@ if __name__ == "__main__":
 
     try:
         day, month, year = date.split("/")
-        date = datetime(int(day), int(month), int(year))
+        date = datetime(int(year), int(month), int(day))
     except:
         print("Date should be format DD/MM/YYYY")
         exit()
