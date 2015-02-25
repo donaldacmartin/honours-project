@@ -83,5 +83,5 @@ if __name__ == "__main__":
     print("Collating parsed data")
     parsers = read_in_parsers(parsing_stdout)
     parser = merge_parsers(parsers)
-    graph = generate_graph(parser, width, height, region)
+    graph = generate_graph(parser, int(width), int(height), region)
     graph.save(output_filename)
