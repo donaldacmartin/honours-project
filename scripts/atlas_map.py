@@ -44,6 +44,9 @@ def read_in_parsers(parallel_stdout):
     return parsers
 
 def merge_parsers(parsers):
+    if len(parsers) == 1:
+        return parsers[0]
+
     merged_parser = MergedParser(parsers[0], parsers[1])
 
     for i in range(2, len(parsers)):
@@ -77,7 +80,7 @@ if __name__ == "__main__":
     bgp_files = get_router_files(date)
     parallel_index = get_index_file(bgp_files)
 
-    print("Parsing BGP files in parallel")
+    print("Parsing BGP files in parallel (" + str(len(bgp_files)) + ")")
     parsing_stdout = run_parallel_parser(parallel_index)
 
     print("Collating parsed data")
