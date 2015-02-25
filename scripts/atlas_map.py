@@ -1,7 +1,15 @@
+from datetime import datetime
+from utilities.file.search import FileBrowser
+from tempfile import NamedTemporaryFile
+from subprocess import check_output
+from pickle import load
+from parser.merged import MergedParser
+from visualisation.atlas.standard import StandardAtlas
+
 def get_router_files(date):
     root_dir = "/nas05/users/csp/routing-data/archive.routeviews.org"
     files    = FileBrowser(root_dir)
-    return files.get_files_for_time(date.year, date.month, date.day, date.hour)
+    return files.get_files_for_time(date.year, date.month, date.day, 00)
 
 def get_index_file(files):
     parser_index = NamedTemporaryFile(mode="w", delete=False)
@@ -25,7 +33,7 @@ def read_in_parsers(parallel_stdout):
     for filename in filenames:
         try:
             file   = open(filename, "r")
-            parser = load(file, HIGHEST_PROTOCOL)
+            parser = load(file)
 
             file.close()
             parsers.append(parser)
@@ -34,16 +42,44 @@ def read_in_parsers(parallel_stdout):
 
     return parsers
 
+def merge_parsers(parsers):
+    merged_parser = MergedParser(parsers[0], parsers[1])
+
+    for i in range(2, len(parsers)):
+        merged_parser = MergedParser(parsers[i], merged_parser)
+
+    return merged_parser
+
+def generate_graph(parser, width, height, region):
+    return StandardAtlas(parser, width, height, region)
+
 if __name__ == "__main__":
     region          = argv[1]
     date            = argv[2]
     resolution      = argv[2]
     output_filename = argv[4]
 
+    try:
+        width, height = resolution.split("x")
+    except:
+        print("Resolution should be WIDTHxHEIGHT in pixels")
+        exit()
+
+    try:
+        date = datetime(date)
+    except:
+        print("Date should be format DD/MM/YYYY")
+        exit()
+
     print("Gathering a list of files to parse")
-    bgp_files       = get_router_files(date)
-    parallel_index  = get_index_file(bgp_files)
+    parallel_index = get_index_file(bgp_files)
+    bgp_files = get_router_files(date)
+
     print("Parsing BGP files in parallel")
-    parsing_stdout  = run_parallel_parser(parallel_index)
+    parsing_stdout = run_parallel_parser(parallel_index)
+
     print("Collating parsed data")
-    parsers         = read_in_parsers(parsing_stdout)
+    parsers = read_in_parsers(parsing_stdout)
+    parser = merge_parsers(parsers)
+    graph = generate_graph(parser, width, height, region)
+    graph.save(output_filename)
