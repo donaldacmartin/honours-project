@@ -1,3 +1,4 @@
+from sys import argv
 from datetime import datetime
 from utilities.file.search import FileBrowser
 from tempfile import NamedTemporaryFile
@@ -51,7 +52,7 @@ def merge_parsers(parsers):
     return merged_parser
 
 def generate_graph(parser, width, height, region):
-    return StandardAtlas(parser, width, height, region)
+    return StandardAtlas(parser, width, height)
 
 if __name__ == "__main__":
     region          = argv[1]
