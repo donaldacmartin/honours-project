@@ -45,7 +45,7 @@ if __name__ == "__main__":
     args = organise_arguments()
 
     print("Gathering a list of files to parse")
-    bgp_files = get_router_files(date)
+    bgp_files = get_router_files(args["year"], args["month"], args["date"])
     parallel_index = get_index_file(bgp_files)
 
     print("Parsing BGP files in parallel (" + str(len(bgp_files)) + ")")
@@ -54,5 +54,5 @@ if __name__ == "__main__":
     print("Collating parsed data")
     parsers = read_in_parsers(parsing_stdout)
     parser = merge_parsers(parsers)
-    graph = generate_graph(parser, int(width), int(height), region)
-    graph.save(output_filename)
+    graph = generate_graph(parser, args["width"], args["height"], args["region"])
+    graph.save(args["output"])
