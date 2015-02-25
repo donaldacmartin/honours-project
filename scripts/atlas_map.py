@@ -57,7 +57,7 @@ def generate_graph(parser, width, height, region):
 if __name__ == "__main__":
     region          = argv[1]
     date            = argv[2]
-    resolution      = argv[2]
+    resolution      = argv[3]
     output_filename = argv[4]
 
     try:
