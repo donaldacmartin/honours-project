@@ -41,7 +41,7 @@ class StaggeredRingGraph(BaseGraph):
 
         lon           = radians(lon)
         width, height = self.image.size
-        radius_scale  = 1 / (self.total_connections[as_num] / self.max_connections)
+        radius_scale  = 1 - (self.total_connections[as_num] / self.max_connections)
         centre_x      = width / 2
         centre_y      = height / 2
 
