@@ -4,7 +4,7 @@ from utilities.geoip import GeoIPLookup
 
 class StaggeredRingGraph(BaseGraph):
     def __init__(self, width, height, bgp_dump):
-        super(RingGraph, self).__init__(width, height)
+        super(StaggeredRingGraph, self).__init__(width, height)
         self.geoip = GeoIPLookup()
         self.asys_coords = {}
 
