@@ -5,7 +5,7 @@
 # University of Glasgow
 
 from math import sin, cos, radians, sqrt
-from base import BaseGraph, DARK_RED
+from visualisation.base import BaseGraph, DARK_RED
 from utilities.geoip import GeoIPLookup
 
 """
@@ -21,7 +21,7 @@ systems in a series of rings, based on the number of connections that each AS
 has to other ASs.
 """
 
-class RingGraph(BaseGraph):
+class StandardRingGraph(BaseGraph):
     def __init__(self, width, height, bgp_dump):
         super(RingGraph, self).__init__(width, height)
         self.geoip = GeoIPLookup()
