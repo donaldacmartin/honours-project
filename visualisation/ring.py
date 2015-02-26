@@ -4,8 +4,8 @@
 # Honours Project: Map of the Internet (2014/15)
 # University of Glasgow
 
-from math import sin, cos
-from graphs.base import BaseGraph, DARK_RED
+from math import sin, cos, radians
+from base import BaseGraph, DARK_RED
 from utilities.geoip import GeoIPLookup
 
 """
