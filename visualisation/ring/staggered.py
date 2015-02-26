@@ -21,8 +21,15 @@ class StaggeredRingGraph(BaseGraph):
         lookup = {}
 
         for (start, end) in asys_connections:
-            lookup[start] += 1 if start in lookup else 1
-            lookup[end]   += 1 if end in lookup else 1
+            if start in lookup:
+                lookup[start] += 1
+            else:
+                lookup[start] = 1
+
+            if end in lookup:
+                lookup[end] += 1
+            else:
+                lookup[end] = 1
 
         return lookup
 
