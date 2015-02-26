@@ -22,11 +22,10 @@ has to other ASs.
 """
 
 class RingGraph(BaseGraph):
-    def __init__(self, width, bgp_dump):
-        super(RingGraph, self).__init__(width, width)
+    def __init__(self, width, height, bgp_dump):
+        super(RingGraph, self).__init__(width, height)
         self.geoip = GeoIPLookup()
         self.asys_coords = {}
-        self.fast_reject = set()
 
         for (asys, ip_addresses) in bgp_dump.asys_ip_address.items():
             self.map_as_ip_to_circumference_pos(asys, ip_addresses)
@@ -38,19 +37,21 @@ class RingGraph(BaseGraph):
         while (len(ip_addresses) > 0 and lon != None):
             try:
                 ip_address = ip_addresses.pop()
-                lon        = self.geoip.get_latlon_for_ip(ip_address)[1] + 180
+                lon = self.geoip.get_latlon_for_ip(ip_address)[1] + 180
             except:
                 lon = None
 
         if lon is None:
             return
 
-        width  = self.image.size[0]
-        radius = (width - 10) / 2
-        centre = width / 2
+        lon           = radians(lon)
+        width, height = self.image.size
+        radius        = (cos(lon) * height) + (sin(lon) * width)
+        centre_x      = width / 2
+        centre_y      = height / 2
 
-        x = centre + radius * cos(lon)
-        y = centre + radius * sin(lon)
+        x = centre_x + radius * cos(lon)
+        y = centre_y + radius * sin(lon)
 
         self.asys_coords[as_num] = (x,y)
 
