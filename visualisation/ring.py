@@ -4,7 +4,7 @@
 # Honours Project: Map of the Internet (2014/15)
 # University of Glasgow
 
-from math import sin, cos, radians
+from math import sin, cos, radians, sqrt
 from base import BaseGraph, DARK_RED
 from utilities.geoip import GeoIPLookup
 
@@ -43,10 +43,11 @@ class RingGraph(BaseGraph):
         width, height = self.image.size
         centre_x      = width / 2
         centre_y      = height / 2
-        radius        = (cos(lon) * centre_y) + (sin(lon) * centre_x)
+        radius        = (width * height) / sqrt(width**2 * sin(lon)**2 + height**2 * cos(lon)**2)
+        #radius        = (cos(lon) * centre_y) + (sin(lon) * centre_x)
 
         x = centre_x + radius * cos(lon)
-        y = centre_y + radius * sin(lon)
+        y = centre_y - radius * sin(lon)
 
         self.asys_coords[as_num] = (x,y)
 
