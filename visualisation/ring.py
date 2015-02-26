@@ -41,9 +41,9 @@ class RingGraph(BaseGraph):
 
         lon           = radians(lon)
         width, height = self.image.size
-        radius        = (cos(lon) * height) + (sin(lon) * width)
         centre_x      = width / 2
         centre_y      = height / 2
+        radius        = (cos(lon) * centre_y) + (sin(lon) * centre_x)
 
         x = centre_x + radius * cos(lon)
         y = centre_y + radius * sin(lon)
