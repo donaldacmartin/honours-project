@@ -43,11 +43,9 @@ class RingGraph(BaseGraph):
         width, height = self.image.size
         centre_x      = width / 2
         centre_y      = height / 2
-        radius        = (width * height) / sqrt(width**2 * sin(lon)**2 + height**2 * cos(lon)**2)
-        #radius        = (cos(lon) * centre_y) + (sin(lon) * centre_x)
 
-        x = centre_x + radius * cos(lon)
-        y = centre_y - radius * sin(lon)
+        x = centre_x + (centre_x * cos(lon))
+        y = centre_y + (centre_y * sin(lon))
 
         self.asys_coords[as_num] = (x,y)
 
