@@ -27,19 +27,14 @@ class RingGraph(BaseGraph):
         self.geoip = GeoIPLookup()
         self.asys_coords = {}
 
-        for (asys, ip_addresses) in bgp_dump.asys_ip_address.items():
+        for (asys, ip_addresses) in bgp_dump.asys_to_ip_addr.items():
             self.map_as_ip_to_circumference_pos(asys, ip_addresses)
 
         for (start, end) in bgp_dump.asys_connections:
             self.draw_connection(start, end)
 
     def map_as_ip_to_circumference_pos(self, as_num, ip_addresses):
-        while (len(ip_addresses) > 0 and lon != None):
-            try:
-                ip_address = ip_addresses.pop()
-                lon = self.geoip.get_latlon_for_ip(ip_address)[1] + 180
-            except:
-                lon = None
+        lon = self.get_longitude_for_ip_addrs(ip_addresses)
 
         if lon is None:
             return
@@ -54,6 +49,16 @@ class RingGraph(BaseGraph):
         y = centre_y + radius * sin(lon)
 
         self.asys_coords[as_num] = (x,y)
+
+    def get_longitude_for_ip_addrs(self, ip_addresses):
+        while len(ip_addresses) > 0:
+            try:
+                ip_address = ip_addresses.pop()
+                return self.geoip.get_latlon_for_ip(ip_address)[1] + 180
+            except:
+                continue
+
+        return None
 
     def draw_connection(self, start, end):
         if start not in self.asys_coords or end not in self.asys_coords:
