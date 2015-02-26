@@ -29,37 +29,32 @@ class RingGraph(BaseGraph):
         self.fast_reject = set()
 
         for (asys, ip_addresses) in bgp_dump.asys_ip_address.items():
-            self._map_as_ip_to_circumference_pos(asys, ip_addresses)
+            self.map_as_ip_to_circumference_pos(asys, ip_addresses)
 
         for (start, end) in bgp_dump.asys_connections:
-            self._draw_connection(start, end)
+            self.draw_connection(start, end)
 
-    def _map_as_ip_to_circumference_pos(self, as_num, ip_addresses):
-        try:
-            if as_num in self.fast_reject:
-                return
-
-            ip_address = ip_addresses.pop()
-            lon        = self.geoip.get_latlon_for_ip(ip_address)[1] + 180
-            width      = self.image.size[0]
-            radius     = (width - 10) / 2
-            centre     = width / 2
-
-            x = centre + radius * cos(lon)
-            y = centre - radius * sin(lon)
-
-            self.asys_coords[as_num] = (x,y)
-            self.fast_reject.add(as_num)
-        except:
+    def map_as_ip_to_circumference_pos(self, as_num, ip_addresses):
+        while (len(ip_addresses) > 0 and lon != None):
             try:
-                if len(ip_addresses) > 0:
-                    self._map_as_ip_to_circumference_pos(as_num, ip_addresses)
-                else:
-                    self.fast_reject.add(as_num)
+                ip_address = ip_addresses.pop()
+                lon        = self.geoip.get_latlon_for_ip(ip_address)[1] + 180
             except:
-                self.fast_reject.add(as_num)
+                lon = None
 
-    def _draw_connection(self, start, end):
+        if lon is None:
+            return
+
+        width  = self.image.size[0]
+        radius = (width - 10) / 2
+        centre = width / 2
+
+        x = centre + radius * cos(lon)
+        y = centre + radius * sin(lon)
+
+        self.asys_coords[as_num] = (x,y)
+
+    def draw_connection(self, start, end):
         if start not in self.asys_coords or end not in self.asys_coords:
             return
 
