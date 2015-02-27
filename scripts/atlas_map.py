@@ -62,7 +62,7 @@ def generate_graph(graph_type, parser, width, height, region):
         return StaggeredRing(parser, width, height)
 
 if __name__ == "__main__":
-    year, month, day, width, height, region, graph_type, output_filename = organise_arguments()
+    graph_type, year, month, day, width, height, region, output_filename = organise_arguments()
 
     print("Gathering a list of files to parse")
     bgp_files = get_router_files(year, month, day)
