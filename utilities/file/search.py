@@ -6,7 +6,6 @@
 
 from os import walk
 from utilities.file.name import get_date_for_filename
-from logging import getLogger
 
 """
 FileBrowser
@@ -23,7 +22,6 @@ specified in the comments below:
 
 class FileBrowser(object):
     def __init__(self, directory):
-        self.logger     = getLogger("map_of_the_internet")
         self.oix_dumps  = {}
         self.eqix_dumps = {}
         self.isc_dumps  = {}
@@ -116,4 +114,4 @@ class FileBrowser(object):
             elif "RIBS" in filename:
                 self.rv1_dumps[date_stamp] = filename
             else:
-                self.logger.warning("Unable to classify filename: " + filename)
+                print("Unable to classify filename: " + filename)
