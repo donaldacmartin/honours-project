@@ -8,9 +8,9 @@ def organise_arguments():
     yearly_blocks     = True if "YEARLY_BLOCKS" in argv else False
     most_common_alloc = True if "MOST_COMMON_ALLOC" in argv else False
     stacked_alloc     = True if "STACKED_ALLOC" in argv else False
-    resolution        = get_resolution_from_args(argv[-1])
+    width, height      = get_resolution_from_args(argv[-1])
 
-    return address_space, yearly_blocks, most_common_alloc, stacked_alloc, resolution
+    return address_space, yearly_blocks, most_common_alloc, stacked_alloc, width, height
 
 def get_resolution_from_args(arg):
     try:
@@ -43,11 +43,13 @@ def merge_yearly_parsers(parsers_by_year):
     return merged_parsers
 
 if __name__ == "__main__":
-    address_space, yearly_blocks, most_common_alloc, stacked_alloc, resolution = organise_arguments()
+    address_space, yearly_blocks, most_common_alloc, stacked_alloc, width, height = organise_arguments()
 
     print("Gathering a list of files to parse")
     bgp_files      = get_router_files_for_years(1997, 2000)
     parallel_index = get_index_file_2d_list(bgp_files)
+
+    print("Parsing BGP files in parallel (" + str(len(bgp_files)) + ")")
     parsing_stdout = run_parallel_parser(parallel_index)
 
     print("Collating parsed data")
@@ -56,7 +58,7 @@ if __name__ == "__main__":
     parser_for_years = merge_yearly_parsers(parsers_by_year)
 
     print("Drawing charts")
-    chart = YearlyChart(parser_for_years)
+    chart = YearlyChart(parser_for_years, width, height)
 
     if address_space:
         chart.draw_address_space("address-space.png")
