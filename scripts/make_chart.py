@@ -25,7 +25,11 @@ def sort_parsers_into_years(parsers):
 
     for parser in parsers:
         year = parsers.datetime.year
-        years[year] = [parser] if year not in years else += [parser]
+
+        if year in years:
+            years[year].append(parser)
+        else:
+            years[year] = [parser]
 
     return years
 
