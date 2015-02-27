@@ -1,33 +1,24 @@
 from sys import argv
 from parallel.utils import *
+
 from visualisation.atlas.standard import StandardAtlas
 from visualisation.atlas.heat import HeatAtlas
 from visualisation.ring.standard import StandardRing
 from visualisation.ring.staggered import StaggeredRing
 
 def organise_arguments():
-    graph_types = ["STANDARD_ATLAS", "HEAT_ATLAS", "STANDARD_RING", "STAGGERED_RING"]
-
     if not 5 <= len(argv) <= 6:
         print("Incorrect argument usage")
         print("Arguments: GRAPH_TYPE DATE RESOLUTION [REGION] OUTPUT_FILENAME")
         exit()
 
-    graph_type       = argv[1]
+    graph_type       = get_graph_type(argv[1])
     year, month, day = get_date_from_args(argv[2])
     width, height    = get_resolution_from_args(argv[3])
     region           = None if len(argv) < 6 else argv[4]
     output_filename  = argv[4] if len(argv) < 6 else argv[5]
 
-    if graph_type not in graph_types:
-        print("Invalid graph type")
-        print("Options are: ")
-
-        for graph in graph_types:
-            print("- " + graph)
-
-        exit()
-
+    verify_graph_type(graph_type)
     return graph_type, year, month, day, width, height, region, output_filename
 
 def get_date_from_args(arg):
@@ -45,6 +36,21 @@ def get_resolution_from_args(arg):
     except:
         print("Resolution should be WIDTHxHEIGHT in pixels")
         exit()
+
+def get_graph_type(arg):
+    graph_types = ["STANDARD_ATLAS", "HEAT_ATLAS", "STANDARD_RING",
+                   "STAGGERED_RING"]
+
+    if arg not in graph_types:
+        print("Invalid graph type")
+        print("Options are: ")
+
+        for graph in graph_types:
+            print("- " + graph)
+
+        exit()
+
+    return graph_type
 
 def generate_graph(graph_type, parser, width, height, region):
     if graph_type == "STANDARD_ATLAS":
