@@ -4,7 +4,7 @@
 # Map of the Internet
 # Donald Martin (1101795)
 
-from graphs.base import BaseGraph
+from visualisation.base import BaseGraph
 
 """
 Base Chart
