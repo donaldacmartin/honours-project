@@ -34,11 +34,11 @@ def sort_parsers_into_years(parsers):
     return years
 
 def merge_yearly_parsers(parsers_by_year):
-    merged_parsers = {}
+    merged_parsers = []
 
     for (year, parsers) in parsers_by_year.items():
         parser = merge_parsers(parsers)
-        merged_parsers[year] = parser
+        merged_parsers.append(parser)
 
     return merged_parsers
 

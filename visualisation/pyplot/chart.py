@@ -26,7 +26,7 @@ class YearlyChart(object):
 
         figure(figsize=(width, height), dpi=300)
         self.bgp_dumps = bgp_dumps
-        self.years     = [bgp_dump.datetime.year for bgp_dump in self.bgp_dumps]
+        self.years     = [bgp_dump.datetime.year for bgp_dump in bgp_dumps]
 
     def plot_yearly_data(self, metric, chart_title, y_axis_label, lim1, lim2):
         clf()
