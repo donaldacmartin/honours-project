@@ -21,10 +21,10 @@ one cannot be in the interpreter at the same time.
 
 class YearlyChart(object):
     def __init__(self, bgp_dumps, width, height):
-        width  = width / 300
-        height = height / 300
+        # width  = width / 300
+        # height = height / 300
 
-        figure(figsize=(width, height), dpi=300)
+        # figure(figsize=(width, height), dpi=300)
         self.bgp_dumps = bgp_dumps
         self.years     = [bgp_dump.datetime.year for bgp_dump in bgp_dumps]
 
