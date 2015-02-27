@@ -4,7 +4,7 @@ from parser.mrt import MRTParser
 from parser.cisco import CiscoParser
 from utilities.file.search import FileBrowser
 from parser.ip_utils import ip_to_int, cidr_to_int, get_reserved_blocks
-from graphs.base import DARK_RED, LIGHT_GREY
+from visualisation.base import DARK_RED, LIGHT_GREY
 
 DEFAULT = ("0.0.0.0", "255.255.255.255")
 TESTING = ("4.0.0.0", "4.255.255.255")
