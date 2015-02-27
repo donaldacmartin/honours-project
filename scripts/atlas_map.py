@@ -18,7 +18,6 @@ def organise_arguments():
     region           = None if len(argv) < 6 else argv[4]
     output_filename  = argv[4] if len(argv) < 6 else argv[5]
 
-    verify_graph_type(graph_type)
     return graph_type, year, month, day, width, height, region, output_filename
 
 def get_date_from_args(arg):
