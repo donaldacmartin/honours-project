@@ -5,7 +5,7 @@
 # University of Glasgow
 
 from __future__ import division
-from graphs.graph import Graph
+from visualisation.graph import Graph
 from graphs.atlas.atlas_map import GLOBAL, scale_coords
 from utilities.geoip import GeoIPLookup
 from utilities.population import get_global_population_database
@@ -25,7 +25,7 @@ Goals
  - Draw and shade
 """
 
-class HeatMap(BaseAtlas):
+class HeatAtlas(BaseAtlas):
     def __init__(self, bgp_dump, width, height, region=GLOBAL):
         super(HeatMap, self).__init__(width, height, region)
 

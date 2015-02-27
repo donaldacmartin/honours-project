@@ -2,7 +2,7 @@ from sys import argv
 from parallel.utils import *
 
 from visualisation.atlas.standard import StandardAtlas
-from visualisation.atlas.heat import HeatAtlas
+#from visualisation.atlas.heat import HeatAtlas
 from visualisation.ring.standard import StandardRing
 from visualisation.ring.staggered import StaggeredRing
 
@@ -55,11 +55,11 @@ def get_graph_type(arg):
 def generate_graph(graph_type, parser, width, height, region):
     if graph_type == "STANDARD_ATLAS":
         return StandardAtlas(parser, width, height)
-    elif graph_type == "HEAT_ATLAS":
-        return HeatAtlas(parser, width, height)
-    elif graph_type == "STANDARD_RING"
+    #elif graph_type == "HEAT_ATLAS":
+    #    return HeatAtlas(parser, width, height)
+    elif graph_type == "STANDARD_RING":
         return StandardRing(parser, width, height)
-    elif graph_type == "STAGGERED_RING"
+    elif graph_type == "STAGGERED_RING":
         return StaggeredRing(parser, width, height)
 
 if __name__ == "__main__":
