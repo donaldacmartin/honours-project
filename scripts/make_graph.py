@@ -65,7 +65,7 @@ if __name__ == "__main__":
     graph_type, year, month, day, width, height, region, output_filename = organise_arguments()
 
     print("Gathering a list of files to parse")
-    bgp_files = get_router_files(year, month, day)
+    bgp_files = get_router_files_for_date(year, month, day)
     parallel_index = get_index_file(bgp_files)
 
     print("Parsing BGP files in parallel (" + str(len(bgp_files)) + ")")
