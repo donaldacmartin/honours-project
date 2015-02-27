@@ -76,5 +76,5 @@ if __name__ == "__main__":
     parser  = merge_parsers(parsers)
 
     print("Drawing graph")
-    graph = generate_graph(parser, width, height, region)
+    graph = generate_graph(graph_type, parser, width, height, region)
     graph.save(output_filename)
