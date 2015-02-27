@@ -24,7 +24,7 @@ if __name__ == "__main__":
     input_file  = argv[1]
 
     try:
-        parser          = parse_file(input_file)
+        parser = parse_file(input_file)
         output_filename = dump_to_file_and_get_filename(parser)
         print(output_filename)
     except ParserError as e:
