@@ -50,7 +50,7 @@ def get_graph_type(arg):
 
         exit()
 
-    return graph_type
+    return arg
 
 def generate_graph(graph_type, parser, width, height, region):
     if graph_type == "STANDARD_ATLAS":
