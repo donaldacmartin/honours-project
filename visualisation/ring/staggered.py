@@ -2,9 +2,9 @@ from math import sin, cos, radians, sqrt
 from visualisation.base import BaseGraph, DARK_RED
 from utilities.geoip import GeoIPLookup
 
-class StaggeredRingGraph(BaseGraph):
-    def __init__(self, width, height, bgp_dump):
-        super(StaggeredRingGraph, self).__init__(width, height)
+class StaggeredRing(BaseGraph):
+    def __init__(self, bgp_dump, width, height):
+        super(StaggeredRing, self).__init__(width, height)
         self.geoip = GeoIPLookup()
         self.asys_coords = {}
 

@@ -21,9 +21,9 @@ systems in a series of rings, based on the number of connections that each AS
 has to other ASs.
 """
 
-class StandardRingGraph(BaseGraph):
-    def __init__(self, width, height, bgp_dump):
-        super(RingGraph, self).__init__(width, height)
+class StandardRing(BaseGraph):
+    def __init__(self, bgp_dump, width, height):
+        super(StandardRing, self).__init__(width, height)
         self.geoip = GeoIPLookup()
         self.asys_coords = {}
 
