@@ -4,6 +4,10 @@ class MergedParser(object):
         self.merge_ip_lookup(bgp_dump1, bgp_dump2)
         self.merge_asys_lookup(bgp_dump1, bgp_dump2)
 
+        self.asys_size      = bgp_dump1.asys_size
+        self.visible_blocks = bgp_dump1.visible_blocks
+        self.ip_block_path  = bgp_dump1.ip_block_path
+
     def merge_connections(self, bgp_dump1, bgp_dump2):
         merged = bgp_dump1.asys_connections.union(bgp_dump2.asys_connections)
         self.asys_connections = merged
