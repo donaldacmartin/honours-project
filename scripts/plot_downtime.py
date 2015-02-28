@@ -64,8 +64,6 @@ def merge_grouped_parsers(unmerged_parser_groups):
 
     return merged_parsers
 
-n = NationalDownTimeChart(parsers, "EGY", "egypt-down.png")
-
 if __name__ == "__main__":
     country, start, end, width, height, output, max_routers = organise_args()
 
