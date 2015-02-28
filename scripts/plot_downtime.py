@@ -1,4 +1,5 @@
 from sys import argv
+from utilities.file.search import FileBrowser
 from datetime import datetime, timedelta
 from parallel.utils import *
 from parallel.arguments import *
@@ -24,12 +25,14 @@ def organise_args():
     return country_iso, start_date, end_date, width, height, output_filename, max_routers
 
 def get_files_to_parse(start_date, end_date, max_routers):
-    date           = start_date
-    delta          = timedelta(hours=2)
-    files_to_parse = []
+    date            = start_date
+    delta           = timedelta(hours=2)
+    root_dir        = "/nas05/users/csp/routing-data/archive.routeviews.org"
+    browser         = FileBrowser(root_dir)
+    files_to_parse  = []
 
     while date < end_date:
-        files = get_router_files_for_date(date.year, date.month, date.day, date.hour)
+        files = browser.get_files_for_time(date.year, date.month, date.day, date.hour)
 
         files = files if max_routers >= len(files) else files[:max_routers - 1]
         files_to_parse.append(files)
