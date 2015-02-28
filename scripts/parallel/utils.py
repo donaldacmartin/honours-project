@@ -45,6 +45,9 @@ def read_in_parsers(parallel_stdout):
     parsers   = []
 
     for filename in filenames:
+        if "error" in filename:
+            continue
+            
         try:
             file   = open(filename, "r")
             parser = load(file)
