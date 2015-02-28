@@ -69,7 +69,7 @@ if __name__ == "__main__":
     country, start, end, width, height, output, max_routers = organise_args()
 
     print("Getting files to parse")
-    files_to_parse, number_of_files = get_files_to_parse(start, end)
+    files_to_parse, number_of_files = get_files_to_parse(start, end, max_routers)
     index_file                      = get_index_file_2d_list(files_to_parse)
 
     print("Parsing in parallel " + str(number_of_files) + " files")
