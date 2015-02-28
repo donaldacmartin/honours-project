@@ -7,7 +7,7 @@ from visualisation.pyplot.national_downtime import NationalDownTimeChart
 def organise_args():
     if not 6 <= len(argv) <= 7:
         print("Incorrect argument usage")
-        print("Arguments: COUNTRY_ISO3 START_DATE END_DATE OUTPUT_FILENAME [MAX_ROUTERS]")
+        print("Arguments: COUNTRY_ISO3 START_DATE END_DATE RESOLUTION OUTPUT_FILENAME [MAX_ROUTERS]")
         exit()
 
     country_iso     = get_country_code(argv[1])
