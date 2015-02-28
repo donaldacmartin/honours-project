@@ -1,5 +1,7 @@
 class MergedParser(object):
     def __init__(self, bgp_dump1, bgp_dump2):
+        self.datetime = bgp_dump1.date_time
+        
         self.merge_connections(bgp_dump1, bgp_dump2)
         self.merge_ip_lookup(bgp_dump1, bgp_dump2)
         self.merge_asys_lookup(bgp_dump1, bgp_dump2)
