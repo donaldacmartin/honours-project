@@ -8,8 +8,8 @@ from utilities.file.name import get_date_for_filename
 from ip_utils import ip_to_int, int_to_ip, cidr_to_int, IPV4_ADDRESSABLE_SPACE
 
 class Parser(object):
-    def __init__(self, filename):
-        self.datetime               = get_date_for_filename(filename)
+    def __init__(self, filename=None):
+        self.datetime               = None if filename is None else get_date_for_filename(filename)
         self.asys_to_ip_addr        = {}
         self.ip_addr_to_asys        = {}
         self.asys_connections       = set()

@@ -1,5 +1,8 @@
-class MergedParser(object):
+from parser import Parser
+
+class MergedParser(Parser):
     def __init__(self, bgp_dump1, bgp_dump2):
+        super(MergedParser, self).__init__(None)
         self.datetime = bgp_dump1.datetime
 
         self.merge_connections(bgp_dump1, bgp_dump2)
