@@ -19,7 +19,7 @@ def organise_arguments():
     region          = None if len(argv) < 6 else argv[4]
     output_filename = argv[4] if len(argv) < 6 else argv[5]
 
-    return graph_type, year, date, height, region, output_filename
+    return graph_type, date, width, height, region, output_filename
 
 def get_graph_type(arg):
     graph_types = ["STANDARD_ATLAS", "HEAT_ATLAS", "STANDARD_RING",
