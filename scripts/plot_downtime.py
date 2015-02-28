@@ -31,7 +31,7 @@ def get_files_to_parse(start_date, end_date, max_routers):
     while date < end_date:
         files = get_router_files_for_date(date.year, date.month, date.day, date.hour)
 
-        files = files if max_routers >= len(max_routers) else files[:max_routers - 1]
+        files = files if max_routers >= len(files) else files[:max_routers - 1]
         files_to_parse.append(files)
         date += delta
 
