@@ -1,3 +1,5 @@
+from datetime import datetime
+
 def get_country_code(arg):
     if len(arg) != 3:
         print("Country code must have 3 arguments")
