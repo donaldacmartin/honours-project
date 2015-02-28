@@ -21,7 +21,7 @@ def organise_args():
     except:
         print("Maximum number of routers must be a number")
 
-    return country_code, start_date, end_date, width, height, output_filename, max_routers
+    return country_iso, start_date, end_date, width, height, output_filename, max_routers
 
 def get_files_to_parse(start_date, end_date, max_routers):
     date           = start_date
