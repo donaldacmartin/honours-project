@@ -1,5 +1,6 @@
 from sys import argv
 from parallel.utils import *
+from parallel.arguments import *
 
 from visualisation.atlas.standard import StandardAtlas
 #from visualisation.atlas.heat import HeatAtlas
@@ -12,29 +13,13 @@ def organise_arguments():
         print("Arguments: GRAPH_TYPE DATE RESOLUTION [REGION] OUTPUT_FILENAME")
         exit()
 
-    graph_type       = get_graph_type(argv[1])
-    year, month, day = get_date_from_args(argv[2])
-    width, height    = get_resolution_from_args(argv[3])
-    region           = None if len(argv) < 6 else argv[4]
-    output_filename  = argv[4] if len(argv) < 6 else argv[5]
+    graph_type      = get_graph_type(argv[1])
+    date            = get_date(argv[2])
+    width, height   = get_resolution(argv[3])
+    region          = None if len(argv) < 6 else argv[4]
+    output_filename = argv[4] if len(argv) < 6 else argv[5]
 
-    return graph_type, year, month, day, width, height, region, output_filename
-
-def get_date_from_args(arg):
-    try:
-        day, month, year = arg.split("/")
-        return int(year), int(month), int(day)
-    except:
-        print("Date should be format DD/MM/YYYY")
-        exit()
-
-def get_resolution_from_args(arg):
-    try:
-        width, height  = arg.split("x")
-        return int(width), int(height)
-    except:
-        print("Resolution should be WIDTHxHEIGHT in pixels")
-        exit()
+    return graph_type, year, date, height, region, output_filename
 
 def get_graph_type(arg):
     graph_types = ["STANDARD_ATLAS", "HEAT_ATLAS", "STANDARD_RING",
@@ -62,10 +47,10 @@ def generate_graph(graph_type, parser, width, height, region):
         return StaggeredRing(parser, width, height)
 
 if __name__ == "__main__":
-    graph_type, year, month, day, width, height, region, output_filename = organise_arguments()
+    graph_type, date, width, height, region, output_filename = organise_arguments()
 
     print("Gathering a list of files to parse")
-    bgp_files = get_router_files_for_date(year, month, day)
+    bgp_files = get_router_files_for_date(date.year, date.month, date.day)
     parallel_index = get_index_file(bgp_files)
 
     print("Parsing BGP files in parallel (" + str(len(bgp_files)) + ")")

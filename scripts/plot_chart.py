@@ -1,5 +1,6 @@
 from sys import argv
 from parallel.utils import *
+from parallel.arguments import *
 from visualisation.pyplot.chart import YearlyChart
 from visualisation.chart.yearly_allocated_blocks import YearlyAllocatedBlocks
 
@@ -8,17 +9,9 @@ def organise_arguments():
     yearly_blocks     = True if "YEARLY_BLOCKS" in argv else False
     most_common_alloc = True if "MOST_COMMON_ALLOC" in argv else False
     stacked_alloc     = True if "STACKED_ALLOC" in argv else False
-    width, height      = get_resolution_from_args(argv[-1])
+    width, height     = get_resolution(argv[-1])
 
     return address_space, yearly_blocks, most_common_alloc, stacked_alloc, width, height
-
-def get_resolution_from_args(arg):
-    try:
-        width, height  = arg.split("x")
-        return int(width), int(height)
-    except:
-        print("Resolution should be WIDTHxHEIGHT in pixels")
-        exit()
 
 def sort_parsers_into_years(parsers):
     years = {}

@@ -1,4 +1,7 @@
 from datetime import datetime, timedelta
+from parallel.utils import *
+from parallel.arguments import *
+from visualisation.pyplot.national_downtime import NationalDownTimeChart
 
 def organise_args():
     if len(argv) != 6:
@@ -12,30 +15,7 @@ def organise_args():
     width, height   = get_resolution(argv[4])
     output_filename = argv[5]
 
-    return country_code, start_date, end_date, resolution, output_filename
-
-def get_country_code(arg):
-    if len(arg) != 3:
-        print("Country code must have 3 arguments")
-        exit()
-
-    return arg
-
-def get_date(arg):
-    try:
-        day, month, year = arg.split("/")
-        return datetime(int(year), int(month), int(day), 0)
-    except:
-        print("Date must be of form DD/MM/YYYY")
-        exit()
-
-def get_resolution(arg):
-    try:
-        width, height = arg.split("x")
-        return int(width), int(height)
-    except:
-        print("Resolution must be of form WIDTHxHEIGHT")
-        exit()
+    return country_code, start_date, end_date, width, height, output_filename
 
 def get_files_to_parse(start_date, end_date):
     date           = start_date
@@ -80,7 +60,7 @@ def merge_grouped_parsers(unmerged_parser_groups):
 n = NationalDownTimeChart(parsers, "EGY", "egypt-down.png")
 
 if __name__ == "__main__":
-    country, start, end, resolution, output = organise_args()
+    country, start, end, width, height, output = organise_args()
 
     print("Getting files to parse")
     files_to_parse, number_of_files = get_files_to_parse(start, end)
@@ -93,3 +73,6 @@ if __name__ == "__main__":
     print("Merging parsed data")
     grouped_parsers  = organise_for_merging(unsorted_parsers)
     merged_parsers   = merge_grouped_parsers(grouped_parsers)
+
+    print("Plotting graph")
+    NationalDownTimeChart(merged_parsers, country, output)
