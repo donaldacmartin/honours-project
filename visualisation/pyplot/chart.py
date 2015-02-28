@@ -20,11 +20,12 @@ one cannot be in the interpreter at the same time.
 """
 
 class YearlyChart(object):
-    def __init__(self, bgp_dumps, width, height):
-        # width  = width / 300
-        # height = height / 300
+    def __init__(self, bgp_dumps, width, height, dpi=300):
+        self.dpi = dpi
+        width    = width / dpi
+        height   = height / dpi
 
-        # figure(figsize=(width, height), dpi=300)
+        figure(figsize=(width, height))
         self.bgp_dumps = bgp_dumps
         self.years     = [bgp_dump.datetime.year for bgp_dump in bgp_dumps]
 
@@ -41,13 +42,13 @@ class YearlyChart(object):
         chart = "Yearly % IPv4 Space Visible to Routers"
         label = "% IPv4 Space"
         self.plot_yearly_data(visible_address_space, chart, label, 0, 100)
-        savefig(filename)
+        savefig(filename, dpi=self.dpi)
 
     def draw_most_common_block_size(self, filename):
         chart = "Yearly Most Commonly Allocated Prefix Size"
         label = "Prefix Size"
         self.plot_yearly_data(most_common_block_size, chart, label, 0, 32)
-        savefig(filename)
+        savefig(filename, dpi=self.dpi)
 
     def draw_stacked_allocation_of_blocks(self, filename):
         clf()
@@ -68,7 +69,7 @@ class YearlyChart(object):
         all_totals = [array(total) for total in all_totals]
         fig, ax = subplots()
         ax.stackplot(self.years, *all_totals)
-        savefig(filename)
+        savefig(filename, dpi=self.dpi)
 
 # ------------------------------------------------------------------------------
 # Helper Functions
