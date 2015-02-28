@@ -2,7 +2,7 @@ from matplotlib import use
 use("Agg")
 from matplotlib.pyplot import plot, savefig, xlabel, ylabel, title, clf, ylim
 from utilities.geoip import GeoIPLookup
-from utilities.parser.ip_utils import int_to_ip, cidr_to_int
+from parser.ip_utils import int_to_ip, cidr_to_int
 
 class NationalDownTimeChart(object):
     def __init__(self, bgp_dumps, country_iso, filename):
