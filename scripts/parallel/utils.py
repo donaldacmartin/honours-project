@@ -4,10 +4,10 @@ from tempfile import NamedTemporaryFile
 from pickle import load
 from parser.merged import MergedParser
 
-def get_router_files_for_date(yy, mm, dd):
+def get_router_files_for_date(yy, mm, dd, hh=0):
     root_dir = "/nas05/users/csp/routing-data/archive.routeviews.org"
     files    = FileBrowser(root_dir)
-    return files.get_files_for_time(yy, mm, dd, 00)
+    return files.get_files_for_time(yy, mm, dd, hh)
 
 def get_router_files_for_years(start, end):
     root_dir   = "/nas05/users/csp/routing-data/archive.routeviews.org"
@@ -47,7 +47,7 @@ def read_in_parsers(parallel_stdout):
     for filename in filenames:
         if "error" in filename:
             continue
-            
+
         try:
             file   = open(filename, "r")
             parser = load(file)
