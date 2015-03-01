@@ -5,7 +5,8 @@
 # University of Glasgow
 
 from unittest import TestCase
-from utilities.parser.ip_utils import *
+from parser.ip_utils import *
+from parser.exception import *
 
 class IPUtilsTest(TestCase):
     # --------------------------------------------------------------------------
@@ -20,16 +21,13 @@ class IPUtilsTest(TestCase):
         self.assertEqual(4294967295, integer, "Upper IPv4 limit failed")
 
     def test_ip_to_int_negative(self):
-        integer = ip_to_int("0.0.0.-1")
-        self.assertEqual(None, integer, "Negative IP address did not fail")
+        self.assertRaises(InvalidIPAddressError, ip_to_int, "0.0.0.-1")
 
     def test_ip_to_int_exceeding_limit(self):
-        integer = ip_to_int("255.255.255.256")
-        self.assertEqual(None, integer, "Too large IP address did not fail")
+        self.assertRaises(InvalidIPAddressError, ip_to_int, "255.255.255.256")
 
     def test_ip_to_int_ipv6(self):
-        integer = ip_to_int("ff01::1")
-        self.assertEqual(None, integer, "IPv6 address did not fail")
+        self.assertRaises(InvalidIPAddressError, ip_to_int, "ff01::1")
 
     # --------------------------------------------------------------------------
     # Integer to IP Conversion
@@ -43,12 +41,10 @@ class IPUtilsTest(TestCase):
         self.assertEqual("255.255.255.255", ip, "Upper IPv4 limit failed")
 
     def test_int_to_ip_negative(self):
-        ip = int_to_ip(-1)
-        self.assertEqual(None, ip, "Negative integer did not fail")
+        self.assertRaises(InvalidIPAddressError, int_to_ip, -1)
 
     def test_int_to_ip_exceeding_limit(self):
-        ip = int_to_ip(4294967296)
-        self.assertEqual(None, ip, "Integer larger than possible did not fail")
+        self.assertRaises(InvalidIPAddressError, int_to_ip, 4294967296)
 
     # --------------------------------------------------------------------------
     # Converting CIDR to Integers
@@ -62,12 +58,10 @@ class IPUtilsTest(TestCase):
         self.assertEqual(1, size, "Largest prefix failed")
 
     def test_cidr_to_int_negative(self):
-        size = cidr_to_int(-1)
-        self.assertEqual(None, size, "Negative CIDR did not fail")
+        self.assertRaises(CIDRError, cidr_to_int, -1)
 
     def test_cidr_to_int_exceeding_limit(self):
-        size = cidr_to_int(33)
-        self.assertEqual(None, size, "CIDR larger than possible did not fail")
+        self.assertRaises(CIDRError, cidr_to_int, 33)
 
     # --------------------------------------------------------------------------
     # Converting Significant Figures to CIDR (Cisco notation)

@@ -20,13 +20,15 @@ def get_date_for_filename(name):
         raise Exception("Updates file detected")
     elif "oix" in name or ("route-views3" in name and "RIBS" not in name):
         return translate_cisco_filename(name)
-    else:
+    elif "rib" in filename:
         return translate_ribs_filename(name)
+    else:
+        raise Exception("Unknown filename format: " + name)
 
 def translate_cisco_filename(filename):
     try:
         if "latest.dat.bz2" in filename:
-            raise Exception("Unable to parse Cisco style filename: " + filename)
+            raise Exception("No date provided in Cisco filename: " + filename)
 
         tokens = filename.split("-")
 
