@@ -27,36 +27,29 @@ class GeoIPLookup(object):
         self.block_start_ip = sorted(self.ip_blocks.keys())
 
     def get_latlon_for_ip(self, ip_address):
-        try:
-            data = self._get_ip_data(ip_address)
-            return data["latitude"], data["longitude"]
-        except NameError:
-            logging.error("GeoIP: no latlon coordinates for " + ip_address)
-            return None
+        data = self.get_ip_data(ip_address)
+        return data["latitude"], data["longitude"]
 
     def get_country_for_ip(self, ip_address):
-        try:
-            data = self._get_ip_data(ip_address)
-            return self.iso_2to3[data["country"]]
-        except:
-            return None
+        data = self.get_ip_data(ip_address)
+        return self.iso_2to3[data["country"]]
 
-    def _locate_block(self, ip_int):
+    def locate_block(self, ip_int):
         i = bisect_left(self.block_start_ip, ip_int)
 
         if i:
             return self.block_start_ip[i-1]
+        else:
+            raise ValueError
 
-        raise ValueError
-
-    def _get_ip_data(self, ip_address):
-        block    = self._get_ip_block(ip_address)
+    def get_ip_data(self, ip_address):
+        block    = self.get_ip_block(ip_address)
         location = block["location"]
         return self.geo_data[location]
 
-    def _get_ip_block(self, ip_address):
+    def get_ip_block(self, ip_address):
         ip_int = ip_to_int(ip_address, True)
-        block  = self._locate_block(ip_int)
+        block  = self.locate_block(ip_int)
         return self.ip_blocks[block]
 
 # ------------------------------------------------------------------------------

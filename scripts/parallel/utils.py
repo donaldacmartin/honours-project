@@ -1,5 +1,5 @@
 from utilities.file.search import FileBrowser
-from subprocess import check_output
+from commands import getoutput
 from tempfile import NamedTemporaryFile
 from pickle import load
 from parser.merged import MergedParser
@@ -16,10 +16,10 @@ def get_router_files_for_years(start, end):
     return [file for file in year_files if file is not None]
 
 def run_parallel_parser(index_file_name):
-    parallel_cmd   = ["parallel", "--no-notice", "--group", "python",
-                      "scripts/parallel/parse.py", "::::", index_file_name]
+    parallel_cmd = ("parallel --no-notice --group python "
+                    "scripts/parallel/parse.py ::::" + index_file_name)
 
-    return check_output(parallel_cmd)
+    return getoutput(parallel_cmd)
 
 def get_index_file(files):
     parser_index = NamedTemporaryFile(mode="w", delete=False)

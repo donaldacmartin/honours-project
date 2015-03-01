@@ -25,7 +25,7 @@ class YearlyAllocatedBlocks(BaseChart):
             blocks = [block for block in blocks if self.block_in_range(block)]
             self.draw_bar(blocks, row_y)
             self.draw_reserved_blocks(row_y)
-            self.draw_year_label(bgp_dump.date_time_stamp[0], row_y)
+            self.draw_year_label(bgp_dump.datetime.year, row_y)
             row_y += row_diff
 
         self.draw_axes()
