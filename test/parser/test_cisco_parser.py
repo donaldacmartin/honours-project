@@ -44,7 +44,7 @@ class TestCiscoParser(TestCase):
 
         expected_connections = set([(1,1740)])
         parsed_connections   = self.parser.asys_connections
-        print("Hello")
+        print(parsed_connections)
 
         self.assertEqual(expected_connections, parsed_connections)
 
