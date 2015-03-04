@@ -11,7 +11,7 @@ class TestFilename(TestCase):
 
     def test_cisco_filename_with_rv3_date(self):
         filename = "route-views3/2007.04/route-views3-full-snapshot-2007-04-20-1600.dat.bz2"
-        expected = datetime(2007, 04, 20)
+        expected = datetime(2007, 04, 20, 16)
         result   = get_date_for_filename(filename)
         self.assertEqual(expected, result)
 

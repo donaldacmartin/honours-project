@@ -20,7 +20,7 @@ def get_date_for_filename(name):
         raise Exception("Updates file detected")
     elif "oix" in name or ("route-views3" in name and "RIBS" not in name):
         return translate_cisco_filename(name)
-    elif "rib" in filename:
+    elif "rib" in name:
         return translate_ribs_filename(name)
     else:
         raise Exception("Unknown filename format: " + name)
