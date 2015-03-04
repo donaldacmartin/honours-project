@@ -58,10 +58,10 @@ class TestCiscoParser(TestCase):
 
     def test_incomplete_path(self):
         line = "*> 4.0.0.0    134.24.127.3    0 1740 1 ? i"
+        self.parser.parse_line(line)
 
         expected_connections = set([(1, 1740)])
         parsed_connections   = self.parser.asys_connections
-        print(parsed_connections)
 
         self.assertEqual(expected_connections, parsed_connections)
 
