@@ -1,4 +1,4 @@
-from unittest import TestCase
+from unittest import TestCase, main
 from utilities.file.name import get_date_for_filename
 from datetime import datetime
 
@@ -32,3 +32,6 @@ class TestFilename(TestCase):
     def test_invalid_filename(self):
         filename = "invalid_filename"
         self.assertRaises(Exception, get_date_for_filename, filename)
+
+if __name__ == "__main__":
+    main()

@@ -4,7 +4,7 @@
 # Honours Project: Map of the Internet (2014/15)
 # University of Glasgow
 
-from unittest import TestCase
+from unittest import TestCase, main
 from parser.ip_utils import *
 from parser.exception import *
 
@@ -89,3 +89,6 @@ class IPUtilsTest(TestCase):
 
     def test_rejection_of_ipv6(self):
         self.assertRaises(Exception, parse_ipv4_block, "ff01::1")
+
+if __name__ == "__main__":
+    main()

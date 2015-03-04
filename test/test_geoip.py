@@ -1,4 +1,4 @@
-from unittest import TestCase
+from unittest import TestCase, main
 from utilities.geoip import GeoIPLookup
 
 class TestGeoIP(TestCase):
@@ -23,3 +23,6 @@ class TestGeoIP(TestCase):
     def test_invalid_ip(self):
         ip_address = "256.0.0.0"
         self.assertRaises(Exception, self.geoip.get_country_for_ip, ip_address)
+
+if __name__ == "__main__":
+    main()

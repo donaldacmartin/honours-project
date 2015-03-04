@@ -1,4 +1,4 @@
-from unittest import TestCase
+from unittest import TestCase, main
 from utilities.file.search import FileBrowser
 
 class TestFileSearch(TestCase):
@@ -25,3 +25,6 @@ class TestFileSearch(TestCase):
     def get_year_end_files(self):
         files_found = self.files.get_year_end_files(2013)
         self.assertTrue(len(files_found) > 0)
+
+if __name__ == "__main__":
+    main()
