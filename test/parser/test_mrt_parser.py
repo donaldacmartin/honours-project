@@ -126,5 +126,17 @@ class TestMRTParser(TestCase):
 
         self.assertEqual(total_expected_connections, total_parsed_connections)
 
+    def test_violation_of_integrity(self):
+        alloc_1 = ("TABLE_DUMP|1004488339|B|4.0.0.2|1|0.0.0.0/1|"
+                   "1 701 80|IGP|4.0.0.2|0|21040|1:666|NAG||")
+
+        alloc_2 = ("TABLE_DUMP|1004488339|B|4.0.0.2|1|255.0.0.0/1|"
+                   "1 701 80|IGP|4.0.0.2|0|21040|1:666|NAG||")
+
+        self.parser.parse_line(alloc_1)
+        self.parser.parse_line(alloc_2)
+
+        self.assertRaises(ParserError, self.parser.integrity_check)
+
 if __name__ == "__main__":
     main()
