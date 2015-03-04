@@ -54,13 +54,13 @@ class Parser(object):
 
             if prev_asys == curr_asys:
                 continue
-                
+
             connection = (min(prev_asys, curr_asys), max(prev_asys, curr_asys))
             self.asys_connections.add(connection)
 
     def ip_addr_already_recorded(self, ip_addr):
         ip_as_int = ip_to_int(ip_addr)
-        return ip_as_int <= self.highest_ip_encountered
+        return ip_as_int < self.highest_ip_encountered
 
     def record_ip_addr_asys(self, ip_addr, asys_path):
         dest_asys = asys_path[-1]
