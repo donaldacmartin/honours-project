@@ -129,6 +129,7 @@ class TestMRTParser(TestCase):
     def test_violation_of_integrity(self):
         self.parser.visible_blocks += [(0, 1)]
         self.parser.visible_blocks += [(128, 1)]
+        self.parser.visible_blocks += [(255, 1)]
 
         self.assertRaises(ParserError, self.parser.integrity_check)
 
