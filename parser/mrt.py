@@ -10,8 +10,11 @@ from commands import getoutput
 from ip_utils import parse_ipv4_block
 
 class MRTParser(Parser):
-    def __init__(self, file_path):
+    def __init__(self, file_path=None):
         super(MRTParser, self).__init__(file_path)
+
+        if file_path is None:
+            return
 
         for line in self.get_lines_from_bgpdump(file_path):
             try:
@@ -33,7 +36,11 @@ class MRTParser(Parser):
         if line == "" or line == " " or "[info] logging to syslog" in line:
             return
 
-        tokens             = line.split("|")
+        tokens = line.split("|")
+
+        if len(tokens) != 13:
+            raise Exception("Invalid number of components in line")
+
         ip_addr, cidr_size = parse_ipv4_block(tokens[5])
         asys_path          = self.get_asys_path(tokens)
         self.record_line_details(ip_addr, cidr_size, asys_path)

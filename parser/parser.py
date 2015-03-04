@@ -51,6 +51,10 @@ class Parser(object):
         for counter in range(1, len(asys_path)):
             prev_asys  = asys_path[counter - 1]
             curr_asys  = asys_path[counter]
+
+            if prev_asys == curr_asys:
+                continue
+                
             connection = (min(prev_asys, curr_asys), max(prev_asys, curr_asys))
             self.asys_connections.add(connection)
 

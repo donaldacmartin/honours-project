@@ -22,8 +22,11 @@ been completely parsed.
 """
 
 class CiscoParser(Parser):
-    def __init__(self, file_path):
+    def __init__(self, file_path=None):
         super(CiscoParser, self).__init__(file_path)
+
+        if file_path is None:
+            return
 
         for line in self.get_lines_from_bzip2(file_path):
             try:

@@ -12,3 +12,4 @@ def generate_atlas_map():
             "GLOBAL", "atlas.png"]
 
 if __name__ == "__main__":
+    getoutput("plot_chart")
