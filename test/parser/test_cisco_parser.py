@@ -11,7 +11,7 @@ from parser.exception import *
 class TestCiscoParser(TestCase):
     def setUp(self):
         self.parser       = CiscoParser(None)
-        self.correct_line = ("*> 4.0.0.0          134.24.127.3                ",
+        self.correct_line = ("*> 4.0.0.0          134.24.127.3                "
                              "          0 1740 1 i")
 
     def test_correct_path(self):
