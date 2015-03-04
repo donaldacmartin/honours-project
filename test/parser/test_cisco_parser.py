@@ -20,7 +20,7 @@ class TestCiscoParser(TestCase):
         expected_paths = set([(1, 1740)])
         parsed_paths   = self.parser.asys_connections
 
-        self.assertEqual(expected_paths, parsed_path)
+        self.assertEqual(expected_paths, parsed_paths)
 
     def test_correct_ip_prefix(self):
         self.parser.parse_line(self.correct_line)
