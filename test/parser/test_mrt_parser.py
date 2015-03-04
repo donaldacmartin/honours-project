@@ -58,6 +58,35 @@ class TestMRTParser(TestCase):
 
         self.assertEqual(expected_asys_size, parsed_asys_size)
 
+    def test_asys_size_multiple_lines(self):
+        self.parser.parse_line(self.correct_line)
+
+        additional_line = ("TABLE_DUMP|1004488339|B|4.0.0.2|1|4.0.0.0/8|"
+                           "1 12 80|IGP|4.0.0.2|0|21040|1:666|NAG||")
+
+        self.parser.parse_line(additional_line)
+
+        expected_size = 33554442
+        parsed_size   = self.parser.asys_size[80]
+
+        self.assertEqual(expected_size, parsed_size)
+
+    def test_getting_visible_space_size(self):
+        self.parser.parse_line(self.correct_line)
+
+        expected_size = 16777216
+        returned_size = self.parser.get_visible_space_size()
+
+        self.assertEqual(expected_size, returned_size)
+
+    def test_getting_sums_of_allocated_cidr_sizes(self):
+        self.parser.parse_line(self.correct_line)
+
+        expected_result = [0 if i != 7 else 1 for i in range(32)]
+        parsed_result   = self.parser.get_block_size_totals()
+
+        self.assertEqual(expected_result, parsed_result)
+
     def test_incorrect_number_tokens(self):
         line = ("TABLE_DUMP|1004488339|B|4.0.0.2|0|21040|1:666|NAG||")
         self.assertRaises(Exception, self.parser.parse_line, line)
