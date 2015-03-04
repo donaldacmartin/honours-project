@@ -1,4 +1,4 @@
-from unittest import TestCase
+from unittest import TestCase, main
 from parser.cisco import CiscoParser
 from parser.exception import *
 
