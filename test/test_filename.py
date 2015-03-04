@@ -20,7 +20,7 @@ class TestFilename(TestCase):
         self.assertRaises(Exception, get_date_for_filename, filename)
 
     def test_rib_filename(self):
-        filename = "bgpdata/2001.10/RIBS/rib.2011026.1648.bz2"
+        filename = "bgpdata/2001.10/RIBS/rib.2001026.1648.bz2"
         expected = datetime(2001, 10, 26, 16)
         result   = get_date_for_filename(filename)
         self.assertEqual(expected, result)
