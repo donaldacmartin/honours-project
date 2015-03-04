@@ -85,7 +85,7 @@ class TestMRTParser(TestCase):
         expected_connections = set([(1, 701), (80, 701)])
         parsed_connections   = self.parser.asys_connections
 
-        self.assertEqual(expected_connections, parsed_connection)
+        self.assertEqual(expected_connections, parsed_connections)
 
     def test_path_incomplete(self):
         line = ("TABLE_DUMP|1004488339|B|4.0.0.2|1|3.0.0.0/8|1 701 ?|IGP|"
