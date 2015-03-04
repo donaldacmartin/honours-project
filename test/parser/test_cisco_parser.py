@@ -67,3 +67,6 @@ class TestCiscoParser(TestCase):
     def test_incorrect_prefix(self):
         line = "*> x.x.x.x    134.24.127.3    0 1740 1 ? i"
         self.assertRaises(InvalidIPError, self.parser.parse_line, line)
+
+if __name__ == "__main__":
+    main()
