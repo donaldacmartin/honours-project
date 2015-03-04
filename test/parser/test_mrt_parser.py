@@ -24,7 +24,7 @@ TABLE_DUMP|1004488339|B|4.0.0.2|1|3.0.0.0/8|
 class TestMRTParser(TestCase):
     def setUp(self):
         self.parser       = MRTParser(None)
-        self.correct_line = ("TABLE_DUMP|1004488339|B|4.0.0.2|1|3.0.0.0/8|",
+        self.correct_line = ("TABLE_DUMP|1004488339|B|4.0.0.2|1|3.0.0.0/8|"
                              "1 701 80|IGP|4.0.0.2|0|21040|1:666|NAG||")
 
     def test_correct_path(self):
@@ -63,22 +63,22 @@ class TestMRTParser(TestCase):
         self.assertRaises(Exception, self.parser.parse_line, line)
 
     def test_tokens_wrong_order(self):
-        line = ("TABLE_DUMP|1004488339|B|4.0.0.2|1|IGP|1 701 80|3.0.0.0/8|",
+        line = ("TABLE_DUMP|1004488339|B|4.0.0.2|1|IGP|1 701 80|3.0.0.0/8|"
                 "4.0.0.2|0|21040|1:666|NAG||")
         self.assertRaises(Exception, self.parser.parse_line, line)
 
     def test_incorrect_prefix(self):
-        line = ("TABLE_DUMP|1004488339|B|4.0.0.2|1|x.x.x.x/x|1 701 80|IGP|",
+        line = ("TABLE_DUMP|1004488339|B|4.0.0.2|1|x.x.x.x/x|1 701 80|IGP|"
                 "4.0.0.2|0|21040|1:666|NAG||")
         self.assertRaises(InvalidIPAddressError, self.parser.parse_line, line)
 
     def test_ipv6_prefix(self):
-        line = ("TABLE_DUMP|1004488339|B|4.0.0.2|1|f::::0/8|1 701 80|IGP|",
+        line = ("TABLE_DUMP|1004488339|B|4.0.0.2|1|f::::0/8|1 701 80|IGP|"
                 "4.0.0.2|0|21040|1:666|NAG||")
         self.assertRaises(InvalidIPAddressError, self.parser.parse_line, line)
 
     def test_repeated_asys_on_path(self):
-        line = ("TABLE_DUMP|1004488339|B|4.0.0.2|1|3.0.0.0/8|1 701 701 80|IGP|",
+        line = ("TABLE_DUMP|1004488339|B|4.0.0.2|1|3.0.0.0/8|1 701 701 80|IGP|"
                 "4.0.0.2|0|21040|1:666|NAG||")
         self.parser.parse_line(line)
 
@@ -88,7 +88,7 @@ class TestMRTParser(TestCase):
         self.assertEqual(expected_connections, parsed_connection)
 
     def test_path_incomplete(self):
-        line = ("TABLE_DUMP|1004488339|B|4.0.0.2|1|3.0.0.0/8|1 701 ?|IGP|",
+        line = ("TABLE_DUMP|1004488339|B|4.0.0.2|1|3.0.0.0/8|1 701 ?|IGP|"
                 "4.0.0.2|0|21040|1:666|NAG||")
         self.parser.parse_line(line)
 
