@@ -49,9 +49,8 @@ class FileBrowser(object):
 
         if mm in [4, 6, 9, 11] and not 1 <= dd <= 30:
             raise Exception("Day must be between 1 and 30 for this month")
-
-        if not 1 <= dd <= 31:
-            raise Exception("Month must be between 1 and 31")
+        elif not 1 <= dd <= 31:
+            raise Exception("Day must be between 1 and 31")
 
         if not 0 <= hh <= 23:
             raise Exception("Hour must be between 00 and 23")
@@ -69,9 +68,9 @@ class FileBrowser(object):
     def get_year_end_files(self, year):
         if not 1997 <= year <= 2014:
             raise Exception("Year must be between 1997 and 2014 inclusive")
-            
-        for date in range(32, 0, -1):
-            for hour in range(24, -1, -1):
+
+        for date in range(31, 0, -1):
+            for hour in range(23, -1, -1):
                 f = self.get_files_for_time(year, 12, date, hour)
 
                 if len(f) > 0:
