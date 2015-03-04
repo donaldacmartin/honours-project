@@ -1,4 +1,4 @@
-from unittest import TestCase
+from unittest import TestCase, main
 from parser.mrt import MRTParser
 from parser.exception import *
 
@@ -96,3 +96,6 @@ class TestMRTParser(TestCase):
         total_expected_connections = 1
 
         self.assertEqual(total_expected_connections, total_parsed_connections)
+
+if __name__ == "__main__":
+    main()
