@@ -23,7 +23,7 @@ TABLE_DUMP|1004488339|B|4.0.0.2|1|3.0.0.0/8|
 
 class TestMRTParser(TestCase):
     def setUp(self):
-        self.parser       = MRTParser(none)
+        self.parser       = MRTParser(None)
         self.correct_line = ("TABLE_DUMP|1004488339|B|4.0.0.2|1|3.0.0.0/8|",
                              "1 701 80|IGP|4.0.0.2|0|21040|1:666|NAG||")
 
