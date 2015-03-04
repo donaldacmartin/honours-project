@@ -66,7 +66,7 @@ class TestMRTParser(TestCase):
 
         self.parser.parse_line(additional_line)
 
-        expected_size = 33554442
+        expected_size = 33554432
         parsed_size   = self.parser.asys_size[80]
 
         self.assertEqual(expected_size, parsed_size)
