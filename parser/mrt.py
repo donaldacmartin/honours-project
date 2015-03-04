@@ -38,7 +38,7 @@ class MRTParser(Parser):
 
         tokens = line.split("|")
 
-        if len(tokens) != 13:
+        if len(tokens) != 15:
             raise Exception("Invalid number of components in line")
 
         ip_addr, cidr_size = parse_ipv4_block(tokens[5])
