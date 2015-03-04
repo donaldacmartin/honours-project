@@ -3,7 +3,7 @@ from utilities.as_lookup import ASLookup
 
 class TestASLookup(TestCase):
     def setUp(self):
-        self.as_lookup = ASLookup()
+        self.as_lookup = ASLookup().table
 
     def test_as_num(self):
         self.assertTrue(1 in self.as_lookup)
