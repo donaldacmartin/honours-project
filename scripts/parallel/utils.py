@@ -25,7 +25,6 @@ def run_parallel_parser(index_file_name):
         f.seek(0)
         output = f.read()
 
-    #return getoutput(parallel_cmd)
     return output
 
 def get_index_file(files):

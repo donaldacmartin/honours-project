@@ -40,7 +40,8 @@ class StandardRing(BaseGraph):
             return
 
         lon           = radians(lon)
-        width, height = self.image.size
+        width         = self.image.size[0] - 50
+        height        = self.image.size[1] - 50
         centre_x      = width / 2
         centre_y      = height / 2
 
@@ -58,6 +59,20 @@ class StandardRing(BaseGraph):
                 continue
 
         return None
+
+    def draw_markers(self):
+        north_y  = 25
+        centre_y = self.image.size[1] / 2
+        south_y  = self.image.size[1] - 25
+
+        east_x   = self.image.size[0] - 25
+        centre_x = self.image.size[0] / 2
+        west_x   = 25
+
+        self.draw_text((centre_x, south_y), "GMT")
+        self.draw_text((centre_x, north_y), "Intl Dateline")
+        self.draw_text((east_x, centre_y), "E 90")
+        self.draw_text((west_x, centre_y), "W 90")
 
     def draw_connection(self, start, end):
         if start not in self.asys_coords or end not in self.asys_coords:
