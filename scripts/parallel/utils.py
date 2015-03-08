@@ -80,6 +80,9 @@ def create_merging_index_for_parallel(dump_locations, groups):
             if input_filename in dump_locations:
                 merge_index_line += input_filename + "|"
 
+        if merge_index_line == "":
+            continue
+            
         merge_index_line = merge_index_line[:-1] + "\n"
         merge_index_file.write(merge_index_line)
 
