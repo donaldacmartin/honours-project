@@ -31,7 +31,7 @@ class StandardRing(BaseGraph):
             self.map_as_ip_to_circumference_pos(asys, ip_addresses)
 
         self.draw_markers()
-        
+
         for (start, end) in bgp_dump.asys_connections:
             self.draw_connection(start, end)
 
@@ -42,13 +42,14 @@ class StandardRing(BaseGraph):
             return
 
         lon           = radians(lon)
-        width         = self.image.size[0] - 50
-        height        = self.image.size[1] - 50
+        width, height = self.image.size
         centre_x      = width / 2
         centre_y      = height / 2
+        radius_x      = centre_x - 100
+        radius_y      = centre_y - 100
 
-        x = centre_x + (centre_x * cos(lon))
-        y = centre_y + (centre_y * sin(lon))
+        x = centre_x + (radius_x * cos(lon))
+        y = centre_y + (radius_y * sin(lon))
 
         self.asys_coords[as_num] = (x,y)
 
@@ -65,9 +66,9 @@ class StandardRing(BaseGraph):
     def draw_markers(self):
         north_y  = 25
         centre_y = self.image.size[1] / 2
-        south_y  = self.image.size[1] - 25
+        south_y  = self.image.size[1] - 75
 
-        east_x   = self.image.size[0] - 25
+        east_x   = self.image.size[0] - 75
         centre_x = self.image.size[0] / 2
         west_x   = 25
 
