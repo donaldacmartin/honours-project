@@ -35,6 +35,7 @@ if __name__ == "__main__":
 
     print("Parsing BGP files in parallel (" + str(len(bgp_files)) + ")")
     parsing_stdout = run_parallel_parser(parallel_index)
+    print(parsing_stdout)
 
     print("Collating parsed data")
     parsers         = read_in_parsers(parsing_stdout)
