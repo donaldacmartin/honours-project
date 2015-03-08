@@ -30,6 +30,8 @@ class StandardRing(BaseGraph):
         for (asys, ip_addresses) in bgp_dump.asys_to_ip_addr.items():
             self.map_as_ip_to_circumference_pos(asys, ip_addresses)
 
+        self.draw_markers()
+        
         for (start, end) in bgp_dump.asys_connections:
             self.draw_connection(start, end)
 
