@@ -84,6 +84,11 @@ def merge_parsers(parsers, groups):
     with NamedTemporaryFile() as f:
         check_call(parallel_cmd, stdout=f, stderr=STDOUT)
         f.seek(0)
-        output = f.read()
+        merged_parsers = f.read()
 
-    return output
+    completed_parsers = []
+    
+    for parser in merged_parsers:
+        completed_parsers = load(parser)
+
+    return completed_parsers

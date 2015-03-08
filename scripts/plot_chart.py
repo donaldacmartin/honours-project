@@ -26,16 +26,6 @@ def sort_parsers_into_years(parsers):
 
     return years
 
-def merge_yearly_parsers(parsers_by_year):
-    merged_parsers = []
-
-    for year in sorted(parsers_by_year):
-        parsers = parsers_by_year[year]
-        parser  = merge_parsers(parsers)
-        merged_parsers.append(parser)
-
-    return merged_parsers
-
 if __name__ == "__main__":
     address_space, yearly_blocks, most_common_alloc, stacked_alloc, width, height = organise_arguments()
 
@@ -47,11 +37,12 @@ if __name__ == "__main__":
     parsing_stdout = run_parallel_parser(parallel_index)
 
     print("Collating parsed data")
-    parsers = read_in_parsers(parsing_stdout)
-    parsers = merge_parsers(parsers, bgp_files)
+    parsers         = read_in_parsers(parsing_stdout)
+    merged_parsers  = merge_parsers(parsers, bgp_files)
+    parsers_by_year = sort_parsers_into_years(merged_parsers)
 
     print("Drawing charts")
-    chart = YearlyChart(parser_for_years, width, height)
+    chart = YearlyChart(parsers_by_year, width, height)
 
     if address_space:
         chart.draw_address_space("address-space.png")
