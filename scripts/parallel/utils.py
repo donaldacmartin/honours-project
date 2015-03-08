@@ -54,7 +54,7 @@ def read_in_parsers(parallel_stdout):
         input_filename  = parsed_files.split("\n")[0]
         output_filename = parsed_files.split("\n")[1]
 
-        if "error" in filename:
+        if "error" in output_filename:
             continue
 
         try:
