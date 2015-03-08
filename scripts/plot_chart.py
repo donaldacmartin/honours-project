@@ -39,7 +39,7 @@ if __name__ == "__main__":
 
     print("Collating parsed data")
     dump_locations  = get_parser_dumps_from_parallel_stdout(parsing_stdout)
-    merged_parsers  = merge_parsers(parsers, bgp_files)
+    merged_parsers  = merge_parsers(dump_locations, bgp_files)
     parsers_by_year = sort_parsers_into_years(merged_parsers)
 
     print("Drawing charts")
