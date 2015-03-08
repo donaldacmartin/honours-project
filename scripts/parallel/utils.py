@@ -78,7 +78,8 @@ def create_merging_index_for_parallel(dump_locations, groups):
 
         for input_filename in group:
             if input_filename in dump_locations:
-                merge_index_line += input_filename + "|"
+                output_filename = dump_locations[input_filename]
+                merge_index_line += output_filename + "|"
 
         if merge_index_line == "":
             continue
@@ -102,7 +103,6 @@ def merge_parsers(dump_locations, groups):
 
     merged_parsers = merged_parsers.split("\n")
     merged_parsers = [parser for parser in merged_parsers if parser.startswith("/")]
-    print(merged_parsers)
     merged_parsers = [load(open(parser, "r")) for parser in merged_parsers]
     return merged_parsers
 
