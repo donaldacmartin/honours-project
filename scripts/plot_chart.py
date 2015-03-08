@@ -47,9 +47,8 @@ if __name__ == "__main__":
     parsing_stdout = run_parallel_parser(parallel_index)
 
     print("Collating parsed data")
-    parsers          = read_in_parsers(parsing_stdout)
-    parsers_by_year  = sort_parsers_into_years(parsers)
-    parser_for_years = merge_yearly_parsers(parsers_by_year)
+    parsers = read_in_parsers(parsing_stdout)
+    parsers = merge_parsers(parsers, bgp_files)
 
     print("Drawing charts")
     chart = YearlyChart(parser_for_years, width, height)

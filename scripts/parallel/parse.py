@@ -26,7 +26,7 @@ if __name__ == "__main__":
     try:
         parser = parse_file(input_file)
         output_filename = dump_to_file_and_get_filename(parser)
-        print(output_filename)
+        print(input_file + "\n" + output_filename + "\n")
     except ParserError as e:
         print("Fatal parser error encountered " + str(e))
     except IOError as e:

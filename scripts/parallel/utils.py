@@ -47,31 +47,43 @@ def get_index_file_2d_list(years):
     return parser_index.name
 
 def read_in_parsers(parallel_stdout):
-    filenames = parallel_stdout.split("\n")
-    parsers   = []
+    filenames = parallel_stdout.split("\n\n")
+    parsers   = {}
 
-    for filename in filenames:
+    for parsed_files in filenames:
+        input_filename  = parsed_files.split("\n")[0]
+        output_filename = parsed_files.split("\n")[1]
+
         if "error" in filename:
             continue
 
         try:
-            file   = open(filename, "r")
+            file   = open(output_filename, "r")
             parser = load(file)
 
             file.close()
-            parsers.append(parser)
+            parsers[input_filename] = parser
         except:
             print("File",filename,"failed to load")
 
     return parsers
 
-def merge_parsers(parsers):
-    if len(parsers) == 1:
-        return parsers[0]
+def merge_parsers(parsers, groups):
+    file = NamedTemporaryFile("w", delete=False)
 
-    merged_parser = MergedParser(parsers[0], parsers[1])
+    for group in group:
+        files_to_merge = [parsers(f) for f in group]
+        line_format    = "|".join(files_to_merge)
+        file.write(line_format + "\n")
 
-    for i in range(2, len(parsers)):
-        merged_parser = MergedParser(parsers[i], merged_parser)
+    file.close()
 
-    return merged_parser
+    parallel_cmd = ["parallel", "--no-notice", "--group", "python",
+                    "scripts/parallel/merge.py", "::::", file.name]
+
+    with NamedTemporaryFile() as f:
+        check_call(parallel_cmd, stdout=f, stderr=STDOUT)
+        f.seek(0)
+        output = f.read()
+
+    return output

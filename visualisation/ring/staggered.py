@@ -14,6 +14,8 @@ class StaggeredRing(BaseGraph):
         for (asys, ip_addresses) in bgp_dump.asys_to_ip_addr.items():
             self.map_as_ip_to_circumference_pos(asys, ip_addresses)
 
+        self.draw_markers()
+
         for (start, end) in bgp_dump.asys_connections:
             self.draw_connection(start, end)
 
@@ -59,6 +61,20 @@ class StaggeredRing(BaseGraph):
                 continue
 
         return None
+
+    def draw_markers(self):
+        north_y  = 25
+        centre_y = self.image.size[1] / 2
+        south_y  = self.image.size[1] - 250
+
+        east_x   = self.image.size[0] - 350
+        centre_x = self.image.size[0] / 2
+        west_x   = 25
+
+        self.draw_text((centre_x, south_y), "GMT")
+        self.draw_text((centre_x, north_y), "Intl Dateline")
+        self.draw_text((east_x, centre_y), "E 90")
+        self.draw_text((west_x, centre_y), "W 90")
 
     def draw_connection(self, start, end):
         if start not in self.asys_coords or end not in self.asys_coords:
