@@ -16,7 +16,7 @@ def merge_dumps(filenames):
     parser_2      = load(filenames.pop())
     merged_parser = MergedParser(parser_1, parser_2)
 
-    while len(filenames) < 2:
+    while len(filenames) > 1:
         new_parser    = load(filenames.pop())
         merged_parser = MergedParser(merged_parser, new_parser)
 
