@@ -20,7 +20,7 @@ if __name__ == "__main__":
     address_space, yearly_blocks, most_common_alloc, stacked_alloc, width, height = organise_arguments()
 
     print("Gathering a list of files to parse")
-    bgp_files      = get_router_files_for_years(1997, 2000)
+    bgp_files      = get_router_files_for_years(1997, 2014)
     parallel_index = get_index_file_2d_list(bgp_files)
 
     print("Parsing BGP files in parallel (" + str(len(bgp_files)) + ")")
