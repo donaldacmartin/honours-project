@@ -45,7 +45,7 @@ class StandardRing(BaseGraph):
         width, height = self.image.size
         centre_x      = width / 2
         centre_y      = height / 2
-        radius_x      = centre_x - 200
+        radius_x      = centre_x - 400
         radius_y      = centre_y - 300
 
         x = centre_x + (radius_x * cos(lon))
@@ -66,9 +66,9 @@ class StandardRing(BaseGraph):
     def draw_markers(self):
         north_y  = 25
         centre_y = self.image.size[1] / 2
-        south_y  = self.image.size[1] - 75
+        south_y  = self.image.size[1] - 250
 
-        east_x   = self.image.size[0] - 250
+        east_x   = self.image.size[0] - 350
         centre_x = self.image.size[0] / 2
         west_x   = 25
 
