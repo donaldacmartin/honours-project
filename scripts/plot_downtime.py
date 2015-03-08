@@ -41,32 +41,6 @@ def get_files_to_parse(start_date, end_date, max_routers):
     total_files = sum([len(date_files) for date_files in files_to_parse])
     return files_to_parse, total_files
 
-def organise_for_merging(unsorted_parsers):
-    sorted_parsers    = {}
-    ready_for_merging = []
-
-    for parser in unsorted_parsers:
-        parser_datetime = parser.datetime
-
-        if parser_datetime in sorted_parsers:
-            sorted_parsers[parser_datetime].append(parser)
-        else:
-            sorted_parsers[parser_datetime] = [parser]
-
-    for date in sorted(sorted_parsers):
-        parsers = sorted_parsers[date]
-        ready_for_merging.append(parsers)
-
-    return ready_for_merging
-
-def merge_grouped_parsers(unmerged_parser_groups):
-    merged_parsers = []
-
-    for group in unmerged_parser_groups:
-        merged_parser = merge_parsers(group)
-        merged_parsers.append(merged_parser)
-
-    return merged_parsers
 
 if __name__ == "__main__":
     country, start, end, width, height, output, max_routers = organise_args()
@@ -76,12 +50,11 @@ if __name__ == "__main__":
     index_file                      = get_index_file_2d_list(files_to_parse)
 
     print("Parsing in parallel " + str(number_of_files) + " files")
-    parallel_stdout  = run_parallel_parser(index_file)
-    unsorted_parsers = read_in_parsers(parallel_stdout)
+    parallel_stdout = run_parallel_parser(index_file)
+    dump_locations  = get_parser_dumps_from_parallel_stdout(parallel_stdout)
 
     print("Merging parsed data")
-    grouped_parsers  = organise_for_merging(unsorted_parsers)
-    merged_parsers   = merge_grouped_parsers(grouped_parsers)
+    merged_parsers = create_merging_index_for_parallel(dump_locations, files_to_parse)
 
     print("Plotting graph")
     NationalDownTimeChart(merged_parsers, country, output)
