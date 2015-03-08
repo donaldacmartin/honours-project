@@ -69,7 +69,7 @@ def read_in_parser(input_filename, output_filename, list_of_parsers):
 
 def read_in_parsers(parallel_stdout):
     stdout_blocks = parallel_stdout.split("\n\n")
-    filenames     = [filter_exceptions(file) for file in filename]
+    filenames     = [filter_exceptions(block) for block in stdout_blocks]
     parsers       = {}
 
     for parsed_files in filenames:
