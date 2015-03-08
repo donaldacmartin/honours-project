@@ -49,7 +49,23 @@ def get_index_file_2d_list(years):
 def filter_exceptions(stdout_block):
     blocks = stdout_block.split("\n")
     blocks = [block for block in blocks if block.startswith("/")]
+
+    if "error" in blocks:
+        return None
+
     return blocks if len(blocks) == 2 else None
+
+def read_in_parser(input_filename, output_filename, list_of_parsers):
+    try:
+        file   = open(output_filename, "r")
+        parser = load(file)
+
+        file.close()
+        list_of_parsers[input_filename] = parser
+    except:
+        print("File",output_filename,"failed to load")
+
+    return list_of_parsers
 
 def read_in_parsers(parallel_stdout):
     stdout_blocks = parallel_stdout.split("\n\n")
@@ -59,22 +75,11 @@ def read_in_parsers(parallel_stdout):
     for parsed_files in filenames:
         if parsed_file is None:
             continue
-            
+
         input_filename  = parsed_files[0]
         output_filename = parsed_files[1]
 
-        if "error" in output_filename:
-            continue
-
-        try:
-            file   = open(output_filename, "r")
-            parser = load(file)
-
-            file.close()
-            parsers[input_filename] = parser
-        except:
-            print("File",output_filename,"failed to load")
-
+        parsers = read_in_parser(input_filename, output_filename, parsers)
     return parsers
 
 def merge_parsers(parsers, groups=None):
