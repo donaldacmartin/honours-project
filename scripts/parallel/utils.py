@@ -48,7 +48,7 @@ def get_index_file_2d_list(years):
 
 def read_in_parsers(parallel_stdout):
     filenames = parallel_stdout.split("\n\n")
-    filenames = [file for file in filename if len(file.split("\n")) == 2]
+    filenames = [file for file in filenames if len(file.split("\n")) == 2]
     parsers   = {}
 
     for parsed_files in filenames:
