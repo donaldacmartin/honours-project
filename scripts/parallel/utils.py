@@ -75,7 +75,7 @@ def merge_parsers(parsers, groups=None):
     if groups is None:
         file.write("|".join(parsers.values()))
     else:
-        for group in group:
+        for group in groups:
             files_to_merge = [parsers(f) for f in group]
             line_format    = "|".join(files_to_merge)
             file.write(line_format + "\n")
