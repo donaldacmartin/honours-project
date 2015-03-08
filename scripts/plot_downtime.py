@@ -41,7 +41,6 @@ def get_files_to_parse(start_date, end_date, max_routers):
     total_files = sum([len(date_files) for date_files in files_to_parse])
     return files_to_parse, total_files
 
-
 if __name__ == "__main__":
     country, start, end, width, height, output, max_routers = organise_args()
 

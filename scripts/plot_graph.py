@@ -58,7 +58,7 @@ if __name__ == "__main__":
 
     print("Collating parsed data")
     dump_locations = get_parser_dumps_from_parallel_stdout(parsing_stdout)
-    parser         = merge_parsers(dump_locations, bgp_files)[0]
+    parser         = merge_parsers(dump_locations, [bgp_files])[0]
 
     print("Drawing graph")
     graph = generate_graph(graph_type, parser, width, height, region)
