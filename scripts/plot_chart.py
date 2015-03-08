@@ -14,17 +14,7 @@ def organise_arguments():
     return address_space, yearly_blocks, most_common_alloc, stacked_alloc, width, height
 
 def sort_parsers_into_years(parsers):
-    years = {}
-
-    for parser in parsers:
-        year = parser.datetime.year
-
-        if year in years:
-            years[year].append(parser)
-        else:
-            years[year] = [parser]
-
-    return years
+    return sorted(parsers, key=lambda x: x.datetime, reverse=True)
 
 if __name__ == "__main__":
     address_space, yearly_blocks, most_common_alloc, stacked_alloc, width, height = organise_arguments()
