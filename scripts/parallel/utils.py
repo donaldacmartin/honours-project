@@ -101,7 +101,7 @@ def merge_parsers(dump_locations, groups):
         merged_parsers = f.read()
 
     merged_parsers = merged_parsers.split("\n")
-    merged_parsers = [load(open(parser, "r")) for parser in merged_parsers if parser.startswith("/")]
+    merged_parsers = [load(open(parser, "rb")) for parser in merged_parsers if parser.startswith("/")]
     return merged_parsers
 
 """
