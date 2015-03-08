@@ -46,7 +46,7 @@ def get_index_file_2d_list(years):
     parser_index.close()
     return parser_index.name
 
-def split_blocks_into_input_output(block):
+def split_block_into_input_output(block):
     block_items = block.split("\n")
     block_items = [item for item in block_items if item.startswith("/")]
 
