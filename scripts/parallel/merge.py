@@ -12,12 +12,12 @@ def merge_dumps(filenames):
         print(filenames[0])
         return
 
-    parser_1      = load(filenames.pop())
-    parser_2      = load(filenames.pop())
+    parser_1      = load(open(filenames.pop(), "r"))
+    parser_2      = load(open(filenames.pop(), "r"))
     merged_parser = MergedParser(parser_1, parser_2)
 
     while len(filenames) > 1:
-        new_parser    = load(filenames.pop())
+        new_parser    = load(open(filenames.pop(), "r"))
         merged_parser = MergedParser(merged_parser, new_parser)
 
     print(dump_to_file_and_get_filename(merged_parser))
