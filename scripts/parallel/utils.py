@@ -68,16 +68,18 @@ def read_in_parsers(parallel_stdout):
 
     return parsers
 
-def merge_parsers(parsers, groups):
+def merge_parsers(parsers, groups=None):
     file = NamedTemporaryFile("w", delete=False)
 
-    for group in group:
-        files_to_merge = [parsers(f) for f in group]
-        line_format    = "|".join(files_to_merge)
-        file.write(line_format + "\n")
+    if groups is None:
+        file.write("|".join(parsers.values()))
+    else:
+        for group in group:
+            files_to_merge = [parsers(f) for f in group]
+            line_format    = "|".join(files_to_merge)
+            file.write(line_format + "\n")
 
     file.close()
-
     parallel_cmd = ["parallel", "--no-notice", "--group", "python",
                     "scripts/parallel/merge.py", "::::", file.name]
 
@@ -87,8 +89,8 @@ def merge_parsers(parsers, groups):
         merged_parsers = f.read()
 
     completed_parsers = []
-    
+
     for parser in merged_parsers:
         completed_parsers = load(parser)
 
-    return completed_parsers
+    return completed_parsers if len(completed_parsers) > 1 else completed_parsers[0]
