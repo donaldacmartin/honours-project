@@ -46,15 +46,62 @@ def get_index_file_2d_list(years):
     parser_index.close()
     return parser_index.name
 
-def filter_exceptions(stdout_block):
-    blocks = stdout_block.split("\n")
-    blocks = [block for block in blocks if block.startswith("/")]
+def split_blocks_into_input_output(block):
+    block_items = block.split("\n")
+    block_items = [item for item in block_items if item.startswith("/")]
 
-    if "error" in blocks:
-        return None
+    if len(block_items) == 2:
+        input_file  = block_items[0]
+        output_file = block_items[1]
+        return (input_file, output_file)
 
-    return blocks if len(blocks) == 2 else None
+    raise Exception("Could read block: " + block)
 
+def get_parser_dumps_from_parallel_stdout(parallel_stdout):
+    stdout_blocks  = parallel_stdout.split("\n\n")
+    dump_locations = {}
+
+    for block in stdout_blocks:
+        try:
+            input_file, output_file    = split_block_into_input_output(block)
+            dump_locations[input_file] = output_file
+        except:
+            continue
+
+    return dump_locations
+
+def create_merging_index_for_parallel(dump_locations, groups):
+    merge_index_file = NamedTemporaryFile("w", delete=False)
+
+    for group in groups:
+        merge_index_line = ""
+
+        for input_filename in group:
+            if input_filename in dump_locations:
+                merge_index_line += input_filename + "|"
+
+        merge_index_line = merge_index_line[:-1] + "\n"
+        merge_index_file.write(merge_index_line)
+
+    merge_index_file.close()
+    return merge_index_file.name
+
+def merge_parsers(dump_locations, groups):
+    merge_index_file = create_merging_index_for_parallel(dump_locations, groups)
+
+    parallel_cmd = ["parallel", "--no-notice", "--group", "python",
+                    "scripts/parallel/merge.py", "::::", merge_index_file]
+
+    with NamedTemporaryFile() as f:
+        check_call(parallel_cmd, stdout=f, stderr=STDOUT)
+        f.seek(0)
+        merged_parsers = f.read()
+
+    merged_parsers = merged_parsers.split("\n")
+    merged_parsers = [load(parser) for parser in merged_parsers if parser.startswith("/")]
+    return merged_parsers
+
+"""
 def read_in_parser(input_filename, output_filename, list_of_parsers):
     try:
         file   = open(output_filename, "r")
@@ -108,3 +155,4 @@ def merge_parsers(parsers, groups=None):
         completed_parsers = load(parser)
 
     return completed_parsers if len(completed_parsers) > 1 else completed_parsers[0]
+"""
