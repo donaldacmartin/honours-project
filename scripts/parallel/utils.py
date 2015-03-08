@@ -73,7 +73,7 @@ def read_in_parsers(parallel_stdout):
     parsers       = {}
 
     for parsed_files in filenames:
-        if parsed_file is None:
+        if parsed_files is None:
             continue
 
         input_filename  = parsed_files[0]
