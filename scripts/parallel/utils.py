@@ -64,7 +64,7 @@ def read_in_parsers(parallel_stdout):
             file.close()
             parsers[input_filename] = parser
         except:
-            print("File",filename,"failed to load")
+            print("File",output_filename,"failed to load")
 
     return parsers
 
