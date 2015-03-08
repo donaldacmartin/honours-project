@@ -46,14 +46,22 @@ def get_index_file_2d_list(years):
     parser_index.close()
     return parser_index.name
 
+def filter_exceptions(stdout_block):
+    blocks = stdout_block.split("\n")
+    blocks = [block for block in blocks if block.startswith("/")]
+    return blocks if len(blocks) == 2 else None
+
 def read_in_parsers(parallel_stdout):
-    filenames = parallel_stdout.split("\n\n")
-    filenames = [file for file in filenames if len(file.split("\n")) == 2]
-    parsers   = {}
+    stdout_blocks = parallel_stdout.split("\n\n")
+    filenames     = [filter_exceptions(file) for file in filename]
+    parsers       = {}
 
     for parsed_files in filenames:
-        input_filename  = parsed_files.split("\n")[0]
-        output_filename = parsed_files.split("\n")[1]
+        if parsed_file is None:
+            continue
+            
+        input_filename  = parsed_files[0]
+        output_filename = parsed_files[1]
 
         if "error" in output_filename:
             continue
