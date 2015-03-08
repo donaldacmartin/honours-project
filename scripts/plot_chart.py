@@ -45,4 +45,4 @@ if __name__ == "__main__":
         chart.draw_stacked_allocation_of_blocks("stacked-allocation.png")
 
     if yearly_blocks:
-        YearlyAllocatedBlocks(parser_for_years).save("yearly-blocks.png")
+        YearlyAllocatedBlocks(parser_by_years).save("yearly-blocks.png")
