@@ -18,6 +18,7 @@ class BaseGraph(object):
         self.image  = new("RGB", (width * 10, height * 10), "white")
         self.cursor = Draw(self.image)
         self._initialise_text_font()
+        self._initialise_text_font_large()
 
     def _initialise_text_font(self):
         font_path     = "utilities/data/font_arial.ttf"
