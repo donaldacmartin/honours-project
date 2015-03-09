@@ -27,27 +27,23 @@
     {\includegraphics[width=2cm]{images/eyecatcher.png}}
 
     \headerbox{Motivation}{name=motivation, column=0,row=0, span=3}{
-        The Internet is one of the most widely used man-made systems on the planet. So much
-        so that former Microsoft CEO, Bill Gates, described the Internet as the ``\emph{town
-        square for the village of tomorrow}.'' However, its inner workings are largely unknown
-        to the vast majority of its users. Here, I will attempt to shed some light on the
-        technical ingenuity behind the Internet.
+        $MOTIVATION_TEXT
     }
 
     \headerbox{Worldwide Connections}{name=worldwide_cxns, column=0, below=motivation, span=3}{
-        \includegraphics[width=\linewidth]{images/atlas.png}
-        \captionof{figure}{Geographical Connections between Autonomous Systems}
-        The Internet is foremost a large number of networks of computers working together. Each of these networks is an autonomous system (commonly, these are Internet Service Providers). Above, each autonomous system is represented as a point, based on the geographical location of its headquarters. Connections between autonomous systems are represented as lines. Here, we see a large number of transatlantic connections, showing the extent of Internet connectivity in the developed world, in contrast to Africa which has very few connections to other continents and even fewer autonomous systems.
+        \includegraphics[width=\linewidth]{$WORLDWIDE_CXNS_IMG}
+        \captionof{figure}{$WORLDWIDE_CXNS_CAPT}
+            $WORLDWIDE_CXNS_TEXT
     }
 
     \headerbox{The Need for IPv6}{name=need_for_ipv6, column=3,row=0, span=3}{
         \begin{minipage}{0.33\linewidth}
-            \includegraphics[width=\linewidth]{images/ipv4_address.png}
-            \captionof{figure}{Yearly Visible Addresses}
+            \includegraphics[width=\linewidth]{$IPV6_NEED_IMG_1}
+            \captionof{figure}{$IPV6_CAPT_1}
         \end{minipage}
         \begin{minipage}{0.66\linewidth}
-            \includegraphics[width=\linewidth, height=4cm]{images/block_allocs.png}
-            \captionof{figure}{Yearly IPv4 Addresses Used}
+            \includegraphics[width=\linewidth, height=4cm]{$IPV6_NEED_IMG_2}
+            \captionof{figure}{$IPV6_NEED_CAPT_2}
         \end{minipage}
             $IPV6_NEED_TEXT
     }

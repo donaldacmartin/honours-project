@@ -45,7 +45,7 @@ class YearlyAllocatedBlocks(BaseChart):
         img_width = self.image.size[0]
         pos       = (0.05 * img_width, row_y)
         text      = str(year)
-        self.draw_text(pos, text)
+        self.draw_text(pos, text, large=True)
 
     def scale_ip_to_length(self, ip):
         img_width  = self.image.size[0]
@@ -70,6 +70,6 @@ class YearlyAllocatedBlocks(BaseChart):
             self.draw_line((x_pos, y_min), (x_pos, y_max), DARK_GREY, width=2)
 
             if i % 10 == 0:
-                self.draw_rotated_text((x_pos, y_label), str(i) + ".0.0.0")
+                self.draw_rotated_text((x_pos, y_label), str(i) + ".0.0.0", large=True)
 
             x_pos += x_diff

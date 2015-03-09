@@ -21,7 +21,11 @@ class BaseGraph(object):
 
     def _initialise_text_font(self):
         font_path     = "utilities/data/font_arial.ttf"
-        self.arial100 = truetype(font_path, 150)
+        self.arial150 = truetype(font_path, 150)
+
+    def _initialise_text_font_large(self):
+        font_path     = "utilities/data/font_arial.ttf"
+        self.arial400 = truetype(font_path, 400)
 
     def draw_line(self, start, end, colour=DARK_RED, width=1):
         self.cursor.line([start, end], fill=colour, width=width)
@@ -29,13 +33,18 @@ class BaseGraph(object):
     def draw_circle(self, (x,y), r, colour=DARK_RED):
         self.cursor.ellipse((x-r, y-r, x+r, y+r), fill=colour)
 
-    def draw_text(self, xy, text, colour=DARK_RED):
-        self.cursor.text(xy, text, font=self.arial100, fill=colour)
+    def draw_text(self, xy, text, colour=DARK_RED, large=False):
+        if large:
+            self.cursor.text(xy, text, font=self.arial400, fill=colour)
+        else:
+            self.cursor.text(xy, text, font=self.arial150, fill=colour)
 
-    def draw_rotated_text(self, xy, text, colour=DARK_RED, rotation=270):
-        temp_img = new("RGBA", self.arial100.getsize(text))
+    def draw_rotated_text(self, xy, text, colour=DARK_RED, rotation=270, large=False):
+        font = self.arial400 if large else self.arial150
+
+        temp_img = new("RGBA", font.getsize(text))
         draw_txt = Draw(temp_img)
-        draw_txt.text((0,0), text, font=self.arial100, fill=colour)
+        draw_txt.text((0,0), text, font=font, fill=colour)
         rotated_txt = temp_img.rotate(rotation, expand=1)
         xy = (int(xy[0]), int(xy[1]))
         self.image.paste(rotated_txt, xy, rotated_txt)
