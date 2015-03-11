@@ -45,8 +45,8 @@ class StandardRing(BaseGraph):
         width, height = self.image.size
         centre_x      = width / 2
         centre_y      = height / 2
-        radius_x      = centre_x - 400
-        radius_y      = centre_y - 300
+        radius_x      = centre_x * 0.9
+        radius_y      = centre_y * 0.9
 
         x = centre_x + (radius_x * cos(lon))
         y = centre_y + (radius_y * sin(lon))
