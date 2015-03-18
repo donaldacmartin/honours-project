@@ -22,12 +22,18 @@ commands = [graph + ["STANDARD_ATLAS"] + date + high_res + ["latex/images/atlas.
             dtime + ["IND"] + ["30/01/2008", "31/01/2008"] + low_res + ["latex/images/india.png"] + [1]
             ]
 
-child_processes = [Popen(command) for command in commands]
-counter         = len(commands)
+#child_processes = [Popen(command) for command in commands]
+counter         = 0
 
+for command in commands:
+    print("Executing",str(counter),"of",str(len(commands)))
+    process = Popen(command)
+    process.wait()
+    counter += 1
+"""
 for process in child_processes:
     print("Still waiting for ",str(counter)," commands to finish")
     process.wait()
     counter -= 1
-
+"""
 Popen(["pdflatex", "latex/main.tex"])
