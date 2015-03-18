@@ -4,8 +4,8 @@ from subprocess import Popen
 # Atlas Map -> (7016, 3947)
 # Rest      -> (2338, 2338)
 
-graph    = ["python", "scripts/plot_graph.py"]
-chart    = ["python", "scripts/plot_chart.py"]
+graph    = ["python", "plot_graph.py"]
+chart    = ["python", "plot_chart.py"]
 date     = ["01/06/2014"]
 low_res  = ["2338x2338"]
 high_res = ["5000x2338"]
