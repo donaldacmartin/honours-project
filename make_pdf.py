@@ -17,9 +17,9 @@ commands = [graph + ["STANDARD_ATLAS"] + date + high_res + ["latex/images/atlas.
             graph + ["STAGGERED_RING"] + date + low_res + ["latex/images/staggered_ring.png"],
             chart + ["ADDRESS_SPACE"] + date + low_res,
             chart + ["YEARLY_BLOCKS"] + date + wide_res,
-            dtime + ["EGY"] + ["27/01/2011", "29/01/2011"] + low_res + ["latex/images/egypt.png"],
-            dtime + ["LIB"] + ["18/02/2011", "22/02/2011"] + low_res + ["latex/images/libya.png"],
-            dtime + ["IND"] + ["30/01/2008", "31/01/2008"] + low_res + ["latex/images/india.png"]
+            dtime + ["EGY"] + ["27/01/2011", "29/01/2011"] + low_res + ["latex/images/egypt.png"] + [1],
+            dtime + ["LIB"] + ["18/02/2011", "22/02/2011"] + low_res + ["latex/images/libya.png"] + [1],
+            dtime + ["IND"] + ["30/01/2008", "31/01/2008"] + low_res + ["latex/images/india.png"] + [1]
             ]
 
 child_processes = [Popen(command) for command in commands]
