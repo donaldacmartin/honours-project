@@ -6,7 +6,7 @@
 
 from __future__ import division
 from visualisation.graph import Graph
-from graphs.atlas.atlas_map import GLOBAL, scale_coords
+from visualisation.atlas.base import GLOBAL, scale_coords
 from utilities.geoip import GeoIPLookup
 from utilities.population import get_global_population_database
 from utilities.shapefile import Reader
