@@ -21,7 +21,7 @@ commands = [graph + ["STANDARD_ATLAS"] + date + high_res + ["latex/images/atlas.
 child_processes = [Popen(command, shell=True) for command in commands]
 counter         = len(commands)
 
-for process in child_process:
+for process in child_processes:
     print("Still waiting for ",str(counter)," commands to finish")
     process.wait()
     counter -= 1
