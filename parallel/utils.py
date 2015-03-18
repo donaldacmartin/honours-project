@@ -18,7 +18,7 @@ def get_router_files_for_years(start, end):
 
 def run_parallel_parser(index_file_name):
     parallel_cmd = ["parallel", "--no-notice", "--group", "python",
-                    "scripts/parallel/parse.py", "::::", index_file_name]
+                    "parallel/parse.py", "::::", index_file_name]
 
     with NamedTemporaryFile() as f:
         check_call(parallel_cmd, stdout=f, stderr=STDOUT)
