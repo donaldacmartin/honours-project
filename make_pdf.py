@@ -18,7 +18,7 @@ commands = [graph + ["STANDARD_ATLAS"] + date + high_res + ["latex/images/atlas.
             chart + ["YEARLY_BLOCKS"] + date + wide_res + ["latex/images/yr_blocks.png"]
             ]
 
-child_processes = [Popen(command, shell=True) for command in commands]
+child_processes = [Popen(command) for command in commands]
 counter         = len(commands)
 
 for process in child_processes:
