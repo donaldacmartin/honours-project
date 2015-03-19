@@ -9,15 +9,20 @@ def organise_arguments():
     yearly_blocks     = True if "YEARLY_BLOCKS" in argv else False
     most_common_alloc = True if "MOST_COMMON_ALLOC" in argv else False
     stacked_alloc     = True if "STACKED_ALLOC" in argv else False
+    prefix            = ""
     width, height     = get_resolution(argv[-1])
 
-    return address_space, yearly_blocks, most_common_alloc, stacked_alloc, width, height
+    for arg in argv:
+        if "prefix=" in arg:
+            prefix = arg.split("=")[1]
+
+    return address_space, yearly_blocks, most_common_alloc, stacked_alloc, prefix, width, height
 
 def sort_parsers_into_years(parsers):
     return sorted(parsers, key=lambda x: x.datetime, reverse=True)
 
 if __name__ == "__main__":
-    address_space, yearly_blocks, most_common_alloc, stacked_alloc, width, height = organise_arguments()
+    address_space, yearly_blocks, most_common_alloc, stacked_alloc, prefix, width, height = organise_arguments()
 
     print("Gathering a list of files to parse")
     bgp_files      = get_router_files_for_years(1997, 2014)
@@ -36,13 +41,13 @@ if __name__ == "__main__":
     chart = YearlyChart(parsers_by_year, width, height)
 
     if address_space:
-        chart.draw_address_space("address-space.png")
+        chart.draw_address_space(prefix + "address-space.png")
 
     if most_common_alloc:
-        chart.draw_most_common_block_size("most-common-block-size.png")
+        chart.draw_most_common_block_size(prefix + "most-common-block-size.png")
 
     if stacked_alloc:
-        chart.draw_stacked_allocation_of_blocks("stacked-allocation.png")
+        chart.draw_stacked_allocation_of_blocks(prefix + "stacked-allocation.png")
 
     if yearly_blocks:
-        YearlyAllocatedBlocks(parsers_by_year, width=width, height=height).save("yearly-blocks.png")
+        YearlyAllocatedBlocks(parsers_by_year, width=width, height=height).save(prefix + "yearly-blocks.png")
