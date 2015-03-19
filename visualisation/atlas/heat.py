@@ -13,6 +13,8 @@ class HeatAtlas(BaseAtlas):
         populations = get_global_population_database()
         per_capita  = self.per_capita(countries, populations, year)
         shades      = self.shade_countries(per_capita)
+
+        print(shades)
         self.draw_map(shades)
 
     def break_bgp_into_countries(self):
