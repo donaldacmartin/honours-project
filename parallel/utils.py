@@ -94,7 +94,7 @@ def merge_parsers(dump_locations, groups):
     merge_index_file = create_merging_index_for_parallel(dump_locations, groups)
 
     parallel_cmd = ["parallel", "--no-notice", "--group", "python",
-                    "scripts/parallel/merge.py", "::::", merge_index_file]
+                    "parallel/merge.py", "::::", merge_index_file]
 
     with NamedTemporaryFile() as f:
         check_call(parallel_cmd, stdout=f, stderr=STDOUT)
