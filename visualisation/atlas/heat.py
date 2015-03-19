@@ -1,4 +1,5 @@
 from __future__ import division
+from math import log
 from base import BaseAtlas, GLOBAL
 from utilities.population import get_global_population_database
 from utilities.shapefile import Reader
@@ -51,7 +52,7 @@ class HeatAtlas(BaseAtlas):
             if country in populations and year in populations[country]:
                 population           = populations[country][year]
                 addresses_per_capita = address_space / population
-                per_capita[country]  = addresses_per_capita
+                per_capita[country]  = log(addresses_per_capita)
 
         return per_capita
 

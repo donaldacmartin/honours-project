@@ -15,8 +15,8 @@ wide_res = ["7016x3947"]
 commands = [graph + ["STANDARD_ATLAS"] + date + high_res + ["latex/images/atlas.png"],
             graph + ["STANDARD_RING"] + date + low_res + ["latex/images/ring.png"],
             graph + ["STAGGERED_RING"] + date + low_res + ["latex/images/staggered_ring.png"],
-            chart + ["ADDRESS_SPACE"] + date + ["latex/images"] + low_res,
-            chart + ["YEARLY_BLOCKS"] + date + ["latex/images"] + wide_res,
+            chart + ["ADDRESS_SPACE"] + date + ["prefix=latex/images"] + low_res,
+            chart + ["YEARLY_BLOCKS"] + date + ["prefix=latex/images"] + wide_res,
             dtime + ["EGY"] + ["27/01/2011", "29/01/2011"] + low_res + ["latex/images/egypt.png"] + ["1"],
             dtime + ["LIB"] + ["18/02/2011", "22/02/2011"] + low_res + ["latex/images/libya.png"] + ["1"],
             dtime + ["IND"] + ["30/01/2008", "31/01/2008"] + low_res + ["latex/images/india.png"] + ["1"]
@@ -29,11 +29,6 @@ for command in commands:
     process = Popen(command)
     process.wait()
     counter += 1
-"""
-for process in child_processes:
-    print("Still waiting for ",str(counter)," commands to finish")
-    process.wait()
-    counter -= 1
-"""
+
 latex_generator = Popen(["pdflatex", "latex/main.tex"])
 latex_generator.wait()
