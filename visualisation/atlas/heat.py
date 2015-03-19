@@ -1,3 +1,4 @@
+from __future__ division
 from base import BaseAtlas, GLOBAL
 from utilities.population import get_global_population_database
 from utilities.shapefile import Reader
