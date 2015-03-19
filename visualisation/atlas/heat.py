@@ -29,7 +29,7 @@ class HeatAtlas(BaseAtlas):
         return countries
 
     def get_country_for_asys(self, asys):
-        ip_addresses = self.bgp.asys_ip_address[asys]
+        ip_addresses = self.bgp.asys_to_ip_addr[asys]
 
         for ip_address in ip_addresses:
             country = self.geoip.get_country_for_ip(ip_address)
