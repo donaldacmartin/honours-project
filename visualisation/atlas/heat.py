@@ -30,12 +30,14 @@ class HeatAtlas(BaseAtlas):
 
     def get_country_for_asys(self, asys):
         ip_addresses = self.bgp.asys_to_ip_addr[asys]
+        country      = None
 
         for ip_address in ip_addresses:
-            country = self.geoip.get_country_for_ip(ip_address)
-
-            if country is not None:
+            try:
+                country = self.geoip.get_country_for_ip(ip_address)
                 break
+            except:
+                continue
 
         return country
 
