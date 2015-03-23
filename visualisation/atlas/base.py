@@ -93,7 +93,7 @@ class BaseAtlas(BaseGraph):
 
         x3 = img_width if (img_width - x1) < x1 else 0
         x4 = img_width - x3
-        y3 = y4 = x1 - (((x3 - x1) / dx) * dy)
+        y3 = y4 = y1 - (((x3 - x1) / dx) * dy)
 
         self.draw_line(start, (x3, y3), colour)
         self.draw_line(end, (x4, y4), colour)
