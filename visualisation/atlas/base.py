@@ -110,7 +110,7 @@ class BaseAtlas(BaseGraph):
             outline = [self.latlon_to_coords(lat, lon) for (lon, lat) in points]
 
             for i in range(1, len(outline)):
-                self.draw_line(outline[i-1], outline[i], "black", width=3)
+                self.draw_line(outline[i-1], outline[i], "black", width=10)
 
     # --------------------------------------------------------------------------
     # Converting Latitudes & Longitudes to xy-Coordinates
