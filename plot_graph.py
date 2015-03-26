@@ -24,7 +24,7 @@ def organise_arguments():
 
 def get_region(arg):
     if arg not in ["GLOBAL", "AFRICA", "EUROPE", "NORTH_AMERICA", "SOUTH_AMERICA"]:
-        print("Region must be one of the following"):
+        print("Region must be one of the following:")
         print("AFRICA")
         print("EUROPE")
         print("NORTH_AMERICA")
