@@ -2,6 +2,7 @@ from sys import argv
 from parallel.utils import *
 from parallel.arguments import *
 
+from visualisation.atlas.base import *
 from visualisation.atlas.standard import StandardAtlas
 from visualisation.atlas.heat import HeatAtlas
 from visualisation.ring.standard import StandardRing
@@ -16,10 +17,30 @@ def organise_arguments():
     graph_type      = get_graph_type(argv[1])
     date            = get_date(argv[2])
     width, height   = get_resolution(argv[3])
-    region          = None if len(argv) < 6 else argv[4]
+    region          = None if len(argv) < 6 else get_region(argv[4])
     output_filename = argv[4] if len(argv) < 6 else argv[5]
 
     return graph_type, date, width, height, region, output_filename
+
+def get_region(arg):
+    if arg not in ["GLOBAL", "AFRICA", "EUROPE", "NORTH_AMERICA", "SOUTH_AMERICA"]:
+        print("Region must be one of the following"):
+        print("AFRICA")
+        print("EUROPE")
+        print("NORTH_AMERICA")
+        print("SOUTH_AMERICA")
+        exit()
+
+    if arg == "AFRICA":
+        return AFRICA
+    elif arg == "EUROPE":
+        return EUROPE
+    elif arg == "NORTH_AMERICA":
+        return NORTH_AMERICA
+    elif arg == "SOUTH_AMERICA":
+        return SOUTH_AMERICA
+
+    return GLOBAL
 
 def get_graph_type(arg):
     graph_types = ["STANDARD_ATLAS", "HEAT_ATLAS", "STANDARD_RING",
@@ -38,9 +59,9 @@ def get_graph_type(arg):
 
 def generate_graph(graph_type, parser, width, height, region):
     if graph_type == "STANDARD_ATLAS":
-        return StandardAtlas(parser, width, height)
+        return StandardAtlas(parser, width, height, region)
     elif graph_type == "HEAT_ATLAS":
-        return HeatAtlas(parser, width, height)
+        return HeatAtlas(parser, width, height, region)
     elif graph_type == "STANDARD_RING":
         return StandardRing(parser, width, height)
     elif graph_type == "STAGGERED_RING":
