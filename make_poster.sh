@@ -1,1 +1,3 @@
-pdflatex latex/main
+cd latex
+pdflatex main
+cd ..
