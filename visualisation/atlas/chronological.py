@@ -5,19 +5,16 @@
 # University of Glasgow
 
 from base import BaseAtlas, GLOBAL
-from graphs.base_graph import LIGHT_GREY, LIGHT_GREEN, DARK_RED
-
-"""
-Chronological Atlas
-
-The aim of this atlas is to show the difference in connections available between
-two BGP dumps (ideally from different time periods). Connections that have
-persisted between the two dumps are shown in grey, connections that are no
-longer available are in red, and new connections are in green.
-"""
+from visualisation.base import LIGHT_GREY, LIGHT_GREEN, DARK_RED
 
 class ChronologicalAtlas(BaseAtlas):
     def __init__(self, width, height, old_bgp, new_bgp, region=GLOBAL):
+        """
+        The aim of this atlas is to show the difference in connections available between
+        two BGP dumps (ideally from different time periods). Connections that have
+        persisted between the two dumps are shown in grey, connections that are no
+        longer available are in red, and new connections are in green.
+        """
         super(ChronologicalAtlas, self).__init__(width, height, region)
 
         self.resolve_bgp_to_asys_coords(old_bgp)

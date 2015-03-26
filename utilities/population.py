@@ -5,6 +5,10 @@
 # Donald Martin (1101795)
 
 def get_global_population_database():
+    """
+    Returns a dictionary mapping country ISO codes to a dictionary of years
+    to populations.
+    """
     pop_database = _read_in_data()
     return pop_database
 

@@ -7,19 +7,16 @@
 from bisect import bisect_left
 from parser.ip_utils import ip_to_int
 
-"""
-GeoIPLookup
-
-Provides an interface to convert an IP address into geographical information,
-such as latlon coordinates or country & city information. Developed using CSV
-data from MaxMind @ dev.maxmind.com/geoip/legacy/. Recommend to only generate
-one of these instances for entires program, as setup is computationally intense.
-"""
-
 LOCATION_FILE = "utilities/data/locations.csv"
 BLOCK_FILE    = "utilities/data/blocks.csv"
 
 class GeoIPLookup(object):
+    """
+    Provides an interface to convert an IP address into geographical information,
+    such as latlon coordinates or country & city information. Developed using CSV
+    data from MaxMind @ dev.maxmind.com/geoip/legacy/. Recommend to only generate
+    one of these instances for entires program, as setup is computationally intense.
+    """
     def __init__(self):
         self.geo_data       = read_into_table(LOCATION_FILE, location_parser)
         self.ip_blocks      = read_into_table(BLOCK_FILE, block_parser)

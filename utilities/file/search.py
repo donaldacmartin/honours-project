@@ -7,20 +7,19 @@
 from os import walk
 from utilities.file.name import get_date_for_filename
 
-"""
-FileBrowser
-
-An object that parses a directory for router dumps and presents them in
-dictionaries for each router. Where possible, the router locations have been
-specified in the comments below:
-
-- OIX                   Unknown     Unknown     Unknown
-- ISC                   Ashburn     Virginia    USA
-- ISC                   Palo Alto   California  USA
-- RV1, RV3 & RV4        Eugene      Oregon      USA
-"""
-
 class FileBrowser(object):
+    """
+    FileBrowser
+
+    An object that parses a directory for router dumps and presents them in
+    dictionaries for each router. Where possible, the router locations have been
+    specified in the comments below:
+
+    - OIX                   Unknown     Unknown     Unknown
+    - ISC                   Ashburn     Virginia    USA
+    - ISC                   Palo Alto   California  USA
+    - RV1, RV3 & RV4        Eugene      Oregon      USA
+    """
     def __init__(self, directory):
         self.oix_dumps  = {}
         self.eqix_dumps = {}

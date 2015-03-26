@@ -6,6 +6,11 @@ from utilities.shapefile import Reader
 from ImageDraw import Draw
 
 class HeatAtlas(BaseAtlas):
+    """
+    An object that takes a parser file, optional width, height and region and
+    produces a map of countries based on the number of IP addresses per
+    capita.
+    """
     def __init__(self, bgp_dump, width=1920, height=1080, region=GLOBAL):
         super(HeatAtlas, self).__init__(width, height, region)
 

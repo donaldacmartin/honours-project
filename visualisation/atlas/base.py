@@ -9,15 +9,6 @@ from visualisation.base import BaseGraph, DARK_RED
 from utilities.geoip import GeoIPLookup
 from utilities.shapefile import Reader
 
-"""
-Base Atlas
-
-This class is intended to act as the parent class from which all other
-visualisations based on a geographical atlas can be derived. By default, the map
-will default to a global perspective, however, a number of limits have been
-provided below to zoom to a particular continent.
-"""
-
 REGIONS       = ["GLOBAL", "AFRICA", "EUROPE", "NORTH AMERICA", "SOUTH AMERICA"]
 GLOBAL        = ((90, 180), (-90,-180))
 AFRICA        = ((36.08, -21.62), (-38.50, 50.45))
@@ -26,6 +17,12 @@ NORTH_AMERICA = ((62.95, -167.52), (17.04, -52.56))
 SOUTH_AMERICA = ((10.21, -92.64), (-54.94, -35.33))
 
 class BaseAtlas(BaseGraph):
+    """
+    This class is intended to act as the parent class from which all other
+    visualisations based on a geographical atlas can be derived. By default, the map
+    will default to a global perspective, however, a number of limits have been
+    provided below to zoom to a particular continent.
+    """
     def __init__(self, width, height, region=GLOBAL):
         super(BaseAtlas, self).__init__(width, height)
 

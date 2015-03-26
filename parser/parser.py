@@ -8,6 +8,11 @@ from utilities.file.name import get_date_for_filename
 from ip_utils import ip_to_int, int_to_ip, cidr_to_int, IPV4_ADDRESSABLE_SPACE
 
 class Parser(object):
+    """
+    High level parser object to store information across the various low-level
+    parsers. This object does not actually parse any files - this work should
+    be carried out by subclasses of this object.
+    """
     def __init__(self, filename=None):
         self.datetime               = None if filename is None else get_date_for_filename(filename)
         self.asys_to_ip_addr        = {}

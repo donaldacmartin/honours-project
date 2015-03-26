@@ -1,6 +1,10 @@
 from parser import Parser
 
 class MergedParser(Parser):
+    """
+    Used to allow parsers of multiple routers at the same time to be merged
+    into one object to pass to the visualisation objects.
+    """
     def __init__(self, bgp_dump1, bgp_dump2):
         super(MergedParser, self).__init__(None)
         self.datetime = bgp_dump1.datetime

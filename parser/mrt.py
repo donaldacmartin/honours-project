@@ -10,6 +10,10 @@ from commands import getoutput
 from ip_utils import parse_ipv4_block
 
 class MRTParser(Parser):
+    """
+    Takes an MRT format routing table dump and converts it to the data
+    structures defined in the Parser class.
+    """
     def __init__(self, file_path=None):
         super(MRTParser, self).__init__(file_path)
 
