@@ -10,18 +10,15 @@ from commands import getoutput
 from re import sub, compile
 from ip_utils import parse_ipv4_block
 
-"""
-CiscoParser
-
-An object that takes the file path to a compressed Cisco dump file (with the
-.dat.bz2 extension) and converts the contents into data structures defined in
-the parent Parser object.
-
-In order to preserve data consistency, this object will block until the file has
-been completely parsed.
-"""
-
 class CiscoParser(Parser):
+    """
+    An object that takes the file path to a compressed Cisco dump file (with the
+    .dat.bz2 extension) and converts the contents into data structures defined in
+    the parent Parser object.
+
+    In order to preserve data consistency, this object will block until the file
+    has been completely parsed.
+    """
     def __init__(self, file_path=None):
         super(CiscoParser, self).__init__(file_path)
 
